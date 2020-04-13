@@ -1,0 +1,16 @@
+{
+	"components":
+	[
+		{
+			"component_type": "Graphic",
+			"texture": "graphics/terrain_grass.png"
+		},
+		{
+			"component_type": "Position"
+		},
+		{
+			"component_type": "Terrain",
+			"type": ["solid"]
+		},
+	]
+}

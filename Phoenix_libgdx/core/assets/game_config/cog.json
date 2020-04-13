@@ -1,0 +1,23 @@
+{
+	"components":
+	[
+		{
+			"component_type": "Graphic",
+			"texture": "graphics/resource_cog.png"
+		},
+		{
+			"component_type": "Position"
+		},
+		{
+			"component_type": "Velocity"
+		},
+		{
+			"component_type": "Hitbox",
+			"radius": 10.0,
+		},
+		{
+			"component_type": "Selection",
+			"mode": "single"
+		}
+	]
+}

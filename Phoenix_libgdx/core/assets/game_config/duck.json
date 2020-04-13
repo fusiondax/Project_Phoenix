@@ -1,0 +1,27 @@
+{
+	"components":
+	[
+		{
+			"component_type": "Graphic",
+			"texture": "graphics/unit_duck.png"
+		},
+		{
+			"component_type": "Position"
+		},
+		{
+			"component_type": "Velocity"
+		},
+		{
+			"component_type": "Hitbox",
+			"radius": 20.0,
+		},
+		{
+			"component_type": "Selection",
+			"mode": "any"
+		},
+		{
+			"component_type": "MovementAI",
+			"unitMaxSpeed": 50.0
+		}
+	]
+}
