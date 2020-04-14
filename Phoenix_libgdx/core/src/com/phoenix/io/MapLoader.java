@@ -1,5 +1,7 @@
 package com.phoenix.io;
 
+import java.util.ArrayList;
+
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.phoenix.components.GraphicComponent;
 import com.phoenix.components.HitboxComponent;
@@ -24,8 +27,13 @@ public class MapLoader
 
 	public static void addEntitiesToEngine(Engine engine, GameMap gameMap)
 	{
-		for (Entity e : gameMap.entities)
+		for(ArrayList<Component> compList : gameMap.entities)
 		{
+			Entity e = new Entity();
+			for (Component comp : compList)
+			{
+				e.add(comp);
+			}
 			engine.addEntity(e);
 		}
 	}
@@ -59,8 +67,15 @@ public class MapLoader
 
 				// TODO Fetch other custom propertied from TiledMap objects to populate entity
 				// components
+				
+				ArrayList<Component> comps = new ArrayList<Component>();
+				
+				for(Component c : e.getComponents())
+				{
+					comps.add(c);
+				}
 
-				gameMap.entities.add(e);
+				gameMap.entities.add(comps);
 			}
 		}
 
@@ -80,80 +95,82 @@ public class MapLoader
 			Component comp = null;
 			switch (componentType)
 			{
-			case "Graphic":
-			{
-				comp = new GraphicComponent();
-				if (componentsJson.get("texture") != null)
+				case "Graphic":
 				{
-					((GraphicComponent) comp).texture = new Texture(componentsJson.get("texture").asString());
+					comp = new GraphicComponent();
+					if (componentsJson.get("texture") != null)
+					{
+						((GraphicComponent) comp).texture = new Texture(componentsJson.get("texture").asString());
+					}
+					break;
 				}
-			}
-			case "Position":
-			{
-				comp = new PositionComponent();
-				if (componentsJson.get("position_x") != null)
+				case "Position":
 				{
-					((PositionComponent) comp).pos.x = componentsJson.get("position_x").asFloat();
+					comp = new PositionComponent();
+					if (componentsJson.get("position_x") != null)
+					{
+						((PositionComponent) comp).pos.x = componentsJson.get("position_x").asFloat();
+					}
+					if (componentsJson.get("position_y") != null)
+					{
+						((PositionComponent) comp).pos.y = componentsJson.get("position_y").asFloat();
+					}
+	
+					break;
 				}
-				if (componentsJson.get("position_y") != null)
+	
+				case "Velocity":
 				{
-					((PositionComponent) comp).pos.y = componentsJson.get("position_y").asFloat();
+					comp = new VelocityComponent();
+					if (componentsJson.get("delta_x") != null)
+					{
+						((VelocityComponent) comp).velocity.x = componentsJson.get("delta_x").asFloat();
+					}
+	
+					if (componentsJson.get("delta_y") != null)
+					{
+						((VelocityComponent) comp).velocity.y = componentsJson.get("delta_Y").asFloat();
+					}
+	
+					break;
 				}
-
-				break;
-			}
-
-			case "Velocity":
-			{
-				comp = new VelocityComponent();
-				if (componentsJson.get("delta_x") != null)
+	
+				case "Hitbox":
 				{
-					((VelocityComponent) comp).velocity.x = componentsJson.get("delta_x").asFloat();
+					comp = new HitboxComponent();
+					((HitboxComponent) comp).radius = componentsJson.get("radius").asFloat();
+					break;
 				}
-
-				if (componentsJson.get("delta_y") != null)
+	
+				case "MovementAI":
 				{
-					((VelocityComponent) comp).velocity.y = componentsJson.get("delta_Y").asFloat();
+					comp = new MovementAIComponent();
+					((MovementAIComponent) comp).unitMaxSpeed = componentsJson.get("unitMaxSpeed").asFloat();
+					break;
 				}
-
-				break;
-			}
-
-			case "Hitbox":
-			{
-				comp = new HitboxComponent();
-				((HitboxComponent) comp).radius = componentsJson.get("radius").asFloat();
-				break;
-			}
-
-			case "MovementAI":
-			{
-				comp = new MovementAIComponent();
-				((MovementAIComponent) comp).unitMaxSpeed = componentsJson.get("unitMaxSpeed").asFloat();
-				break;
-			}
-
-			case "Selection":
-			{
-				comp = new SelectionComponent();
-				break;
-			}
-
-			case "Terrain":
-			{
-				comp = new TerrainComponent();
-				if (componentsJson.get("type") != null)
+	
+				case "Selection":
 				{
-
-					// TODO fetch terrain types from config file to entity component when loading
-					// the map
-					// ((TerrainComponent)comp).types
-
-					// System.out.println();
-
-					// componentsJson.get("type");
+					comp = new SelectionComponent();
+					break;
 				}
-			}
+	
+				case "Terrain":
+				{
+					comp = new TerrainComponent();
+					if (componentsJson.get("type") != null)
+					{
+	
+						// TODO fetch terrain types from config file to entity component when loading
+						// the map
+						// ((TerrainComponent)comp).types
+	
+						// System.out.println();
+	
+						// componentsJson.get("type");
+					}
+					break;
+				}
 			}
 			entity.add(comp);
 

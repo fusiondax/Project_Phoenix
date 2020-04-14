@@ -42,12 +42,9 @@ public class JsonUtility
 		
 		Json json = new Json();
 		json.setOutputType(JsonWriter.OutputType.json);
-		//json.setWriter(handle.writer(true));
-		
-		json.setElementType(GameMap.class, "entities", Entity.class);
-		
-		System.out.println(json.prettyPrint(gameMap));
-		
-		handle.writeString(json.toJson(gameMap), true);
+
+		//TODO write gamemap files with compact json, not prettyprint
+		//handle.writeString(json.toJson(gameMap), false);
+		handle.writeString(json.prettyPrint(gameMap), false);
 	}
 }

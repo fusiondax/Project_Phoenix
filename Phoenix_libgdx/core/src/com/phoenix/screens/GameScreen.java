@@ -60,7 +60,7 @@ public class GameScreen extends ScreenAdapter
 		
 		Gdx.input.setInputProcessor(inputs);
 		
-		MapLoader.convertTiledMapToGameMap("dummy thick compatible.tmx", "test_map_write.json");
+		MapLoader.convertTiledMapToGameMap("tiny_test compatible.tmx", "test_map_write.json");
 		
 		engine = new Engine();
 		MapLoader.addEntitiesToEngine(engine, MapLoader.getGameMap("test_map_write.json"));
