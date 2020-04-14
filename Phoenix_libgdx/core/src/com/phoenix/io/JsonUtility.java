@@ -29,7 +29,7 @@ public class JsonUtility
 		
 		Json json = new Json();
 		
-		System.out.println(reader.parse(handle).toString());
+		//System.out.println(reader.parse(handle).toString());
 
 		gameMap = json.fromJson(GameMap.class, reader.parse(handle).toString());
 		
@@ -47,6 +47,7 @@ public class JsonUtility
 		json.setElementType(GameMap.class, "entities", Entity.class);
 		
 		System.out.println(json.prettyPrint(gameMap));
-		handle.writeString(json.prettyPrint(gameMap), true);
+		
+		handle.writeString(json.toJson(gameMap), true);
 	}
 }
