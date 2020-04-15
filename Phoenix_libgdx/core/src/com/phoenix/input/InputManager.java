@@ -160,6 +160,7 @@ public class InputManager implements InputProcessor
 				
 				for(Entity e : selectableEntities)
 				{
+					SelectionComponent select = e.getComponent(SelectionComponent.class);
 					PositionComponent position = e.getComponent(PositionComponent.class);
 					
 					Vector2 position2d = new Vector2(position.pos.x, position.pos.y);
@@ -169,10 +170,14 @@ public class InputManager implements InputProcessor
 					// if the entity's position is contained within the selection rectangle, add it to the selectedEntities list
 					if(gameScreen.selectionBox.contains(position2d))
 					{
-						GraphicComponent tex = e.getComponent(GraphicComponent.class); 
-						System.out.println(tex.texture.toString());
+						select.selected = true;
+						GraphicComponent graph = e.getComponent(GraphicComponent.class); 
+						System.out.println(graph.texturePath);
 						gameScreen.selectedEntities.add(e);
-						
+					}
+					else
+					{
+						select.selected = false;
 					}
 				}
 				

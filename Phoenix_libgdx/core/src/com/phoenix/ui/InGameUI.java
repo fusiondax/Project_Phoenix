@@ -1,11 +1,14 @@
 package com.phoenix.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.phoenix.screens.GameScreen;
@@ -14,6 +17,7 @@ public class InGameUI extends Stage
 {
 	private GameScreen gameScreen;
 	
+	private Label framerateCounter;
 	private HorizontalGroup selectionDisplayPrimary;
 	private Table minimapPrimary;
 	
@@ -28,6 +32,10 @@ public class InGameUI extends Stage
 	
 	private void setupUI()
 	{
+		// create the framerate counter
+		
+		framerateCounter = new FramerateCounterLabel("test", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		framerateCounter.setHeight(this.getHeight());
 		
 		// create the minimap widget	
 		minimapPrimary = new Table();
@@ -39,14 +47,12 @@ public class InGameUI extends Stage
 		
 		minimapPrimary.setDebug(true);
 		
-		
 		// create the selection display widget
 		
 		HorizontalGroup selectionDisplayPrimary = new HorizontalGroup();
 		//selectionDisplayPrimary.setBounds(x, y, width, height);
 		
 		VerticalGroup selectionDisplayUnitResource = new VerticalGroup();
-		
 		
 		VerticalGroup selectionDisplayUnitOverview = new VerticalGroup();
 		VerticalGroup selectionDisplayUnitDetail = new VerticalGroup();
@@ -56,10 +62,9 @@ public class InGameUI extends Stage
 		selectionDisplayPrimary.setDebug(true);
 		selectionDisplayUnitResource.setDebug(true);
 		
-		
 		// create the units ability list widget
 		
-		
 		this.addActor(minimapPrimary);
+		this.addActor(framerateCounter);
 	}
 }

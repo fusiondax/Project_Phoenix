@@ -14,10 +14,6 @@
 		{
 			"component_type": "Hitbox",
 			"radius": 10.0,
-		},
-		{
-			"component_type": "Selection",
-			"mode": "single"
 		}
 	]
 }

@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.utils.PerformanceCounter;
 import com.phoenix.game.Phoenix;
 import com.phoenix.input.InputManager;
 import com.phoenix.io.GameMap;
@@ -60,14 +62,11 @@ public class GameScreen extends ScreenAdapter
 		
 		Gdx.input.setInputProcessor(inputs);
 		
-		MapLoader.convertTiledMapToGameMap("tiny_test compatible.tmx", "test_map_write.json");
+		//TODO put this somewhere else
+		MapLoader.convertTiledMapToGameMap("dummy thick compatible.tmx", "test_map_write.json");
 		
 		engine = new Engine();
-		MapLoader.addEntitiesToEngine(engine, MapLoader.getGameMap("test_map_write.json"));
-		
-		engine.addSystem(new RenderSystem(game.gameBatcher));
-		engine.addSystem(new MovementSystem());
-		engine.addSystem(new MovementAISystem(shapeRenderer));
+		loadGameMap("test_map_write.json");
 		
 		selectionBox = new Rectangle();
 		shapeRenderer = new ShapeRenderer();
@@ -75,11 +74,25 @@ public class GameScreen extends ScreenAdapter
 		selectedEntities = new ArrayList<Entity>();
 		prevCamDragPos = new Vector2();
 		
+		engine.addSystem(new RenderSystem(game.gameBatcher, shapeRenderer));
+		engine.addSystem(new MovementSystem());
+		engine.addSystem(new MovementAISystem(shapeRenderer));
+		
 		//engine.addSystem(new MovementSystem());
 
 		//engine.getSystem(BackgroundSystem.class).setCamera(engine.getSystem(RenderSystem.class).getCamera());
 
 		//pauseSystems();
+	}
+	
+	private void loadGameMap(String gameMapFileName)
+	{
+		MapLoader.addEntitiesToEngine(this.engine, MapLoader.getGameMap(gameMapFileName));
+	}
+	
+	private void saveGameMap(String gameMapFileName)
+	{
+		JsonUtility.writeJsonGameMapFile(gameMapFileName, MapLoader.createGameMapFromEngine(this.engine));
 	}
 	
 	private void pauseSystems()
@@ -119,6 +132,7 @@ public class GameScreen extends ScreenAdapter
 		
 		guiStage.act(delta);
 		guiStage.draw();
+		
 	}
 
 	@Override

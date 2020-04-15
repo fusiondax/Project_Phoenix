@@ -1,16 +1,24 @@
 package com.phoenix.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.phoenix.components.GraphicComponent;
 import com.phoenix.components.HitboxComponent;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.PositionComponent;
+import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.VelocityComponent;
 
 public class MovementAISystem extends IteratingSystem
@@ -34,32 +42,56 @@ public class MovementAISystem extends IteratingSystem
 		MovementAIComponent ai = mam.get(entity);
 		if(!ai.destinations.isEmpty())
 		{
-			
+			Engine engine = getEngine();
 			PositionComponent position = pm.get(entity);
 			VelocityComponent velocity = vm.get(entity);
 			HitboxComponent hitbox = hm.get(entity);
 			
-			Vector2 position2d = new Vector2(position.pos.x, position.pos.y);
+			Vector2 entityPosition = new Vector2(position.pos.x, position.pos.y);
 			float unitMaxSpeed = ai.unitMaxSpeed;
 			
 			Vector2 nextDestination = ai.destinations.get(0);
 			
-			if(nextDestination.dst(position2d) >= hitbox.radius / 2) 
+			if(nextDestination.dst(entityPosition) >= hitbox.radius / 2) 
 			{
-				Vector2 velocityVector = new Vector2(nextDestination.x - position2d.x, nextDestination.y - position2d.y);
+				Vector2 velocityVector = new Vector2(nextDestination.x - entityPosition.x, nextDestination.y - entityPosition.y);
 				velocityVector.setLength(unitMaxSpeed);
 				
-				
 				debug.setColor(Color.GREEN);
-				debug.line(position2d, nextDestination);
+				debug.line(entityPosition, nextDestination);
 				
 				//debug.setColor(Color.RED);
 				//debug.line(new Vector2(), velocityVector);
 				
 				velocity.velocity.set(velocityVector);
 				
-				//System.out.println(velocityVector.angle());
+				//get terrain types of terrain currently on
 				
+				Circle entityHitbox = new Circle(entityPosition, hitbox.radius);
+				//TODO potentially very poorly optimized
+				ImmutableArray<Entity> terrainEntities = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
+				
+				for(Entity e : terrainEntities)
+				{
+					PositionComponent terrainPos = e.getComponent(PositionComponent.class);
+					GraphicComponent graph = e.getComponent(GraphicComponent.class);
+					
+					TextureRegion region = new TextureRegion(new Texture(graph.texturePath));
+					
+					int width = region.getRegionWidth(); 
+					int height = region.getRegionHeight();
+					
+					Rectangle terrainRect = new Rectangle(terrainPos.pos.x - width / 2, terrainPos.pos.y - height / 2, width, height);
+					
+					//debug.rect(terrainRect.x, terrainRect.y, terrainRect.width, terrainRect.height);
+					
+					if(terrainRect.contains(entityPosition))
+					{
+						TerrainComponent t = e.getComponent(TerrainComponent.class);
+						
+						//System.out.println(t.types.toString());
+					}
+				}
 			}
 			else //unit's hitbox is at destination, remove current destination point and stops the unit there
 			{
@@ -67,11 +99,6 @@ public class MovementAISystem extends IteratingSystem
 				velocity.velocity.setZero();
 			}
 		}
-		
-		
-		
-		
-		
 	}
 
 }

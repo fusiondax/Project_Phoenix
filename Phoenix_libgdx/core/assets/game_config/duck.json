@@ -21,7 +21,8 @@
 		},
 		{
 			"component_type": "MovementAI",
-			"unitMaxSpeed": 50.0
+			"unitMaxSpeed": 50.0,
+			"passable_terrain": ["solid", "liquid"]
 		}
 	]
 }

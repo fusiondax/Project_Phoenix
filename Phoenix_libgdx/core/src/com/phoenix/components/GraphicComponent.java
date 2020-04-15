@@ -6,6 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class GraphicComponent implements Component
 {
-	public Texture texture = null;
+	public String texturePath = "";
 	
 }

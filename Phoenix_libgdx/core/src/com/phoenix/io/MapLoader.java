@@ -25,6 +25,23 @@ public class MapLoader
 {
 	public static final String GAME_CONFIG_PATH = "game_config";
 
+	public static GameMap createGameMapFromEngine(Engine engine)
+	{
+		GameMap gameMap = new GameMap();
+		
+		for(Entity e : engine.getEntities())
+		{
+			ArrayList<Component> comps = new ArrayList<Component>();
+			
+			for(Component c : e.getComponents())
+			{
+				comps.add(c);
+			}
+			gameMap.entities.add(comps);
+		}
+		return gameMap;
+	}
+	
 	public static void addEntitiesToEngine(Engine engine, GameMap gameMap)
 	{
 		for(ArrayList<Component> compList : gameMap.entities)
@@ -100,7 +117,7 @@ public class MapLoader
 					comp = new GraphicComponent();
 					if (componentsJson.get("texture") != null)
 					{
-						((GraphicComponent) comp).texture = new Texture(componentsJson.get("texture").asString());
+						((GraphicComponent) comp).texturePath = componentsJson.get("texture").asString();
 					}
 					break;
 				}
@@ -145,13 +162,29 @@ public class MapLoader
 				case "MovementAI":
 				{
 					comp = new MovementAIComponent();
-					((MovementAIComponent) comp).unitMaxSpeed = componentsJson.get("unitMaxSpeed").asFloat();
+					if (componentsJson.get("unitMaxSpeed") != null)
+					{
+						((MovementAIComponent) comp).unitMaxSpeed = componentsJson.get("unitMaxSpeed").asFloat();
+					}
+					
+					if (componentsJson.get("passable_terrain") != null)
+					{
+						String[] terrains = componentsJson.get("passable_terrain").asStringArray();
+						
+						for(int i = 0; i < terrains.length; i++)
+						{
+							((MovementAIComponent) comp).passableTerrains.add(terrains[i]);
+						}
+					}
+					
 					break;
 				}
 	
 				case "Selection":
 				{
 					comp = new SelectionComponent();
+					
+					//TODO instanciate "mode" parameter 
 					break;
 				}
 	
@@ -160,14 +193,13 @@ public class MapLoader
 					comp = new TerrainComponent();
 					if (componentsJson.get("type") != null)
 					{
-	
-						// TODO fetch terrain types from config file to entity component when loading
-						// the map
-						// ((TerrainComponent)comp).types
-	
-						// System.out.println();
-	
-						// componentsJson.get("type");
+						String[] types = componentsJson.get("type").asStringArray();
+						
+						for(int i = 0; i < types.length; i++)
+						{
+							((TerrainComponent)comp).types.add(types[i]);
+						}
+						
 					}
 					break;
 				}
