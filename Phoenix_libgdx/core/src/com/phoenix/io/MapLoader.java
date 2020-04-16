@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
@@ -117,7 +118,9 @@ public class MapLoader
 					comp = new GraphicComponent();
 					if (componentsJson.get("texture") != null)
 					{
-						((GraphicComponent) comp).texturePath = componentsJson.get("texture").asString();
+						
+						((GraphicComponent) comp).textureName = componentsJson.get("texture").asString();
+						//((GraphicComponent) comp).textureRegion = new TextureRegion(new Texture(componentsJson.get("texture").asString()));
 					}
 					break;
 				}

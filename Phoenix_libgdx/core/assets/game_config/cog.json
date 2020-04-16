@@ -3,7 +3,7 @@
 	[
 		{
 			"component_type": "Graphic",
-			"texture": "graphics/resource_cog.png"
+			"texture": "resource_cog"
 		},
 		{
 			"component_type": "Position"

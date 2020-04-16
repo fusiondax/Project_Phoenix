@@ -3,7 +3,7 @@
 	[
 		{
 			"component_type": "Graphic",
-			"texture": "graphics/unit_duck.png"
+			"texture": "unit_duck"
 		},
 		{
 			"component_type": "Position"

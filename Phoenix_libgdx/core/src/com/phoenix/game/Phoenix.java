@@ -2,17 +2,18 @@ package com.phoenix.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.phoenix.input.InputManager;
-import com.phoenix.io.JsonUtility;
+import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.screens.GameScreen;
 
 public class Phoenix extends Game
 {
 	public SpriteBatch gameBatcher;
 	//public InputManager inputManager;
+	
+	public GameScreen gameScreen;
 
 	@Override
 	public void create()
@@ -20,18 +21,30 @@ public class Phoenix extends Game
 		gameBatcher = new SpriteBatch();
 		//inputManager = new InputManager();
 		//Gdx.input.setInputProcessor(inputManager);
-		setScreen(new GameScreen(this));
+		
+		this.gameScreen = new GameScreen(this);
 	}
-
+	
 	@Override
 	public void render()
 	{
+		AssetManager manager = PhoenixAssetManager.getInstance().manager;
+		if(manager.update())
+		{
+			setScreen(this.gameScreen);
+			
+		}
+		else
+		{
+			System.out.println(manager.getProgress());
+		}
+		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		super.render();
 		
+		super.render();
 	}
-
+	
 	@Override
 	public void dispose()
 	{

@@ -3,7 +3,7 @@
 	[
 		{
 			"component_type": "Graphic",
-			"texture": "graphics/terrain_grass.png"
+			"texture": "terrain_grass"
 		},
 		{
 			"component_type": "Position"

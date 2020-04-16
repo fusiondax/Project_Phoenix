@@ -3,7 +3,7 @@
 	[
 		{
 			"component_type": "Graphic",
-			"texture": "graphics/terrain_water.png"
+			"texture": "terrain_water"
 		},
 		{
 			"component_type": "Position"

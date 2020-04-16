@@ -6,14 +6,17 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.components.GraphicComponent;
 import com.phoenix.components.HitboxComponent;
 import com.phoenix.components.MovementAIComponent;
@@ -56,6 +59,7 @@ public class MovementAISystem extends IteratingSystem
 			{
 				Vector2 velocityVector = new Vector2(nextDestination.x - entityPosition.x, nextDestination.y - entityPosition.y);
 				velocityVector.setLength(unitMaxSpeed);
+				AssetManager manager = PhoenixAssetManager.getInstance().manager;
 				
 				debug.setColor(Color.GREEN);
 				debug.line(entityPosition, nextDestination);
@@ -76,7 +80,10 @@ public class MovementAISystem extends IteratingSystem
 					PositionComponent terrainPos = e.getComponent(PositionComponent.class);
 					GraphicComponent graph = e.getComponent(GraphicComponent.class);
 					
-					TextureRegion region = new TextureRegion(new Texture(graph.texturePath));
+					//TODO Weird, shitty way to get width/height for terrains
+					
+					TextureAtlas texAtlas = manager.get("graphics/atlas/entities.atlas");
+					TextureRegion region = texAtlas.createSprite(graph.textureName);
 					
 					int width = region.getRegionWidth(); 
 					int height = region.getRegionHeight();
@@ -91,6 +98,7 @@ public class MovementAISystem extends IteratingSystem
 						
 						//System.out.println(t.types.toString());
 					}
+					
 				}
 			}
 			else //unit's hitbox is at destination, remove current destination point and stops the unit there

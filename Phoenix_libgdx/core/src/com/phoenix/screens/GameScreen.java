@@ -34,7 +34,7 @@ import com.phoenix.ui.InGameUI;
 
 public class GameScreen extends ScreenAdapter
 {
-	Phoenix game;
+	public Phoenix game;
 
 	public InGameUI guiStage;
 	
@@ -74,7 +74,7 @@ public class GameScreen extends ScreenAdapter
 		selectedEntities = new ArrayList<Entity>();
 		prevCamDragPos = new Vector2();
 		
-		engine.addSystem(new RenderSystem(game.gameBatcher, shapeRenderer));
+		engine.addSystem(new RenderSystem(this));
 		engine.addSystem(new MovementSystem());
 		engine.addSystem(new MovementAISystem(shapeRenderer));
 		

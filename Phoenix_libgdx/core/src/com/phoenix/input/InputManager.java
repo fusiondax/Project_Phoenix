@@ -172,7 +172,7 @@ public class InputManager implements InputProcessor
 					{
 						select.selected = true;
 						GraphicComponent graph = e.getComponent(GraphicComponent.class); 
-						System.out.println(graph.texturePath);
+						System.out.println(graph.textureName);
 						gameScreen.selectedEntities.add(e);
 					}
 					else
@@ -241,7 +241,7 @@ public class InputManager implements InputProcessor
 	@Override
 	public boolean scrolled(int amount)
 	{
-		
+		System.out.println("wow");
 		float prevViewportHeight = gameScreen.camera.viewportHeight;
 		float prevViewportWidth = gameScreen.camera.viewportWidth;
 		
