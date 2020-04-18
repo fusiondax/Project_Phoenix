@@ -27,6 +27,7 @@ import com.phoenix.input.InputManager;
 import com.phoenix.io.GameMap;
 import com.phoenix.io.JsonUtility;
 import com.phoenix.io.MapLoader;
+import com.phoenix.pathfinding.MovementNodeGraph;
 import com.phoenix.systems.MovementAISystem;
 import com.phoenix.systems.MovementSystem;
 import com.phoenix.systems.RenderSystem;
@@ -49,6 +50,8 @@ public class GameScreen extends ScreenAdapter
 	public Rectangle selectionBox;
 	public ArrayList<Entity> selectedEntities;
 	
+	public MovementNodeGraph mapGraph;
+	
 	public GameScreen(Phoenix game)
 	{
 		this.game = game;
@@ -67,6 +70,9 @@ public class GameScreen extends ScreenAdapter
 		
 		engine = new Engine();
 		loadGameMap("test_map_write.json");
+		
+		//TODO are Graphs unit specific?
+		mapGraph = new MovementNodeGraph(engine);
 		
 		selectionBox = new Rectangle();
 		shapeRenderer = new ShapeRenderer();

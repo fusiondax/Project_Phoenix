@@ -23,6 +23,7 @@ import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.VelocityComponent;
+import com.phoenix.game.Phoenix;
 
 public class MovementAISystem extends IteratingSystem
 {
@@ -78,17 +79,11 @@ public class MovementAISystem extends IteratingSystem
 				for(Entity e : terrainEntities)
 				{
 					PositionComponent terrainPos = e.getComponent(PositionComponent.class);
-					GraphicComponent graph = e.getComponent(GraphicComponent.class);
 					
-					//TODO Weird, shitty way to get width/height for terrains
-					
-					TextureAtlas texAtlas = manager.get("graphics/atlas/entities.atlas");
-					TextureRegion region = texAtlas.createSprite(graph.textureName);
-					
-					int width = region.getRegionWidth(); 
-					int height = region.getRegionHeight();
-					
-					Rectangle terrainRect = new Rectangle(terrainPos.pos.x - width / 2, terrainPos.pos.y - height / 2, width, height);
+					Rectangle terrainRect = new Rectangle(terrainPos.pos.x - Phoenix.TERRAIN_SIZE / 2, 
+							terrainPos.pos.y - Phoenix.TERRAIN_SIZE / 2, 
+							Phoenix.TERRAIN_SIZE, 
+							Phoenix.TERRAIN_SIZE);
 					
 					//debug.rect(terrainRect.x, terrainRect.y, terrainRect.width, terrainRect.height);
 					

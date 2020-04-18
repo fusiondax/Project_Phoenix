@@ -10,6 +10,8 @@ import com.phoenix.screens.GameScreen;
 
 public class Phoenix extends Game
 {
+	public static final int TERRAIN_SIZE = 64;
+	
 	public SpriteBatch gameBatcher;
 	//public InputManager inputManager;
 	
