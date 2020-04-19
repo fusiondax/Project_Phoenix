@@ -2,6 +2,10 @@
 	"components":
 	[
 		{
+			"component_type": "Name",
+			"name": "duck"
+		},
+		{
 			"component_type": "Graphic",
 			"texture": "unit_duck"
 		},

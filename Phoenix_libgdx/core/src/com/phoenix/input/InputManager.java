@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.SelectionComponent;
+import com.phoenix.pathfinding.MovementNode;
 import com.phoenix.components.GraphicComponent;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.utility.MathUtility;
@@ -104,9 +105,17 @@ public class InputManager implements InputProcessor
 				
 				for(Entity e : gameScreen.selectedEntities)
 				{
-					MovementAIComponent mac = e.getComponent(MovementAIComponent.class); 
-					if(mac != null)
+					MovementAIComponent mac = e.getComponent(MovementAIComponent.class);
+					PositionComponent pc = e.getComponent(PositionComponent.class);
+					if(mac != null && pc != null)
 					{
+						// add a node where the unit currently is
+						//mac.knownPathGraph.addNode(new MovementNode(new Vector2(pc.pos.x, pc.pos.y), "Origin"));
+						
+						// add a node to the final destination
+						//mac.knownPathGraph.addNode(new MovementNode(worldPos, "Destination"));
+						
+						//TODO deprecated
 						mac.destinations.clear();
 						mac.destinations.add(worldPos);
 					}
@@ -241,7 +250,7 @@ public class InputManager implements InputProcessor
 	@Override
 	public boolean scrolled(int amount)
 	{
-		System.out.println("wow");
+		
 		float prevViewportHeight = gameScreen.camera.viewportHeight;
 		float prevViewportWidth = gameScreen.camera.viewportWidth;
 		
@@ -255,16 +264,13 @@ public class InputManager implements InputProcessor
 			gameScreen.camera.viewportWidth = gameScreen.camera.viewportWidth * 0.9f;
 			gameScreen.camera.viewportHeight = gameScreen.camera.viewportHeight * 0.9f;
 		}
+			
 		
-	
-		if(gameScreen.camera.viewportHeight < 300 || gameScreen.camera.viewportHeight > 1800)
+		if(gameScreen.camera.viewportHeight < Gdx.graphics.getHeight() * 0.5 || gameScreen.camera.viewportHeight > Gdx.graphics.getHeight() * 2)
 		{
 			gameScreen.camera.viewportWidth = prevViewportWidth;
 			gameScreen.camera.viewportHeight = prevViewportHeight;
 		}
-		
-		//System.out.println("viewportWidth: " + gameScreen.camera.viewportWidth);
-		//System.out.println("viewportHeight: " + gameScreen.camera.viewportHeight);
 		
 		return false;
 	}

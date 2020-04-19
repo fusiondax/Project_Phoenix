@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.phoenix.components.GraphicComponent;
 import com.phoenix.components.HitboxComponent;
 import com.phoenix.components.MovementAIComponent;
+import com.phoenix.components.NameComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.SelectionComponent;
 import com.phoenix.components.TerrainComponent;
@@ -47,12 +48,33 @@ public class MapLoader
 	{
 		for(ArrayList<Component> compList : gameMap.entities)
 		{
-			Entity e = new Entity();
+			Entity e = null;
+			NameComponent nameComp = null;
+			// retrieve the NameComponent from an entity's component list
 			for (Component comp : compList)
 			{
-				e.add(comp);
+				if(comp instanceof NameComponent)
+				{
+					nameComp = (NameComponent) comp;
+					break;
+				}
 			}
-			engine.addEntity(e);
+			
+			// if the NameComponent was found, we can initialize the entity
+			if(nameComp != null)
+			{
+				e = getInitializedEntity(nameComp.name);
+			}
+			
+			// now, we give the entity its map-specific attributes
+			e = addMapSpecificAttributeToEntity(e, compList);
+			
+			// unless the entity wasn't able to be created, we add it to the engine
+			if(e != null)
+			{
+				engine.addEntity(e);
+			}
+			
 		}
 	}
 
@@ -73,8 +95,9 @@ public class MapLoader
 		{
 			for (MapObject mo : layer.getObjects())
 			{
-				Entity e = getEntity(mo.getName());
-
+				Entity e = getInitializedEntity(mo.getName());
+				
+				// once the entity was initialized, we need to give it its's map-specific attributes
 				PositionComponent p = e.getComponent(PositionComponent.class);
 
 				p.pos.x = Float.parseFloat(mo.getProperties().get("x").toString());
@@ -100,7 +123,13 @@ public class MapLoader
 		JsonUtility.writeJsonGameMapFile(gameMapFileName, gameMap);
 	}
 
-	private static Entity getEntity(String entityName)
+	/**
+	 * creates a brand new entity of the given name and initializes it with its default configuration, giving it its components
+	 * and default values for those component's attributes
+	 * @param entityName the name of the entity
+	 * @return
+	 */
+	private static Entity getInitializedEntity(String entityName)
 	{
 		Entity entity = new Entity();
 
@@ -113,45 +142,33 @@ public class MapLoader
 			Component comp = null;
 			switch (componentType)
 			{
+				case "Name":
+				{
+					comp = new NameComponent();
+					if (componentsJson.get("name") != null)
+					{
+						((NameComponent) comp).name = componentsJson.get("name").asString();
+					}
+					break;
+				}
 				case "Graphic":
 				{
 					comp = new GraphicComponent();
 					if (componentsJson.get("texture") != null)
 					{
-						
 						((GraphicComponent) comp).textureName = componentsJson.get("texture").asString();
-						//((GraphicComponent) comp).textureRegion = new TextureRegion(new Texture(componentsJson.get("texture").asString()));
 					}
 					break;
 				}
 				case "Position":
 				{
 					comp = new PositionComponent();
-					if (componentsJson.get("position_x") != null)
-					{
-						((PositionComponent) comp).pos.x = componentsJson.get("position_x").asFloat();
-					}
-					if (componentsJson.get("position_y") != null)
-					{
-						((PositionComponent) comp).pos.y = componentsJson.get("position_y").asFloat();
-					}
-	
 					break;
 				}
 	
 				case "Velocity":
 				{
 					comp = new VelocityComponent();
-					if (componentsJson.get("delta_x") != null)
-					{
-						((VelocityComponent) comp).velocity.x = componentsJson.get("delta_x").asFloat();
-					}
-	
-					if (componentsJson.get("delta_y") != null)
-					{
-						((VelocityComponent) comp).velocity.y = componentsJson.get("delta_Y").asFloat();
-					}
-	
 					break;
 				}
 	
@@ -196,15 +213,8 @@ public class MapLoader
 					comp = new TerrainComponent();
 					if (componentsJson.get("type") != null)
 					{
-						String[] types = componentsJson.get("type").asStringArray();
-						
-						for(int i = 0; i < types.length; i++)
-						{
-							((TerrainComponent)comp).types.add(types[i]);
-						}
-						
+						((TerrainComponent)comp).type = componentsJson.get("type").asString();
 					}
-					
 					break;
 				}
 			}
@@ -212,6 +222,26 @@ public class MapLoader
 
 		}
 		return entity;
+	}
+	
+	private static Entity addMapSpecificAttributeToEntity(Entity initialEntity, ArrayList<Component> mapLoadedComponents)
+	{
+		for(Component comp : mapLoadedComponents)
+		{
+			String className = comp.getClass().getSimpleName();
+			//System.out.println(className);
+			switch(className)
+			{
+				case "PositionComponent":
+				{
+					PositionComponent entityPos = initialEntity.getComponent(PositionComponent.class);
+					entityPos.pos.set(((PositionComponent) comp).pos);
+					break;
+				}
+			}
+		}
+		
+		return initialEntity;
 	}
 
 	private static JsonValue getEntityConfigFile(String entityFileName)

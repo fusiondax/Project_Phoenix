@@ -2,6 +2,10 @@
 	"components":
 	[
 		{
+			"component_type": "Name",
+			"name": "cog"
+		},
+		{
 			"component_type": "Graphic",
 			"texture": "resource_cog"
 		},

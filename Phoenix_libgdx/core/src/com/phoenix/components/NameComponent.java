@@ -5,19 +5,20 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class GraphicComponent implements Component, Serializable
+public class NameComponent implements Component, Serializable
 {
-	public String textureName = "";
+	public String name = "";
 
 	@Override
 	public void write(Json json)
 	{
-		
+		json.writeValue("name", name);
 	}
 
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		
+		name = jsonData.get("name").asString();
 	}
+	
 }

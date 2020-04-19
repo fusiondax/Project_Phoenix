@@ -50,8 +50,6 @@ public class GameScreen extends ScreenAdapter
 	public Rectangle selectionBox;
 	public ArrayList<Entity> selectedEntities;
 	
-	public MovementNodeGraph mapGraph;
-	
 	public GameScreen(Phoenix game)
 	{
 		this.game = game;
@@ -66,13 +64,10 @@ public class GameScreen extends ScreenAdapter
 		Gdx.input.setInputProcessor(inputs);
 		
 		//TODO put this somewhere else
-		MapLoader.convertTiledMapToGameMap("dummy thick compatible.tmx", "test_map_write.json");
+		//MapLoader.convertTiledMapToGameMap("dummy thick compatible.tmx", "test_map_write.json");
 		
 		engine = new Engine();
 		loadGameMap("test_map_write.json");
-		
-		//TODO are Graphs unit specific?
-		mapGraph = new MovementNodeGraph(engine);
 		
 		selectionBox = new Rectangle();
 		shapeRenderer = new ShapeRenderer();
@@ -110,7 +105,7 @@ public class GameScreen extends ScreenAdapter
 	{
 
 	}
-
+	
 	@Override
 	public void show()
 	{
@@ -129,7 +124,6 @@ public class GameScreen extends ScreenAdapter
 		shapeRenderer.begin(ShapeType.Line);
 		shapeRenderer.setColor(Color.GREEN);
 		
-		//game.gameBatcher.draw(new Texture(Gdx.files.internal("debug/red-sun-beach-wallpaper-1280-x-720.jpg")), 0, 0);
 		engine.update(delta);
 		shapeRenderer.rect(selectionBox.x, selectionBox.y, selectionBox.width, selectionBox.height);
 		

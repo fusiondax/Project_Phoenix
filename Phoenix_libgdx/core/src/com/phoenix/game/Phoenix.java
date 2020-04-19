@@ -25,6 +25,7 @@ public class Phoenix extends Game
 		//Gdx.input.setInputProcessor(inputManager);
 		
 		this.gameScreen = new GameScreen(this);
+		
 	}
 	
 	@Override
@@ -33,8 +34,10 @@ public class Phoenix extends Game
 		AssetManager manager = PhoenixAssetManager.getInstance().manager;
 		if(manager.update())
 		{
-			setScreen(this.gameScreen);
-			
+			if(getScreen() == null)
+			{
+				setScreen(this.gameScreen);
+			}
 		}
 		else
 		{

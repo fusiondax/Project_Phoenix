@@ -33,24 +33,9 @@ public class MovementNodeGraph implements IndexedGraph<MovementNode>
 	
 	ObjectMap<MovementNode, Array<Connection<MovementNode>>> pathsMap = new ObjectMap<>();
 	
-	public MovementNodeGraph(Engine engine)
+	public MovementNodeGraph()
 	{
-		AssetManager manager = PhoenixAssetManager.getInstance().manager;
-		ImmutableArray<Entity> terrainEntities = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
 		
-		// create nodes
-		for(Entity e : terrainEntities)
-		{
-			PositionComponent terrainPos = e.getComponent(PositionComponent.class);
-			
-			this.addNode(new MovementNode(new Vector2(terrainPos.pos.x - Phoenix.TERRAIN_SIZE / 2, terrainPos.pos.y - Phoenix.TERRAIN_SIZE / 2)));
-		}
-		
-		//create connections
-		for(MovementNode node : nodes)
-		{
-			
-		}
 		
 		
 	}
