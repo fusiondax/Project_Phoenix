@@ -8,22 +8,16 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.JsonValue;
 import com.phoenix.pathfinding.MovementNodeGraph;
+import com.phoenix.pathfinding.SearchNode;
 
 public class MovementAIComponent implements Component, Serializable
 {
 	public MovementNodeGraph knownPathGraph = new MovementNodeGraph();
 	public ArrayList<String> passableTerrains = new ArrayList<String>();
 	
-	//TODO this will be obselete once the movementGraph pathfinding is setup
 	public ArrayList<Vector2> destinations = new ArrayList<Vector2>();
 	
-	public ArrayList<Vector2> expandingNodes = new ArrayList<Vector2>();
-	
-	public ArrayList<Vector2> finalNodes = new ArrayList<Vector2>();
-	
-	public ArrayList<Vector2> nextNodes = new ArrayList<Vector2>();
-	
-	public int counter = 0;
+	public SearchNode initialNode;
 	
 	public float unitMaxSpeed = 0.0f;
 	

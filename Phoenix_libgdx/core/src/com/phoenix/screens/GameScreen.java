@@ -76,7 +76,7 @@ public class GameScreen extends ScreenAdapter
 		prevCamDragPos = new Vector2();
 		
 		engine.addSystem(new RenderSystem(this));
-		engine.addSystem(new MovementSystem());
+		engine.addSystem(new MovementSystem(engine));
 		engine.addSystem(new MovementAISystem(shapeRenderer));
 		
 		//engine.addSystem(new MovementSystem());

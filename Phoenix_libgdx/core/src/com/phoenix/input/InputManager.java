@@ -266,7 +266,7 @@ public class InputManager implements InputProcessor
 		}
 			
 		
-		if(gameScreen.camera.viewportHeight < Gdx.graphics.getHeight() * 0.5 || gameScreen.camera.viewportHeight > Gdx.graphics.getHeight() * 2)
+		if(gameScreen.camera.viewportHeight < Gdx.graphics.getHeight() * 0.3 || gameScreen.camera.viewportHeight > Gdx.graphics.getHeight() * 2)
 		{
 			gameScreen.camera.viewportWidth = prevViewportWidth;
 			gameScreen.camera.viewportHeight = prevViewportHeight;

@@ -26,6 +26,7 @@ import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.VelocityComponent;
 import com.phoenix.game.Phoenix;
 import com.phoenix.pathfinding.CollisionDetector;
+import com.phoenix.pathfinding.SearchNode;
 
 public class MovementAISystem extends IteratingSystem
 {
@@ -36,8 +37,7 @@ public class MovementAISystem extends IteratingSystem
 	
 	private ShapeRenderer debug;
 	
-	public static final float SEARCH_RAY_MAX_LENGTH = 200.0f;
-	public static final int SEARCH_NODES_MAX_AMOUNT = 100;
+	
 	
 	public MovementAISystem(ShapeRenderer debug)
 	{
@@ -65,34 +65,40 @@ public class MovementAISystem extends IteratingSystem
 			
 			if(nextDestination.dst(entityPosition2d) >= entityHitbox.radius / 2) 
 			{
+				CollisionDetector detector = new CollisionDetector(engine);
+				
 				Vector2 velocityVector = new Vector2(nextDestination.x - entityPosition2d.x, nextDestination.y - entityPosition2d.y);
 				velocityVector.setLength(unitMaxSpeed);
 				
+				Vector2 nexPathStartPoint = new Vector2().add(entityPosition2d).add(velocityVector);
+				
 				Vector2 immediateMovementLocation = new Vector2();
+				immediateMovementLocation.add(new Vector2(velocityVector.x * deltaTime, velocityVector.y * deltaTime));
 				immediateMovementLocation.add(entityPosition2d);
-				immediateMovementLocation.add(velocityVector);
+				
+				
+				Circle hitboxCircle = new Circle(immediateMovementLocation, entityHitbox.radius);
 				
 				debug.setColor(Color.GREEN);
-				debug.line(entityPosition2d, nextDestination);
+				debug.line(nexPathStartPoint, nextDestination);
+				debug.setColor(Color.YELLOW);
+				debug.circle(hitboxCircle.x, hitboxCircle.y, hitboxCircle.radius);
+				
+				detector.debugCollidableTerrainHitbox(debug, CollisionDetector.getRectanglesFromTerrains(detector.getCollidableTerrains(mac)));
 				
 				// if a collision is imminent
-				if(CollisionDetector.isCollision(engine, mac, immediateMovementLocation))
+				if(detector.isCircleCollision(hitboxCircle, CollisionDetector.getRectanglesFromTerrains(detector.getCollidableTerrains(mac))))
 				{
-					generateScatterNodes(engine, mac, entityPosition2d);
+					searchNewPath(detector, entityPosition2d, nexPathStartPoint, nextDestination, mac);
 					
 					entityVelocity.velocity.setZero();
-					
 				}
 				else //if not, proceed on current vector
 				{
-					mac.expandingNodes.clear();
-					mac.finalNodes.clear();
-					mac.nextNodes.clear();
+					mac.initialNode = null;
 					
 					//debug.setColor(Color.RED);
 					//debug.line(new Vector2(), velocityVector);
-					
-					//debug.rect(terrainRect.x, terrainRect.y, terrainRect.width, terrainRect.height);
 					
 					entityVelocity.velocity.set(velocityVector);
 				}
@@ -106,108 +112,26 @@ public class MovementAISystem extends IteratingSystem
 		}
 	}
 	
-	private void searchNewPath(Vector2 startNode, Vector2 endNode)
+	private void searchNewPath(CollisionDetector detector, Vector2 initialPoint, Vector2 startNode, Vector2 endNode, MovementAIComponent mac)
 	{
-		
-	}
-	
-	private void generateScatterNodes(Engine engine, MovementAIComponent mac, Vector2 currentNode)
-	{
-		//ArrayList<Vector2> expandingNodes = new ArrayList<Vector2>();
-		
-		//ArrayList<Vector2> finalNodes = new ArrayList<Vector2>();
-		
-		
-		
-		/*
-		if(mac.expandingNodes.isEmpty() && !mac.finalNodes.isEmpty())
+		if(mac.initialNode == null)
 		{
-			mac.finalNodes.clear();
-		}*/
-		
-		
-		System.out.println(mac.expandingNodes.size());
-		System.out.println(mac.finalNodes.size());
-		System.out.println(mac.nextNodes.size());
-		
-		if(mac.expandingNodes.isEmpty() && mac.finalNodes.isEmpty())
-		{
-			int angle = 0;
-			
-			while(angle < 360)
-			{
-				Vector2 searchVector = new Vector2(0, 1);
-				searchVector.setAngle(angle);
-				searchVector.setLength(1);
-				searchVector.add(currentNode);
-				mac.expandingNodes.add(searchVector);
-				angle += 45;
-			}
-			
+			mac.initialNode = new SearchNode(initialPoint);
+			mac.initialNode.isSearching = false;
 		}
-		
-		for(Vector2 vec: mac.expandingNodes)
+		else
 		{
-			if(CollisionDetector.isCollision(engine, mac, vec) || (Vector2.dst(currentNode.x, currentNode.y, vec.x, vec.y) >= SEARCH_RAY_MAX_LENGTH))
+			
+			SearchNode validPath = SearchNode.getValidPath(mac.initialNode); 
+			if(validPath != null)
 			{
-				mac.finalNodes.add(vec);
+				System.out.println("new path found!");
+				SearchNode.debugLegacy(validPath, debug);
 			}
 			else
 			{
-				vec.sub(currentNode).setLength(vec.len() + 10).add(currentNode);
+				mac.initialNode.startRecursiveSearch(detector, mac, startNode, endNode, debug);
 			}
-			debug.setColor(Color.ORANGE);
-			
-			debug.line(currentNode, vec);
-			debug.circle(vec.x, vec.y, 5);
-			
-			debug.setColor(Color.GREEN);
 		}
-		ArrayList<Vector2> nodesToRemove = new ArrayList<Vector2>();
-		
-		for(Vector2 vec: mac.finalNodes)
-		{
-			if(mac.expandingNodes.contains(vec))
-			{
-				mac.expandingNodes.remove(vec);
-			}
-			
-			if(Vector2.dst(vec.x, vec.y, currentNode.x, currentNode.y) < 40)
-			{
-				nodesToRemove.add(vec);
-			}
-			
-			debug.setColor(Color.RED);
-			
-			debug.line(currentNode, vec);
-			debug.circle(vec.x, vec.y, 5);
-			
-			debug.setColor(Color.GREEN);
-		}
-		
-		for(Vector2 vec: nodesToRemove)
-		{
-			mac.finalNodes.remove(vec);
-		}
-		
-		
-		/*
-		System.out.println("------------------------------------------");
-		System.out.println("startNode before: " + startNode);
-		System.out.println("endNode before: " + endNode);
-		System.out.println("origin before: " + origin);
-		System.out.println("north before: " + north);
-		System.out.println("intersect before: " + intersect);
-		
-		//boolean isIntersect = Intersector.intersectSegments(startNode, endNode, origin, north, intersect);
-		
-		System.out.println("is intersected?: " + isIntersect);
-		System.out.println("startNode after: " + startNode);
-		System.out.println("endNode after: " + endNode);
-		System.out.println("origin after: " + origin);
-		System.out.println("north after: " + north);
-		System.out.println("intersect after: " + intersect);
-		System.out.println("------------------------------------------");
-		*/
 	}
 }
