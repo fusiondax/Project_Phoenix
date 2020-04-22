@@ -4,30 +4,24 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.PerformanceCounter;
-import com.badlogic.gdx.utils.PerformanceCounters;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.SelectionComponent;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.assets.PhoenixAssetManager;
+import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.GraphicComponent;
-import com.phoenix.components.HitboxComponent;
 
 public class RenderSystem extends IteratingSystem
 {
 	private ComponentMapper<GraphicComponent> gm = ComponentMapper.getFor(GraphicComponent.class);
 	private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
 	private ComponentMapper<SelectionComponent> sm = ComponentMapper.getFor(SelectionComponent.class);
-	private ComponentMapper<HitboxComponent> hm = ComponentMapper.getFor(HitboxComponent.class);
+	private ComponentMapper<CollisionHitboxComponent> chm = ComponentMapper.getFor(CollisionHitboxComponent.class);
 	
 	private SpriteBatch batch;
 	private ShapeRenderer shapeRenderer;
@@ -47,7 +41,8 @@ public class RenderSystem extends IteratingSystem
 		GraphicComponent graph = gm.get(entity);
 		PositionComponent pos = pm.get(entity);
 		SelectionComponent select = sm.get(entity);
-		HitboxComponent hitbox = hm.get(entity);
+		CollisionHitboxComponent hitbox = chm.get(entity);
+		
 		TextureAtlas texAtlas = manager.get("graphics/atlas/entities.atlas");
 		Sprite sprite = texAtlas.createSprite(graph.textureName);
 
@@ -55,7 +50,8 @@ public class RenderSystem extends IteratingSystem
 		{
 			if(select.selected)
 			{
-				shapeRenderer.circle(pos.pos.x, pos.pos.y, hitbox.radius);
+				
+				shapeRenderer.circle(pos.pos.x, pos.pos.y, hitbox.size);
 			}
 		}
 		

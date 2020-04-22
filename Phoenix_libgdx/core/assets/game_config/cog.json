@@ -16,8 +16,9 @@
 			"component_type": "Velocity"
 		},
 		{
-			"component_type": "Hitbox",
-			"radius": 10.0,
+			"component_type": "CollisionHitbox",
+			"shape": "Circle",
+			"size": 10.0
 		}
 	]
 }

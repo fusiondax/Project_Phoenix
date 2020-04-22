@@ -16,8 +16,9 @@
 			"component_type": "Velocity"
 		},
 		{
-			"component_type": "Hitbox",
-			"radius": 20.0,
+			"component_type": "CollisionHitbox",
+			"shape": "Circle",
+			"size": 20.0
 		},
 		{
 			"component_type": "Selection",
@@ -25,7 +26,7 @@
 		},
 		{
 			"component_type": "MovementAI",
-			"unitMaxSpeed": 50.0,
+			"unitMaxSpeed": 100.0,
 			"passable_terrain": ["solid", "liquid"]
 		}
 	]

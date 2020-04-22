@@ -12,10 +12,12 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.GraphicComponent;
-import com.phoenix.components.HitboxComponent;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.NameComponent;
 import com.phoenix.components.PositionComponent;
@@ -172,10 +174,15 @@ public class MapLoader
 					break;
 				}
 	
-				case "Hitbox":
+				case "CollisionHitbox":
 				{
-					comp = new HitboxComponent();
-					((HitboxComponent) comp).radius = componentsJson.get("radius").asFloat();
+					comp = new CollisionHitboxComponent();
+					//TODO import stuff for collisionhitbox
+					if(componentsJson.get("shape") != null && componentsJson.get("size") != null)
+					{
+						((CollisionHitboxComponent) comp).hitboxShape = componentsJson.get("shape").asString();
+						((CollisionHitboxComponent) comp).size = componentsJson.get("size").asFloat();
+					}	
 					break;
 				}
 	

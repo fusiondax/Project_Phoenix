@@ -19,29 +19,27 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.math.collision.Ray;
-import com.phoenix.components.HitboxComponent;
+import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.VelocityComponent;
 import com.phoenix.game.Phoenix;
-import com.phoenix.pathfinding.CollisionDetector;
 import com.phoenix.pathfinding.SearchNode;
+import com.phoenix.physics.CollisionDetector;
 
 public class MovementAISystem extends IteratingSystem
 {
 	private ComponentMapper<MovementAIComponent> mam = ComponentMapper.getFor(MovementAIComponent.class);
 	private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
 	private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
-	private ComponentMapper<HitboxComponent> hm = ComponentMapper.getFor(HitboxComponent.class);
+	private ComponentMapper<CollisionHitboxComponent> chm = ComponentMapper.getFor(CollisionHitboxComponent.class);
 	
 	private ShapeRenderer debug;
 	
-	
-	
 	public MovementAISystem(ShapeRenderer debug)
 	{
-		super(Family.all(PositionComponent.class, VelocityComponent.class, MovementAIComponent.class, HitboxComponent.class).get());
+		super(Family.all(PositionComponent.class, VelocityComponent.class, MovementAIComponent.class, CollisionHitboxComponent.class).get());
 		this.debug = debug;
 	}
 
@@ -56,14 +54,14 @@ public class MovementAISystem extends IteratingSystem
 			Engine engine = getEngine();
 			PositionComponent entityPosition = pm.get(entity);
 			VelocityComponent entityVelocity = vm.get(entity);
-			HitboxComponent entityHitbox = hm.get(entity);
+			CollisionHitboxComponent entityHitbox = chm.get(entity);
 			
 			Vector2 entityPosition2d = new Vector2(entityPosition.pos.x, entityPosition.pos.y);
 			float unitMaxSpeed = mac.unitMaxSpeed;
 			
 			Vector2 nextDestination = mac.destinations.get(0);
 			
-			if(nextDestination.dst(entityPosition2d) >= entityHitbox.radius / 2) 
+			if(nextDestination.dst(entityPosition2d) >= entityHitbox.size / 2) 
 			{
 				CollisionDetector detector = new CollisionDetector(engine);
 				
@@ -77,17 +75,19 @@ public class MovementAISystem extends IteratingSystem
 				immediateMovementLocation.add(entityPosition2d);
 				
 				
-				Circle hitboxCircle = new Circle(immediateMovementLocation, entityHitbox.radius);
+				Circle hitboxCircle = new Circle(immediateMovementLocation, entityHitbox.size);
 				
 				debug.setColor(Color.GREEN);
 				debug.line(nexPathStartPoint, nextDestination);
 				debug.setColor(Color.YELLOW);
 				debug.circle(hitboxCircle.x, hitboxCircle.y, hitboxCircle.radius);
 				
-				detector.debugCollidableTerrainHitbox(debug, CollisionDetector.getRectanglesFromTerrains(detector.getCollidableTerrains(mac)));
+				detector.debugRectanglesHitbox(debug, CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac)));
+				
+				//if the unit's movements speed is near zero
 				
 				// if a collision is imminent
-				if(detector.isCircleCollision(hitboxCircle, CollisionDetector.getRectanglesFromTerrains(detector.getCollidableTerrains(mac))))
+				if(detector.isCircleCollisionRectangles(hitboxCircle, CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac))))
 				{
 					searchNewPath(detector, entityPosition2d, nexPathStartPoint, nextDestination, mac);
 					

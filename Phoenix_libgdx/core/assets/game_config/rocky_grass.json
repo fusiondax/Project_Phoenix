@@ -16,5 +16,10 @@
 			"component_type": "Terrain",
 			"type": "solid_rocky"
 		},
+		{
+			"component_type": "CollisionHitbox",
+			"shape": "Rectangle",
+			"size": 64.0
+		}
 	]
 }

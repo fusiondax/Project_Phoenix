@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.MovementAIComponent;
+import com.phoenix.physics.CollisionDetector;
 
 public class SearchNode
 {
@@ -189,7 +190,7 @@ public class SearchNode
 
 			if (node.isSearching)
 			{
-				if (detector.isPointCollision(vec, CollisionDetector.getRectanglesFromTerrains(detector.getCollidableTerrains(mac)))
+				if (detector.isPointCollisionRectangles(vec, CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac)))
 						|| (Vector2.dst(position.x, position.y, vec.x, vec.y) >= SEARCH_RAY_MAX_LENGTH))
 				{
 					node.isSearching = false;

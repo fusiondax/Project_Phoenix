@@ -64,7 +64,7 @@ public class GameScreen extends ScreenAdapter
 		Gdx.input.setInputProcessor(inputs);
 		
 		//TODO put this somewhere else
-		//MapLoader.convertTiledMapToGameMap("dummy thick compatible.tmx", "test_map_write.json");
+		MapLoader.convertTiledMapToGameMap("dummy thick compatible.tmx", "test_map_write.json");
 		
 		engine = new Engine();
 		loadGameMap("test_map_write.json");
@@ -76,7 +76,7 @@ public class GameScreen extends ScreenAdapter
 		prevCamDragPos = new Vector2();
 		
 		engine.addSystem(new RenderSystem(this));
-		engine.addSystem(new MovementSystem(engine));
+		engine.addSystem(new MovementSystem(shapeRenderer));
 		engine.addSystem(new MovementAISystem(shapeRenderer));
 		
 		//engine.addSystem(new MovementSystem());
