@@ -7,16 +7,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.MovementAIComponent;
+import com.phoenix.game.Phoenix;
 import com.phoenix.physics.CollisionDetector;
 
 public class SearchNode
 {
-	public static final float SEARCH_RAY_MAX_LENGTH = 100.0f;
+	public static final float SEARCH_RAY_MAX_LENGTH = Phoenix.TERRAIN_SIZE;
 	public static final float SEARCH_RAY_MIN_LENGTH = 5.0f;
-	public static final int SEARCH_NODES_MAX_GENERATION = /*5*/5;
-	public static final int SEARCH_RAY_ANGLE_BETWEEN_SCATTER_NODE = /*10*/30;
+	public static final int SEARCH_NODES_MAX_GENERATION = /*5*/10;
+	public static final int SEARCH_RAY_ANGLE_BETWEEN_SCATTER_NODE = /*10*/90;
 	public static final int SEARCH_NODE_MINIMUM_NODE_DISTANCE = 10;
-	public static final int SEARCH_NODE_INCREMENT_DISTANCE = /*5*/5;
+	public static final int SEARCH_NODE_INCREMENT_DISTANCE = (int) (SEARCH_RAY_MAX_LENGTH / 5);
 
 	public Vector2 position = new Vector2();
 
@@ -177,7 +178,7 @@ public class SearchNode
 				searchVector.position.setLength(SEARCH_RAY_MIN_LENGTH);
 				searchVector.position.add(position);
 				childNodes.add(searchVector);
-				angle += Math.random() * 5 + SEARCH_RAY_ANGLE_BETWEEN_SCATTER_NODE;
+				angle += /*Math.random() * 5 +*/ SEARCH_RAY_ANGLE_BETWEEN_SCATTER_NODE;
 			}
 		}
 	}

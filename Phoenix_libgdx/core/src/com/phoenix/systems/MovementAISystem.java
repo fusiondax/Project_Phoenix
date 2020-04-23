@@ -34,12 +34,18 @@ public class MovementAISystem extends IteratingSystem
 	private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
 	private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
 	private ComponentMapper<CollisionHitboxComponent> chm = ComponentMapper.getFor(CollisionHitboxComponent.class);
-	
+
 	private ShapeRenderer debug;
+
+	public MovementAISystem()
+	{
+		this(null);
+	}
 	
 	public MovementAISystem(ShapeRenderer debug)
 	{
-		super(Family.all(PositionComponent.class, VelocityComponent.class, MovementAIComponent.class, CollisionHitboxComponent.class).get());
+		super(Family.all(PositionComponent.class, VelocityComponent.class, MovementAIComponent.class,
+				CollisionHitboxComponent.class).get());
 		this.debug = debug;
 	}
 
@@ -47,85 +53,83 @@ public class MovementAISystem extends IteratingSystem
 	protected void processEntity(Entity entity, float deltaTime)
 	{
 		MovementAIComponent mac = mam.get(entity);
-		
-		//TODO new pathfinding system
-		if(!mac.destinations.isEmpty())
+
+		// TODO new pathfinding system
+		if (!mac.destinations.isEmpty())
 		{
 			Engine engine = getEngine();
 			PositionComponent entityPosition = pm.get(entity);
 			VelocityComponent entityVelocity = vm.get(entity);
 			CollisionHitboxComponent entityHitbox = chm.get(entity);
-			
+
 			Vector2 entityPosition2d = new Vector2(entityPosition.pos.x, entityPosition.pos.y);
 			float unitMaxSpeed = mac.unitMaxSpeed;
-			
+
 			Vector2 nextDestination = mac.destinations.get(0);
-			
-			if(nextDestination.dst(entityPosition2d) >= entityHitbox.size / 2) 
+
+			if (nextDestination.dst(entityPosition2d) >= entityHitbox.size / 2)
 			{
 				CollisionDetector detector = new CollisionDetector(engine);
-				
-				Vector2 velocityVector = new Vector2(nextDestination.x - entityPosition2d.x, nextDestination.y - entityPosition2d.y);
-				velocityVector.setLength(unitMaxSpeed);
-				
-				Vector2 nexPathStartPoint = new Vector2().add(entityPosition2d).add(velocityVector);
-				
+
+				Vector2 nextDestinationVector = new Vector2(nextDestination.x - entityPosition2d.x,
+						nextDestination.y - entityPosition2d.y);
+				nextDestinationVector.setLength(unitMaxSpeed);
+
+				Vector2 nextPathStartPoint = new Vector2().add(entityPosition2d).add(nextDestinationVector);
+
 				Vector2 immediateMovementLocation = new Vector2();
-				immediateMovementLocation.add(new Vector2(velocityVector.x * deltaTime, velocityVector.y * deltaTime));
+				immediateMovementLocation.add(new Vector2(nextDestinationVector.x * deltaTime, nextDestinationVector.y * deltaTime));
 				immediateMovementLocation.add(entityPosition2d);
-				
-				
+
 				Circle hitboxCircle = new Circle(immediateMovementLocation, entityHitbox.size);
-				
+
 				debug.setColor(Color.GREEN);
-				debug.line(nexPathStartPoint, nextDestination);
-				debug.setColor(Color.YELLOW);
-				debug.circle(hitboxCircle.x, hitboxCircle.y, hitboxCircle.radius);
-				
-				detector.debugRectanglesHitbox(debug, CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac)));
-				
-				//if the unit's movements speed is near zero
-				
-				// if a collision is imminent
-				if(detector.isCircleCollisionRectangles(hitboxCircle, CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac))))
+				debug.line(nextPathStartPoint, nextDestination);
+//				debug.setColor(Color.YELLOW);
+//				debug.circle(hitboxCircle.x, hitboxCircle.y, hitboxCircle.radius);
+
+//				detector.debugRectanglesHitbox(debug,
+//						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac)));
+
+				// if the unit's movements speed is not at its max speed
+				if (/*detector.isCircleCollisionRectangles(hitboxCircle,
+						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac)))*/false)
 				{
-					searchNewPath(detector, entityPosition2d, nexPathStartPoint, nextDestination, mac);
-					
-					entityVelocity.velocity.setZero();
+					searchNewPath(detector, entityPosition2d, nextPathStartPoint, nextDestination, mac);
 				}
-				else //if not, proceed on current vector
+				else // if not, proceed on current vector
 				{
 					mac.initialNode = null;
-					
-					//debug.setColor(Color.RED);
-					//debug.line(new Vector2(), velocityVector);
-					
-					entityVelocity.velocity.set(velocityVector);
+
+					// debug.setColor(Color.RED);
+					// debug.line(new Vector2(), velocityVector);
+					entityVelocity.velocity.set(nextDestinationVector);
 				}
-				
+
 			}
-			else //unit's hitbox is at destination, remove current destination point and stops the unit there
+			else // unit's hitbox is at destination, remove current destination point and stops
+					// the unit there
 			{
+				mac.initialNode = null;
 				mac.destinations.remove(0);
 				entityVelocity.velocity.setZero();
 			}
 		}
 	}
-	
-	private void searchNewPath(CollisionDetector detector, Vector2 initialPoint, Vector2 startNode, Vector2 endNode, MovementAIComponent mac)
+
+	private void searchNewPath(CollisionDetector detector, Vector2 initialPoint, Vector2 startNode, Vector2 endNode,
+			MovementAIComponent mac)
 	{
-		if(mac.initialNode == null)
+		if (mac.initialNode == null)
 		{
 			mac.initialNode = new SearchNode(initialPoint);
 			mac.initialNode.isSearching = false;
 		}
 		else
 		{
-			
-			SearchNode validPath = SearchNode.getValidPath(mac.initialNode); 
-			if(validPath != null)
+			SearchNode validPath = SearchNode.getValidPath(mac.initialNode);
+			if (validPath != null)
 			{
-				System.out.println("new path found!");
 				SearchNode.debugLegacy(validPath, debug);
 			}
 			else

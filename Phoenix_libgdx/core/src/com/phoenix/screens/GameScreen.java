@@ -28,6 +28,7 @@ import com.phoenix.io.GameMap;
 import com.phoenix.io.JsonUtility;
 import com.phoenix.io.MapLoader;
 import com.phoenix.pathfinding.MovementNodeGraph;
+import com.phoenix.systems.CollisionSystem;
 import com.phoenix.systems.MovementAISystem;
 import com.phoenix.systems.MovementSystem;
 import com.phoenix.systems.RenderSystem;
@@ -76,8 +77,9 @@ public class GameScreen extends ScreenAdapter
 		prevCamDragPos = new Vector2();
 		
 		engine.addSystem(new RenderSystem(this));
-		engine.addSystem(new MovementSystem(shapeRenderer));
+		engine.addSystem(new MovementSystem());
 		engine.addSystem(new MovementAISystem(shapeRenderer));
+		engine.addSystem(new CollisionSystem(shapeRenderer));
 		
 		//engine.addSystem(new MovementSystem());
 

@@ -116,6 +116,7 @@ public class InputManager implements InputProcessor
 						//mac.knownPathGraph.addNode(new MovementNode(worldPos, "Destination"));
 						
 						//TODO deprecated
+						mac.initialNode = null;
 						mac.destinations.clear();
 						mac.destinations.add(worldPos);
 					}

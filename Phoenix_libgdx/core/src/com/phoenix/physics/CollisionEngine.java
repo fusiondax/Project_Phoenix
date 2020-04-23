@@ -1,11 +1,11 @@
 package com.phoenix.physics;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.PositionComponent;
@@ -13,45 +13,163 @@ import com.phoenix.components.VelocityComponent;
 
 public class CollisionEngine
 {
-	public static Vector2 getCollisionRepulsionVector(Entity collider, Entity collided, Vector2 colliderVelocityVector, ShapeRenderer debug)
+	public static Vector2 getCollisionRepulsionVector(Entity collider, Entity collided)
+	{
+		return CollisionEngine.getCollisionRepulsionVector(collider, collided, null);
+	}
+
+	public static Vector2 getCollisionRepulsionVector(Entity collider, Entity collided, ShapeRenderer debug)
+	{
+		CollisionHitboxComponent collidedHitbox = collided.getComponent(CollisionHitboxComponent.class);
+		
+		Vector2 repulsionVector = new Vector2();
+		
+		switch(collidedHitbox.hitboxShape)
+		{
+			case "Circle":
+			{
+				repulsionVector = collideCircles(collider, collided);
+				break;
+			}
+			
+			case "Rectangle":
+			{
+				repulsionVector = collideRectangles(collider, collided);
+				break;
+			}
+		}
+		
+		if (debug != null)
+		{
+			debug.setColor(Color.BLUE);
+			debug.line(new Vector2(), repulsionVector);
+			debug.circle(repulsionVector.x, repulsionVector.y, 10);
+		}
+
+		return repulsionVector;
+	}
+
+	public static Vector2 collideCircles(Entity collider, Entity collided)
+	{
+		PositionComponent colliderPosition = collider.getComponent(PositionComponent.class);
+		Vector2 colliderPosition2D = new Vector2(colliderPosition.pos.x, colliderPosition.pos.y);
+		Vector2 colliderVelocityVector = collider.getComponent(VelocityComponent.class).velocity;
+
+		PositionComponent collidedPosition = collided.getComponent(PositionComponent.class);
+		Vector2 collidedPosition2D = new Vector2(collidedPosition.pos.x, collidedPosition.pos.y);
+		
+		Vector2 repulsionVector = new Vector2();
+		
+		Vector2 collisionVector = new Vector2().add(collidedPosition2D).sub(colliderPosition2D);
+
+		float collisionVectorAngle = collisionVector.angle();
+		float colliderVelocityVectorAngle = colliderVelocityVector.angle();
+
+		if (collisionVectorAngle > 180)
+		{
+			collisionVectorAngle -= 180;
+		}
+		if (colliderVelocityVectorAngle > 180)
+		{
+			colliderVelocityVectorAngle -= 180;
+		}
+
+		float repulsionValue = (float) Math
+				.cos(Math.toRadians(Math.abs(colliderVelocityVectorAngle - collisionVectorAngle)))
+				* colliderVelocityVector.len();
+
+		repulsionVector = collisionVector.rotate(180).setLength(repulsionValue);
+		
+		return repulsionVector;
+	}
+
+	public static Vector2 collideRectangles(Entity collider, Entity collided)
 	{
 		PositionComponent colliderPosition = collider.getComponent(PositionComponent.class);
 		CollisionHitboxComponent colliderHitbox = collider.getComponent(CollisionHitboxComponent.class);
 		Vector2 colliderPosition2D = new Vector2(colliderPosition.pos.x, colliderPosition.pos.y);
+		Vector2 colliderVelocityVector = collider.getComponent(VelocityComponent.class).velocity;
 
 		PositionComponent collidedPosition = collided.getComponent(PositionComponent.class);
 		CollisionHitboxComponent collidedHitbox = collided.getComponent(CollisionHitboxComponent.class);
 		Vector2 collidedPosition2D = new Vector2(collidedPosition.pos.x, collidedPosition.pos.y);
 
-		Vector2 collisionVector = new Vector2().add(collidedPosition2D).sub(colliderPosition2D);
+		Vector2 repulsionVector = new Vector2();
 
-		float collisionVectorAngle = collisionVector.angle();
-		float colliderVelocityVectorAngle = colliderVelocityVector.angle();
-		
-		if(collisionVectorAngle > 180)
+		// collider coming from the right
+		if ((colliderPosition2D.x - colliderHitbox.size / 2) > (collidedPosition2D.x + collidedHitbox.size / 2))
 		{
-			collisionVectorAngle -= 180;
+			if(colliderVelocityVector.x < 0)
+			{
+				repulsionVector.x = -colliderVelocityVector.x;
+			}
 		}
-		if(colliderVelocityVectorAngle > 180)
+		// collider coming from the left
+		else if((colliderPosition2D.x + colliderHitbox.size / 2) < (collidedPosition2D.x - collidedHitbox.size / 2))
 		{
-			colliderVelocityVectorAngle -= 180;
+			if(colliderVelocityVector.x > 0)
+			{
+				repulsionVector.x = -colliderVelocityVector.x;
+			}
 		}
-		
-		float repulsionValue = (float) Math
-				.cos(Math.toRadians(Math.abs(colliderVelocityVectorAngle - collisionVectorAngle))) * colliderVelocityVector.len();
 
-		Vector2 repulsionVector = collisionVector.rotate(180).setLength(repulsionValue);
-
-//		debug.setColor(Color.BLUE);
-//		debug.line(new Vector2(), repulsionVector);
-//		debug.circle(repulsionVector.x, repulsionVector.y, 10);
-
+		// collider coming from the bottom
+		else if ((colliderPosition2D.y + colliderHitbox.size / 2) < (collidedPosition2D.y - collidedHitbox.size / 2))
+		{
+			if(colliderVelocityVector.y > 0)
+			{
+				repulsionVector.y = -colliderVelocityVector.y;
+			}
+		}
+		// collider coming from the top
+		else if ((colliderPosition2D.y - colliderHitbox.size / 2) > (collidedPosition2D.y + collidedHitbox.size / 2))
+		{
+			if(colliderVelocityVector.y < 0)
+			{
+				repulsionVector.y = -colliderVelocityVector.y;
+			}
+		}
 		return repulsionVector;
 	}
 
-	public static Vector2 collideCircles()
+	public static Shape2D getShapeFromEntity(Entity entity)
 	{
-		return null;
+		return CollisionEngine.getShapeFromEntity(entity, null);
+	}
+
+	public static Shape2D getShapeFromEntity(Entity entity, ShapeRenderer debug)
+	{
+		PositionComponent pc = entity.getComponent(PositionComponent.class);
+		CollisionHitboxComponent chc = entity.getComponent(CollisionHitboxComponent.class);
+
+		Shape2D shape = null;
+		switch (chc.hitboxShape)
+		{
+			case "Circle":
+			{
+				shape = new Circle(pc.pos.x, pc.pos.y, chc.size);
+
+				if (debug != null)
+				{
+					debug.setColor(Color.ORANGE);
+					debug.circle(pc.pos.x, pc.pos.y, chc.size);
+				}
+				break;
+			}
+
+			case "Rectangle":
+			{
+				shape = new Rectangle(pc.pos.x - chc.size / 2, pc.pos.y - chc.size / 2, chc.size, chc.size);
+
+				if (debug != null)
+				{
+					debug.setColor(Color.ORANGE);
+					debug.rect(pc.pos.x - chc.size / 2, pc.pos.y - chc.size / 2, chc.size, chc.size);
+				}
+				break;
+			}
+		}
+		return shape;
 	}
 
 }
