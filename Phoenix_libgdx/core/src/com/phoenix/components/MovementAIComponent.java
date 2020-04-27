@@ -12,6 +12,7 @@ import com.phoenix.pathfinding.SearchNode;
 
 public class MovementAIComponent implements Component, Serializable
 {
+	public static final int START_PATHFINDING_DELAY_MAX = 60;
 	public MovementNodeGraph knownPathGraph = new MovementNodeGraph();
 	public ArrayList<String> passableTerrains = new ArrayList<String>();
 	
@@ -21,17 +22,17 @@ public class MovementAIComponent implements Component, Serializable
 	
 	public float unitMaxSpeed = 0.0f;
 	
+	public int startPathfindingDelay = START_PATHFINDING_DELAY_MAX;
+	
 	@Override
 	public void write(Json json)
 	{
-		//TODO we might want to save the entity's known path graph
 		
 	}
 	
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		
 		
 	}
 }

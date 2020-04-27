@@ -109,14 +109,8 @@ public class InputManager implements InputProcessor
 					PositionComponent pc = e.getComponent(PositionComponent.class);
 					if(mac != null && pc != null)
 					{
-						// add a node where the unit currently is
-						//mac.knownPathGraph.addNode(new MovementNode(new Vector2(pc.pos.x, pc.pos.y), "Origin"));
-						
-						// add a node to the final destination
-						//mac.knownPathGraph.addNode(new MovementNode(worldPos, "Destination"));
-						
-						//TODO deprecated
 						mac.initialNode = null;
+						mac.startPathfindingDelay = MovementAIComponent.START_PATHFINDING_DELAY_MAX;
 						mac.destinations.clear();
 						mac.destinations.add(worldPos);
 					}

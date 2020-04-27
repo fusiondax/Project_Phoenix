@@ -55,7 +55,7 @@ public class CollisionSystem extends IteratingSystem
 		// remove self from list of close by entities...
 		proximityEntities.remove(entity);
 
-		Shape2D hitbox = CollisionEngine.getShapeFromEntity(entity, debug);
+		Shape2D hitbox = CollisionEngine.getShapeFromEntity(entity);
 
 		for (Entity e : proximityEntities)
 		{

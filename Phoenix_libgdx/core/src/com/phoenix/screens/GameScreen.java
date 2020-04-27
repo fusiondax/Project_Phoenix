@@ -65,7 +65,7 @@ public class GameScreen extends ScreenAdapter
 		Gdx.input.setInputProcessor(inputs);
 		
 		//TODO put this somewhere else
-		MapLoader.convertTiledMapToGameMap("dummy thick compatible.tmx", "test_map_write.json");
+		MapLoader.convertTiledMapToGameMap("maze_compatible.tmx", "test_map_write.json");
 		
 		engine = new Engine();
 		loadGameMap("test_map_write.json");

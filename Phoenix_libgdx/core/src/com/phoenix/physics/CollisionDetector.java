@@ -178,6 +178,30 @@ public class CollisionDetector
 		}
 		return proxyEntities;
 	}
+	
+	public ArrayList<Entity> getEntitiesWithinBounds(Vector2 bound1, Vector2 bound2, Family whitelist)
+	{
+		ImmutableArray<Entity> allEntities = new ImmutableArray<Entity>(new Array<Entity>());
+		
+		if (whitelist == null)
+		{
+			allEntities = engine.getEntities();
+		}
+		else
+		{
+			allEntities = engine.getEntitiesFor(whitelist);
+		}
+		
+		ArrayList<Entity> proxyEntities = new ArrayList<Entity>();
+		
+		Vector2 lowerLeftCorner = new Vector2(Math.min(bound1.x, bound2.x), Math.min(bound1.y, bound2.y));
+		Vector2 upperRightCorner = new Vector2(Math.max(bound1.x, bound2.x), Math.max(bound1.y, bound2.y));
+		
+		Entity lowerLeftEntity = getEntityAtLocation(lowerLeftCorner);
+		Entity upperRightEntity = getEntityAtLocation(upperRightCorner);
+		
+		return proxyEntities;
+	}
 
 	public Entity getEntityAtLocation(Vector2 location)
 	{

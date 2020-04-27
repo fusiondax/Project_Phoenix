@@ -24,14 +24,14 @@ public class RenderSystem extends IteratingSystem
 	private ComponentMapper<CollisionHitboxComponent> chm = ComponentMapper.getFor(CollisionHitboxComponent.class);
 	
 	private SpriteBatch batch;
-	private ShapeRenderer shapeRenderer;
+	private ShapeRenderer debug;
 	
 	public RenderSystem(GameScreen screen)
 	{
 		super(Family.all(GraphicComponent.class, PositionComponent.class).get());
 		
 		this.batch = screen.game.gameBatcher;
-		this.shapeRenderer = screen.shapeRenderer;
+		this.debug = screen.shapeRenderer;
 	}
 	
 	@Override
@@ -50,8 +50,7 @@ public class RenderSystem extends IteratingSystem
 		{
 			if(select.selected)
 			{
-				
-				shapeRenderer.circle(pos.pos.x, pos.pos.y, hitbox.size);
+				debug.circle(pos.pos.x, pos.pos.y, hitbox.size);
 			}
 		}
 		
