@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.SelectionComponent;
-import com.phoenix.pathfinding.MovementNode;
 import com.phoenix.components.GraphicComponent;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.utility.MathUtility;
@@ -109,7 +108,6 @@ public class InputManager implements InputProcessor
 					PositionComponent pc = e.getComponent(PositionComponent.class);
 					if(mac != null && pc != null)
 					{
-						mac.initialNode = null;
 						mac.startPathfindingDelay = MovementAIComponent.START_PATHFINDING_DELAY_MAX;
 						mac.destinations.clear();
 						mac.destinations.add(worldPos);

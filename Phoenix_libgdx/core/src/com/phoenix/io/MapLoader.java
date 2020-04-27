@@ -5,16 +5,11 @@ import java.util.ArrayList;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.GraphicComponent;
@@ -177,7 +172,6 @@ public class MapLoader
 				case "CollisionHitbox":
 				{
 					comp = new CollisionHitboxComponent();
-					//TODO import stuff for collisionhitbox
 					if(componentsJson.get("shape") != null && componentsJson.get("size") != null)
 					{
 						((CollisionHitboxComponent) comp).hitboxShape = componentsJson.get("shape").asString();

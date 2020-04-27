@@ -31,7 +31,7 @@ public class CollisionDetector
 	
 	public static boolean isShapeCollisionShape(Shape2D shape1, Shape2D shape2)
 	{
-		// TODO  this is super ugly, and I don,t know how to make it cleaner...
+		// TODO  this is super ugly, and I don't know how to make it cleaner...
 		boolean intersected = false;
 		
 		if(shape1 instanceof Circle)
@@ -65,6 +65,7 @@ public class CollisionDetector
 		return false;
 	}
 	
+	
 	public boolean isRectangleCollisionHitboxes(Rectangle entityHitbox, ArrayList<CollisionHitboxComponent> hitboxes)
 	{
 		return false;
@@ -93,6 +94,21 @@ public class CollisionDetector
 		for (Rectangle rect : rects)
 		{
 			if (rect.contains(targetLocation))
+			{
+				isCollision = true;
+				break;
+			}
+		}
+		return isCollision;
+	}
+	
+	public boolean isSegmentCollisionRectangles(Vector2 segmentStart, Vector2 segmentEnd, ArrayList<Rectangle> rects)
+	{
+		boolean isCollision = false;
+
+		for (Rectangle rect : rects)
+		{
+			if (Intersector.intersectSegmentRectangle(segmentStart, segmentEnd, rect))
 			{
 				isCollision = true;
 				break;
@@ -179,30 +195,6 @@ public class CollisionDetector
 		return proxyEntities;
 	}
 	
-	public ArrayList<Entity> getEntitiesWithinBounds(Vector2 bound1, Vector2 bound2, Family whitelist)
-	{
-		ImmutableArray<Entity> allEntities = new ImmutableArray<Entity>(new Array<Entity>());
-		
-		if (whitelist == null)
-		{
-			allEntities = engine.getEntities();
-		}
-		else
-		{
-			allEntities = engine.getEntitiesFor(whitelist);
-		}
-		
-		ArrayList<Entity> proxyEntities = new ArrayList<Entity>();
-		
-		Vector2 lowerLeftCorner = new Vector2(Math.min(bound1.x, bound2.x), Math.min(bound1.y, bound2.y));
-		Vector2 upperRightCorner = new Vector2(Math.max(bound1.x, bound2.x), Math.max(bound1.y, bound2.y));
-		
-		Entity lowerLeftEntity = getEntityAtLocation(lowerLeftCorner);
-		Entity upperRightEntity = getEntityAtLocation(upperRightCorner);
-		
-		return proxyEntities;
-	}
-
 	public Entity getEntityAtLocation(Vector2 location)
 	{
 		return getEntityAtLocation(location, null);

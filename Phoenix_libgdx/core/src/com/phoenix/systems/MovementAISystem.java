@@ -17,20 +17,13 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polyline;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.collision.BoundingBox;
-import com.badlogic.gdx.math.collision.Ray;
 import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.VelocityComponent;
 import com.phoenix.game.Phoenix;
-import com.phoenix.pathfinding.SearchNode;
 import com.phoenix.physics.CollisionDetector;
 import com.phoenix.utility.GameUtility;
 
@@ -60,7 +53,6 @@ public class MovementAISystem extends IteratingSystem
 	{
 		MovementAIComponent mac = mam.get(entity);
 
-		// TODO new pathfinding system
 		if (!mac.destinations.isEmpty())
 		{
 			Engine engine = getEngine();
@@ -90,15 +82,12 @@ public class MovementAISystem extends IteratingSystem
 
 				Circle hitboxCircle = new Circle(immediateMovementLocation, entityHitbox.size);
 
-				debug.setColor(Color.GREEN);
-				debug.line(nextPathStartPoint, nextDestination);
+				// debug.setColor(Color.GREEN);
+				// debug.line(nextPathStartPoint, nextDestination);
 				// debug.setColor(Color.YELLOW);
 				// debug.circle(hitboxCircle.x, hitboxCircle.y, hitboxCircle.radius);
 
-				// detector.debugRectanglesHitbox(debug,
-				// CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac)));
-
-				// if the unit's movements speed is not at its max speed
+				// if the unit is colliding with something for more than a second
 				if (detector.isCircleCollisionRectangles(hitboxCircle,
 						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac))))
 				{
@@ -113,20 +102,19 @@ public class MovementAISystem extends IteratingSystem
 				}
 				else // if not, proceed on current vector
 				{
-					mac.initialNode = null;
 					mac.startPathfindingDelay = MovementAIComponent.START_PATHFINDING_DELAY_MAX;
 
 					// debug.setColor(Color.RED);
 					// debug.line(new Vector2(), velocityVector);
 
 				}
+				// debugFoundPath(mac.destinations);
 				entityVelocity.velocity.set(nextDestinationVector);
 
 			}
 			else // unit's hitbox is at destination, remove current destination point and stops
 					// the unit there
 			{
-				mac.initialNode = null;
 				mac.destinations.remove(0);
 				entityVelocity.velocity.setZero();
 			}
@@ -158,15 +146,15 @@ public class MovementAISystem extends IteratingSystem
 			int y = (int) terrainPos2D.y / Phoenix.TERRAIN_SIZE;
 			boolean isPassableTerrain = mac.passableTerrains.contains(terrainComp.type);
 
-//			if (isPassableTerrain)
-//			{
-//				debug.setColor(Color.YELLOW);
-//			}
-//			else
-//			{
-//				debug.setColor(Color.RED);
-//			}
-//			debug.circle(terrainPos2D.x, terrainPos2D.y, 10);
+//			 if (isPassableTerrain)
+//			 {
+//			 debug.setColor(Color.YELLOW);
+//			 }
+//			 else
+//			 {
+//			 debug.setColor(Color.RED);
+//			 }
+//			 debug.circle(terrainPos2D.x, terrainPos2D.y, 10);
 
 			cells[x][y] = new GridCell(x, y, isPassableTerrain);
 		}
@@ -177,12 +165,12 @@ public class MovementAISystem extends IteratingSystem
 		AStarGridFinder<GridCell> finder = new AStarGridFinder<GridCell>(GridCell.class, opt);
 
 		Vector2 startTerrainPosition2D = new Vector2(startTerrainPos.pos.x, startTerrainPos.pos.y);
-//		debug.setColor(Color.WHITE);
-//		debug.circle(startTerrainPosition2D.x, startTerrainPosition2D.y, 15);
+		// debug.setColor(Color.WHITE);
+		// debug.circle(startTerrainPosition2D.x, startTerrainPosition2D.y, 15);
 
 		Vector2 endTerrainPosition2D = new Vector2(endTerrainPos.pos.x, endTerrainPos.pos.y);
-//		debug.setColor(Color.BLACK);
-//		debug.circle(endTerrainPosition2D.x, endTerrainPosition2D.y, 15);
+		// debug.setColor(Color.BLACK);
+		// debug.circle(endTerrainPosition2D.x, endTerrainPosition2D.y, 15);
 
 		int startXcoord = (int) startTerrainPosition2D.x / Phoenix.TERRAIN_SIZE;
 		int startYcoord = (int) startTerrainPosition2D.y / Phoenix.TERRAIN_SIZE;
@@ -191,24 +179,18 @@ public class MovementAISystem extends IteratingSystem
 
 		try
 		{
-			// long startTime = System.nanoTime();
-
 			List<GridCell> pathToEnd = finder.findPath(cells[startXcoord][startYcoord], cells[endXcoord][endYcoord],
 					navGrid);
 
-			// long timeToInstantiateGrid = System.nanoTime();
-			// System.out.println("---------------------------------");
-			// System.out.println("time to find path in nanoseconds: " +
-			// (timeToInstantiateGrid - startTime));
 			if (pathToEnd != null)
 			{
-				// System.out.println("pathToEnd: " + pathToEnd.toString());
-
 				ArrayList<Vector2> convertedPath = getConvertedCoordinates(pathToEnd);
 
-				//debugFoundPath(convertedPath);
-				
-				convertedPath = getOptimizedPath(convertedPath);
+				// debugFoundPath(convertedPath);
+				if(convertedPath.size() > 0)
+				{
+					convertedPath = getOptimizedPath(convertedPath, detector, mac);
+				}
 
 				updateEntityDestinations(mac, convertedPath);
 			}
@@ -222,32 +204,6 @@ public class MovementAISystem extends IteratingSystem
 		{
 			System.out.println(e.toString());
 		}
-
-		// if (mac.initialNode == null)
-		// {
-		// PositionComponent startTilePosition =
-		// detector.getEntityAtLocation(initialPoint).getComponent(PositionComponent.class);
-		// if(startTilePosition != null)
-		// {
-		// Vector2 startTile = new Vector2(startTilePosition.pos.x,
-		// startTilePosition.pos.y);
-		// mac.initialNode = new SearchNode(startTile);
-		// mac.initialNode.isSearching = false;
-		// }
-		// }
-		// else
-		// {
-		// SearchNode validPath = SearchNode.getValidPath(mac.initialNode);
-		// if (validPath != null)
-		// {
-		// SearchNode.debugLegacy(validPath, debug);
-		// }
-		// else
-		// {
-		// mac.initialNode.startRecursiveSearch(detector, mac, startNode, endNode,
-		// debug);
-		// }
-		// }
 	}
 
 	private void updateEntityDestinations(MovementAIComponent mac, ArrayList<Vector2> newPath)
@@ -271,23 +227,59 @@ public class MovementAISystem extends IteratingSystem
 
 		return convertedPath;
 	}
-	
-	private ArrayList<Vector2> getOptimizedPath(ArrayList<Vector2> pathToOptimize)
+
+	private ArrayList<Vector2> getOptimizedPath(ArrayList<Vector2> pathToOptimize, CollisionDetector detector, MovementAIComponent mac)
 	{
-		ArrayList<Vector2> optimizedPath = new ArrayList<Vector2>();
-		for (Vector2 node : pathToOptimize)
+		ArrayList<Vector2> pathToOptimizeWithMidNodes = new ArrayList<Vector2>();
+
+		pathToOptimizeWithMidNodes.add(pathToOptimize.get(0));
+		for (int i = 0; i < pathToOptimize.size() - 1; i++)
 		{
-			//step 1: 
-			
-			
-			
-			optimizedPath.add(node);
+			// step 1: create nodes between each existing nodes and add them to the node
+			// list in the correct order
+			Vector2 node = pathToOptimize.get(i);
+
+			Vector2 nextNode = pathToOptimize.get(i + 1);
+
+			// create the mid node using the average between the current node and the next
+			// node's position
+			Vector2 midNode = new Vector2((node.x + nextNode.x) / 2, (node.y + nextNode.y) / 2);
+
+			pathToOptimizeWithMidNodes.add(midNode);
+			pathToOptimizeWithMidNodes.add(nextNode);
+
 		}
-		
+
+		// step 2: from the first node, attemps to connect to the latest nodes until it
+		// finds a node that connects. repeat this step until the last node is reached,
+		// each time using the
+		// node that the connection was made with
+		ArrayList<Vector2> optimizedPath = new ArrayList<Vector2>();
+
+		Vector2 startNodeToConnect = pathToOptimizeWithMidNodes.get(0);
+
+		optimizedPath.add(startNodeToConnect);
+
+		// while the start node is not the last node
+		while (!startNodeToConnect.equals(pathToOptimizeWithMidNodes.get(pathToOptimizeWithMidNodes.size() - 1)))
+		{
+			for (int endNodeIndex = pathToOptimizeWithMidNodes.size() - 1; endNodeIndex > pathToOptimizeWithMidNodes
+					.indexOf(startNodeToConnect); endNodeIndex--)
+			{
+				Vector2 endNodeToConnect = pathToOptimizeWithMidNodes.get(endNodeIndex);
+				
+				if (!detector.isSegmentCollisionRectangles(startNodeToConnect, endNodeToConnect,
+						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac))))
+				{
+					optimizedPath.add(endNodeToConnect);
+					startNodeToConnect = endNodeToConnect;
+					break;
+				}
+			}
+		}
 
 		return optimizedPath;
 	}
-	
 
 	public void debugFoundPath(ArrayList<Vector2> path)
 	{
