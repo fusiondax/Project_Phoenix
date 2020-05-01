@@ -21,13 +21,22 @@
 			"size": 20.0
 		},
 		{
+			"component_type": "Ownership"
+		},
+		{
 			"component_type": "Selection",
 			"mode": "any"
 		},
 		{
 			"component_type": "MovementAI",
 			"unitMaxSpeed": 100.0,
-			"passable_terrain": ["solid", "liquid"]
+		},
+		{
+			"component_type": "ValidTerrainTypes",
+			"types": ["solid", "liquid"]
+		},
+		{
+			"component_type": "Buildable"
 		}
 	]
 }

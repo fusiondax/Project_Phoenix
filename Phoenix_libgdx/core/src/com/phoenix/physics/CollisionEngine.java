@@ -86,18 +86,20 @@ public class CollisionEngine
 	public static Vector2 collideRectangles(Entity collider, Entity collided)
 	{
 		PositionComponent colliderPosition = collider.getComponent(PositionComponent.class);
-		CollisionHitboxComponent colliderHitbox = collider.getComponent(CollisionHitboxComponent.class);
 		Vector2 colliderPosition2D = new Vector2(colliderPosition.pos.x, colliderPosition.pos.y);
 		Vector2 colliderVelocityVector = collider.getComponent(VelocityComponent.class).velocity;
 
 		PositionComponent collidedPosition = collided.getComponent(PositionComponent.class);
-		CollisionHitboxComponent collidedHitbox = collided.getComponent(CollisionHitboxComponent.class);
 		Vector2 collidedPosition2D = new Vector2(collidedPosition.pos.x, collidedPosition.pos.y);
 
 		Vector2 repulsionVector = new Vector2();
-
+		
+		Vector2 angleVector = new Vector2().add(colliderPosition2D).sub(collidedPosition2D);
+		
+		float angle = angleVector.angle();
+		
 		// collider coming from the right
-		if ((colliderPosition2D.x - colliderHitbox.size / 2) > (collidedPosition2D.x + collidedHitbox.size / 2))
+		if(angle > 315 || angle < 45)
 		{
 			if(colliderVelocityVector.x < 0)
 			{
@@ -105,16 +107,15 @@ public class CollisionEngine
 			}
 		}
 		// collider coming from the left
-		else if((colliderPosition2D.x + colliderHitbox.size / 2) < (collidedPosition2D.x - collidedHitbox.size / 2))
+		else if(angle > 135 && angle < 225)
 		{
 			if(colliderVelocityVector.x > 0)
 			{
 				repulsionVector.x = -colliderVelocityVector.x;
 			}
 		}
-
 		// collider coming from the bottom
-		else if ((colliderPosition2D.y + colliderHitbox.size / 2) < (collidedPosition2D.y - collidedHitbox.size / 2))
+		else if(angle > 225 && angle < 315)
 		{
 			if(colliderVelocityVector.y > 0)
 			{
@@ -122,13 +123,14 @@ public class CollisionEngine
 			}
 		}
 		// collider coming from the top
-		else if ((colliderPosition2D.y - colliderHitbox.size / 2) > (collidedPosition2D.y + collidedHitbox.size / 2))
+		else if((angle > 45 && angle < 135))
 		{
 			if(colliderVelocityVector.y < 0)
 			{
 				repulsionVector.y = -colliderVelocityVector.y;
 			}
 		}
+		
 		return repulsionVector;
 	}
 

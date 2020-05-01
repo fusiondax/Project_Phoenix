@@ -11,13 +11,17 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.phoenix.components.BuildableComponent;
+import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.GraphicComponent;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.NameComponent;
+import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.SelectionComponent;
 import com.phoenix.components.TerrainComponent;
+import com.phoenix.components.ValidTerrainTypesComponent;
 import com.phoenix.components.VelocityComponent;
 
 public class MapLoader
@@ -96,10 +100,25 @@ public class MapLoader
 				
 				// once the entity was initialized, we need to give it its's map-specific attributes
 				PositionComponent p = e.getComponent(PositionComponent.class);
-
-				p.pos.x = Float.parseFloat(mo.getProperties().get("x").toString());
-				p.pos.y = Float.parseFloat(mo.getProperties().get("y").toString());
-
+				if(p != null)
+				{
+					p.pos.x = Float.parseFloat(mo.getProperties().get("x").toString());
+					p.pos.y = Float.parseFloat(mo.getProperties().get("y").toString());
+				}
+				
+				OwnershipComponent o = e.getComponent(OwnershipComponent.class);
+				if(o != null)
+				{
+					o.owner = mo.getProperties().get("owner").toString();
+				}
+				
+				CollectibleBlueprintComponent coll = e.getComponent(CollectibleBlueprintComponent.class);
+				if(coll != null)
+				{
+					coll.buildableEntityName = mo.getProperties().get("buildableEntityName").toString();
+					coll.amount = Integer.parseInt(mo.getProperties().get("amount").toString());
+				}
+				
 				/*System.out.println("terrain: " + mo.getName() + " X:" + mo.getProperties().get("x").toString() + " Y:"
 						+ mo.getProperties().get("y").toString());*/
 
@@ -160,6 +179,7 @@ public class MapLoader
 				case "Position":
 				{
 					comp = new PositionComponent();
+					
 					break;
 				}
 	
@@ -187,17 +207,21 @@ public class MapLoader
 					{
 						((MovementAIComponent) comp).unitMaxSpeed = componentsJson.get("unitMaxSpeed").asFloat();
 					}
-					
-					if (componentsJson.get("passable_terrain") != null)
+					break;
+				}
+				
+				case "ValidTerrainTypes":
+				{
+					comp = new ValidTerrainTypesComponent();
+					if(componentsJson.get("types") != null)
 					{
-						String[] terrains = componentsJson.get("passable_terrain").asStringArray();
+						String[] terrains = componentsJson.get("types").asStringArray();
 						
 						for(int i = 0; i < terrains.length; i++)
 						{
-							((MovementAIComponent) comp).passableTerrains.add(terrains[i]);
+							((ValidTerrainTypesComponent) comp).types.add(terrains[i]);
 						}
 					}
-					
 					break;
 				}
 	
@@ -218,9 +242,27 @@ public class MapLoader
 					}
 					break;
 				}
+				
+				case "Ownership":
+				{
+					comp = new OwnershipComponent();
+					break;
+				}
+				
+				case "CollectibleBlueprint":
+				{
+					comp = new CollectibleBlueprintComponent();
+					break;
+				}
+				
+				case "Buildable":
+				{
+					comp = new BuildableComponent();
+					
+					break;
+				}
 			}
 			entity.add(comp);
-
 		}
 		return entity;
 	}
@@ -230,13 +272,29 @@ public class MapLoader
 		for(Component comp : mapLoadedComponents)
 		{
 			String className = comp.getClass().getSimpleName();
-			//System.out.println(className);
+			
 			switch(className)
 			{
 				case "PositionComponent":
 				{
 					PositionComponent entityPos = initialEntity.getComponent(PositionComponent.class);
 					entityPos.pos.set(((PositionComponent) comp).pos);
+					break;
+				}
+				
+				case "OwnershipComponent":
+				{
+					OwnershipComponent entityOwner = initialEntity.getComponent(OwnershipComponent.class);
+					entityOwner.owner = ((OwnershipComponent) comp).owner;
+					break;
+				}
+				
+				case "CollectibleBlueprintComponent":
+				{
+					System.out.println("wow");
+					CollectibleBlueprintComponent entityBlueprint = initialEntity.getComponent(CollectibleBlueprintComponent.class);
+					entityBlueprint.buildableEntityName = ((CollectibleBlueprintComponent) comp).buildableEntityName;
+					entityBlueprint.amount = ((CollectibleBlueprintComponent) comp).amount;
 					break;
 				}
 			}

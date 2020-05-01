@@ -15,9 +15,9 @@ import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.phoenix.components.CollisionHitboxComponent;
-import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.TerrainComponent;
+import com.phoenix.components.ValidTerrainTypesComponent;
 
 public class CollisionDetector
 {
@@ -117,28 +117,32 @@ public class CollisionDetector
 		return isCollision;
 	}
 
-	public ArrayList<Entity> getImpassableTerrains(MovementAIComponent mac)
+	public ArrayList<Entity> getImpassableTerrains(ValidTerrainTypesComponent vttc)
 	{
-		// TODO potentially poorly optimized
-		// get all terrains
-		ImmutableArray<Entity> allTerrainEntities = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
-
-		// remove terrains that are accessible to the moving entity to only have
-		// terrains that blocks the entity
-
 		ArrayList<Entity> blockingTerrains = new ArrayList<Entity>();
-
-		ArrayList<String> passableTerrains = mac.passableTerrains;
-
-		for (Entity e : allTerrainEntities)
+		
+		if(vttc != null)
 		{
-			TerrainComponent t = e.getComponent(TerrainComponent.class);
-
-			if (!passableTerrains.contains(t.type))
+			// TODO potentially poorly optimized
+			// get all terrains
+			ImmutableArray<Entity> allTerrainEntities = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
+	
+			// remove terrains that are accessible to the moving entity to only have
+			// terrains that blocks the entity
+	
+			ArrayList<String> passableTerrains = vttc.types;
+	
+			for (Entity e : allTerrainEntities)
 			{
-				blockingTerrains.add(e);
+				TerrainComponent t = e.getComponent(TerrainComponent.class);
+	
+				if (!passableTerrains.contains(t.type))
+				{
+					blockingTerrains.add(e);
+				}
 			}
 		}
+		
 		return blockingTerrains;
 	}
 

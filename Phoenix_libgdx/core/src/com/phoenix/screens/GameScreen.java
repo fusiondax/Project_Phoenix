@@ -1,6 +1,7 @@
 package com.phoenix.screens;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -14,9 +15,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.game.Phoenix;
+import com.phoenix.game.Player;
 import com.phoenix.input.InputManager;
 import com.phoenix.io.JsonUtility;
 import com.phoenix.io.MapLoader;
+import com.phoenix.systems.BlueprintCollectionSystem;
 import com.phoenix.systems.CollisionSystem;
 import com.phoenix.systems.MovementAISystem;
 import com.phoenix.systems.MovementSystem;
@@ -25,6 +28,9 @@ import com.phoenix.ui.InGameUI;
 
 public class GameScreen extends ScreenAdapter
 {
+	// TODO revamp this
+	public static final String ACTIVE_PLAYER_NAME = "Player1";
+	
 	public Phoenix game;
 
 	public InGameUI guiStage;
@@ -36,25 +42,29 @@ public class GameScreen extends ScreenAdapter
 	
 	public ShapeRenderer shapeRenderer;
 	
+	public HashMap<String, Player> playerList;
+	
 	public Vector2 prevCamDragPos;
 	public Rectangle selectionBox;
-	public ArrayList<Entity> selectedEntities;
 	
 	public GameScreen(Phoenix game)
 	{
 		this.game = game;
 		
-		guiStage = new InGameUI(this);
-		
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.position.set(0, 0, 0);
+		
+		playerList = new HashMap<String, Player>();
+		playerList.put(ACTIVE_PLAYER_NAME, new Player(ACTIVE_PLAYER_NAME));
+		
+		guiStage = new InGameUI(this);
 		
 		inputs = new InputMultiplexer(new InputManager(this), guiStage);
 		
 		Gdx.input.setInputProcessor(inputs);
 		
 		//TODO put this somewhere else
-		MapLoader.convertTiledMapToGameMap("maze_compatible.tmx", "test_map_write.json");
+		MapLoader.convertTiledMapToGameMap("maze_alt_2_compatible.tmx", "test_map_write.json");
 		
 		engine = new Engine();
 		loadGameMap("test_map_write.json");
@@ -62,13 +72,13 @@ public class GameScreen extends ScreenAdapter
 		selectionBox = new Rectangle();
 		shapeRenderer = new ShapeRenderer();
 		
-		selectedEntities = new ArrayList<Entity>();
 		prevCamDragPos = new Vector2();
 		
 		engine.addSystem(new RenderSystem(this));
 		engine.addSystem(new MovementSystem());
 		engine.addSystem(new MovementAISystem(shapeRenderer));
 		engine.addSystem(new CollisionSystem(shapeRenderer));
+		engine.addSystem(new BlueprintCollectionSystem(this));
 		
 		//engine.addSystem(new MovementSystem());
 

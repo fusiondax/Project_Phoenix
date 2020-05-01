@@ -22,6 +22,7 @@ import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.TerrainComponent;
+import com.phoenix.components.ValidTerrainTypesComponent;
 import com.phoenix.components.VelocityComponent;
 import com.phoenix.game.Phoenix;
 import com.phoenix.physics.CollisionDetector;
@@ -33,6 +34,7 @@ public class MovementAISystem extends IteratingSystem
 	private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
 	private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
 	private ComponentMapper<CollisionHitboxComponent> chm = ComponentMapper.getFor(CollisionHitboxComponent.class);
+	private ComponentMapper<ValidTerrainTypesComponent> vttm = ComponentMapper.getFor(ValidTerrainTypesComponent.class);
 
 	private ShapeRenderer debug;
 
@@ -44,7 +46,7 @@ public class MovementAISystem extends IteratingSystem
 	public MovementAISystem(ShapeRenderer debug)
 	{
 		super(Family.all(PositionComponent.class, VelocityComponent.class, MovementAIComponent.class,
-				CollisionHitboxComponent.class).get());
+				CollisionHitboxComponent.class, ValidTerrainTypesComponent.class).get());
 		this.debug = debug;
 	}
 
@@ -59,6 +61,7 @@ public class MovementAISystem extends IteratingSystem
 			PositionComponent entityPosition = pm.get(entity);
 			VelocityComponent entityVelocity = vm.get(entity);
 			CollisionHitboxComponent entityHitbox = chm.get(entity);
+			ValidTerrainTypesComponent entityValidTerrainTypes = vttm.get(entity);
 
 			Vector2 entityPosition2d = new Vector2(entityPosition.pos.x, entityPosition.pos.y);
 			float unitMaxSpeed = mac.unitMaxSpeed;
@@ -86,14 +89,16 @@ public class MovementAISystem extends IteratingSystem
 				// debug.line(nextPathStartPoint, nextDestination);
 				// debug.setColor(Color.YELLOW);
 				// debug.circle(hitboxCircle.x, hitboxCircle.y, hitboxCircle.radius);
-
+				
 				// if the unit is colliding with something for more than a second
+				// TODO add more refined pathfinding start conditions: ignore moving friendly
+				// units, ask stationary friendly units who are blocking to move around
 				if (detector.isCircleCollisionRectangles(hitboxCircle,
-						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac))))
+						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(entityValidTerrainTypes))))
 				{
 					if (mac.startPathfindingDelay <= 0)
 					{
-						searchNewPath(detector, entityPosition2d, nextPathStartPoint, nextDestination, mac);
+						searchNewPath(detector, entityPosition2d, nextPathStartPoint, nextDestination, mac, entityValidTerrainTypes);
 					}
 					else
 					{
@@ -109,6 +114,7 @@ public class MovementAISystem extends IteratingSystem
 
 				}
 				// debugFoundPath(mac.destinations);
+//				System.out.println("units wants to move by: " + entityVelocity.velocity);
 				entityVelocity.velocity.set(nextDestinationVector);
 
 			}
@@ -122,7 +128,7 @@ public class MovementAISystem extends IteratingSystem
 	}
 
 	private void searchNewPath(CollisionDetector detector, Vector2 initialPoint, Vector2 startNode, Vector2 endNode,
-			MovementAIComponent mac)
+			MovementAIComponent mac, ValidTerrainTypesComponent vttc)
 	{
 		Engine engine = getEngine();
 		ImmutableArray<Entity> allTerrains = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
@@ -144,17 +150,17 @@ public class MovementAISystem extends IteratingSystem
 
 			int x = (int) terrainPos2D.x / Phoenix.TERRAIN_SIZE;
 			int y = (int) terrainPos2D.y / Phoenix.TERRAIN_SIZE;
-			boolean isPassableTerrain = mac.passableTerrains.contains(terrainComp.type);
+			boolean isPassableTerrain = vttc.types.contains(terrainComp.type);
 
-//			 if (isPassableTerrain)
-//			 {
-//			 debug.setColor(Color.YELLOW);
-//			 }
-//			 else
-//			 {
-//			 debug.setColor(Color.RED);
-//			 }
-//			 debug.circle(terrainPos2D.x, terrainPos2D.y, 10);
+			// if (isPassableTerrain)
+			// {
+			// debug.setColor(Color.YELLOW);
+			// }
+			// else
+			// {
+			// debug.setColor(Color.RED);
+			// }
+			// debug.circle(terrainPos2D.x, terrainPos2D.y, 10);
 
 			cells[x][y] = new GridCell(x, y, isPassableTerrain);
 		}
@@ -187,9 +193,9 @@ public class MovementAISystem extends IteratingSystem
 				ArrayList<Vector2> convertedPath = getConvertedCoordinates(pathToEnd);
 
 				// debugFoundPath(convertedPath);
-				if(convertedPath.size() > 0)
+				if (convertedPath.size() > 0)
 				{
-					convertedPath = getOptimizedPath(convertedPath, detector, mac);
+					convertedPath = getOptimizedPath(convertedPath, detector, vttc);
 				}
 
 				updateEntityDestinations(mac, convertedPath);
@@ -228,7 +234,7 @@ public class MovementAISystem extends IteratingSystem
 		return convertedPath;
 	}
 
-	private ArrayList<Vector2> getOptimizedPath(ArrayList<Vector2> pathToOptimize, CollisionDetector detector, MovementAIComponent mac)
+	private ArrayList<Vector2> getOptimizedPath(ArrayList<Vector2> pathToOptimize, CollisionDetector detector, ValidTerrainTypesComponent vttc)
 	{
 		ArrayList<Vector2> pathToOptimizeWithMidNodes = new ArrayList<Vector2>();
 
@@ -267,9 +273,9 @@ public class MovementAISystem extends IteratingSystem
 					.indexOf(startNodeToConnect); endNodeIndex--)
 			{
 				Vector2 endNodeToConnect = pathToOptimizeWithMidNodes.get(endNodeIndex);
-				
+
 				if (!detector.isSegmentCollisionRectangles(startNodeToConnect, endNodeToConnect,
-						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(mac))))
+						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(vttc))))
 				{
 					optimizedPath.add(endNodeToConnect);
 					startNodeToConnect = endNodeToConnect;

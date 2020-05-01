@@ -15,6 +15,7 @@ public class FramerateCounterLabel extends Label
 	@Override
 	public void act(float delta)
 	{
+		setBounds(Gdx.graphics.getWidth() - 75, Gdx.graphics.getHeight() / 2, 0, 0);
 		setText("FPS: " + Gdx.graphics.getFramesPerSecond());
 	}
 

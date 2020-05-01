@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -20,6 +21,7 @@ public class InGameUI extends Stage
 	private Label framerateCounter;
 	private HorizontalGroup selectionDisplayPrimary;
 	private Table minimapPrimary;
+	private BlueprintBar blueprintBar;
 	
 	
 	public InGameUI(GameScreen gs)
@@ -35,7 +37,7 @@ public class InGameUI extends Stage
 		// create the framerate counter
 		
 		framerateCounter = new FramerateCounterLabel("test", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-		framerateCounter.setHeight(this.getHeight());
+		
 		
 		// create the minimap widget	
 		minimapPrimary = new Table();
@@ -64,7 +66,17 @@ public class InGameUI extends Stage
 		
 		// create the units ability list widget
 		
-		this.addActor(minimapPrimary);
-		this.addActor(framerateCounter);
+		
+		// create the blueprint bar widget
+		blueprintBar = new BlueprintBar(gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME));
+		//blueprintBar.setTouchable(Touchable.enabled);
+		blueprintBar.debug();
+		
+		addActor(blueprintBar);
+		//this.addActor(minimapPrimary);
+		addActor(framerateCounter);
+		
+		// TODO I don't like that only one actor has the keyboard focus... might want to think of something else here...
+		setKeyboardFocus(blueprintBar);
 	}
 }

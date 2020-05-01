@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -50,7 +51,8 @@ public class RenderSystem extends IteratingSystem
 		{
 			if(select.selected)
 			{
-				debug.circle(pos.pos.x, pos.pos.y, hitbox.size);
+				debug.setColor(Color.GREEN);
+				debug.circle(pos.pos.x, pos.pos.y, hitbox.size + 1);
 			}
 		}
 		
@@ -59,6 +61,19 @@ public class RenderSystem extends IteratingSystem
 		float originX = width * -0.5f;
 		float originY = height * -0.5f;
 		
+		
+		if(hitbox != null)
+		{
+			debug.setColor(Color.ORANGE);
+			if(hitbox.hitboxShape.equals("Rectangle"))
+			{
+				debug.rect(pos.pos.x + originX, pos.pos.y + originY, hitbox.size, hitbox.size);
+			}
+			else if(hitbox.hitboxShape.equals("Circle"))
+			{
+				debug.circle(pos.pos.x, pos.pos.y, hitbox.size);
+			}
+		}
 		batch.draw(sprite, 
 					pos.pos.x + originX, pos.pos.y + originY, 
 					0, 0, 

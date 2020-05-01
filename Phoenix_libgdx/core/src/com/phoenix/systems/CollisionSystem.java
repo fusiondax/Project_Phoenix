@@ -10,7 +10,9 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
+import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.CollisionHitboxComponent;
+import com.phoenix.components.NameComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.VelocityComponent;
 import com.phoenix.physics.CollisionDetector;
@@ -51,27 +53,39 @@ public class CollisionSystem extends IteratingSystem
 
 		ArrayList<Entity> proximityEntities = detector.getProxyEntities(entityPosition, collision.size * 5,
 				Family.all(CollisionHitboxComponent.class).get());
-
+		
 		// remove self from list of close by entities...
 		proximityEntities.remove(entity);
-
+		
 		Shape2D hitbox = CollisionEngine.getShapeFromEntity(entity);
 
+		// TODO collision between more than 3 entities is bugged
 		for (Entity e : proximityEntities)
 		{
 			Shape2D shape = CollisionEngine.getShapeFromEntity(e);
 
 			if (CollisionDetector.isShapeCollisionShape(hitbox, shape))
 			{
+				
 				VelocityComponent proxyEntityVC = e.getComponent(VelocityComponent.class);
+				CollectibleBlueprintComponent proxyEntityCBC = e.getComponent(CollectibleBlueprintComponent.class);
 				
 				if(proxyEntityVC != null)
 				{
 					Vector2 repulsionForce = CollisionEngine.getCollisionRepulsionVector(e, entity);
+					
+//					System.out.println(entity.getComponent(NameComponent.class).name + " is pushing " 
+//							+ e.getComponent(NameComponent.class).name + " who has velocity " + proxyEntityVC.velocity);
+					
 					proxyEntityVC.velocity.add(repulsionForce);
 					
 //					System.out.println(entity.getComponent(NameComponent.class).name + " is pushing on " 
 //							+ e.getComponent(NameComponent.class).name + " with force " + repulsionForce.toString());
+				}
+				
+				if(proxyEntityCBC != null)
+				{
+					proxyEntityCBC.collector = entity;
 				}
 			}
 		}

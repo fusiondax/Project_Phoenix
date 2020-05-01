@@ -26,7 +26,12 @@ public class MovementSystem extends IteratingSystem
 
 		Vector2 upcomingMovement = new Vector2().add(velocity.velocity).scl(deltaTime);
 		
-		
+		if(!upcomingMovement.equals(new Vector2()))
+		{
+//			System.out.println("unit is moving by:" + velocity.velocity);
+//			System.out.println("--------------------------------");
+		}
+			
 		position.pos.x += upcomingMovement.x;
 		position.pos.y += upcomingMovement.y;
 		

@@ -1,0 +1,32 @@
+package com.phoenix.game;
+
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Json.Serializable;
+import com.badlogic.gdx.utils.JsonValue;
+
+public class Resource implements Serializable
+{
+	public String type = "";
+	public int amount = 1;
+	
+	public Resource(String type, int amount)
+	{
+		this.type = type;
+		this.amount = amount;
+	}
+
+	@Override
+	public void write(Json json)
+	{
+		json.writeValue("type", type);
+		json.writeValue("amount", amount);
+	}
+
+	@Override
+	public void read(Json json, JsonValue jsonData)
+	{
+		type = jsonData.get("type").asString();
+		amount = jsonData.get("amount").asInt();
+		
+	}
+}

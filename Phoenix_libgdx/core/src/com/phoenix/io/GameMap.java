@@ -3,7 +3,6 @@ package com.phoenix.io;
 import java.util.ArrayList;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.Entity;
 
 public class GameMap 
 {
