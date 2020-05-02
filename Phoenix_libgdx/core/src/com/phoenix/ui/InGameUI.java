@@ -1,42 +1,65 @@
 package com.phoenix.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.screens.GameScreen;
 
 public class InGameUI extends Stage
 {
 	private GameScreen gameScreen;
-	
+	private Skin skin;
+
 	private Label framerateCounter;
 	private HorizontalGroup selectionDisplayPrimary;
 	private Table minimapPrimary;
 	private BlueprintBar blueprintBar;
-	
+
+	public boolean isSetup = false;
 	
 	public InGameUI(GameScreen gs)
 	{
 		super();
 		this.gameScreen = gs;
-		setupUI();
 	}
 	
-	
-	private void setupUI()
+	public void setupUI()
 	{
+		// initialize the skin
+		
+		AssetManager manager = PhoenixAssetManager.getInstance().manager;
+		TextureAtlas texAtlas = manager.get("graphics/atlas/entities.atlas");
+		skin = new Skin(texAtlas);
+		
+		ImageTextButtonStyle imgTextBtnStyle = new ImageTextButtonStyle();
+		imgTextBtnStyle.font = new BitmapFont();
+		imgTextBtnStyle.fontColor = Color.WHITE;
+		
+		LabelStyle labelStyle = new LabelStyle();
+		labelStyle.font = new BitmapFont();
+		labelStyle.fontColor = Color.WHITE;
+		
+		skin.add("default_image_text_button", imgTextBtnStyle);
+		skin.add("default_label", labelStyle);
+		
 		// create the framerate counter
 		
-		framerateCounter = new FramerateCounterLabel("test", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		framerateCounter = new FramerateCounterLabel("test", skin);
 		
 		
 		// create the minimap widget	
@@ -68,7 +91,7 @@ public class InGameUI extends Stage
 		
 		
 		// create the blueprint bar widget
-		blueprintBar = new BlueprintBar(gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME));
+		blueprintBar = new BlueprintBar(skin, gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME));
 		//blueprintBar.setTouchable(Touchable.enabled);
 		blueprintBar.debug();
 		
@@ -78,5 +101,7 @@ public class InGameUI extends Stage
 		
 		// TODO I don't like that only one actor has the keyboard focus... might want to think of something else here...
 		setKeyboardFocus(blueprintBar);
+		
+		isSetup = true;
 	}
 }

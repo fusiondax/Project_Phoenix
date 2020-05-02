@@ -31,6 +31,9 @@ public class Phoenix extends Game
 	@Override
 	public void render()
 	{
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
 		AssetManager manager = PhoenixAssetManager.getInstance().manager;
 		if(manager.update())
 		{
@@ -43,10 +46,6 @@ public class Phoenix extends Game
 		{
 			System.out.println(manager.getProgress());
 		}
-		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
 		super.render();
 	}
 	

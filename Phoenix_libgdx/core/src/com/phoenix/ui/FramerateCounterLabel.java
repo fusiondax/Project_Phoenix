@@ -2,13 +2,14 @@ package com.phoenix.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class FramerateCounterLabel extends Label
 {
 
-	public FramerateCounterLabel(CharSequence text, LabelStyle style)
+	public FramerateCounterLabel(CharSequence text, Skin skin)
 	{
-		super(text, style);
+		super(text, skin, "default_label");
 	}
 	
 	

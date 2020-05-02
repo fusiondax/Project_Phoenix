@@ -14,15 +14,17 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.phoenix.components.BuildableComponent;
 import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.CollisionHitboxComponent;
-import com.phoenix.components.GraphicComponent;
+import com.phoenix.components.TextureComponent;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.NameComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
+import com.phoenix.components.ResourceComponent;
 import com.phoenix.components.SelectionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.ValidTerrainTypesComponent;
 import com.phoenix.components.VelocityComponent;
+import com.phoenix.game.Resource;
 
 public class MapLoader
 {
@@ -119,6 +121,13 @@ public class MapLoader
 					coll.amount = Integer.parseInt(mo.getProperties().get("amount").toString());
 				}
 				
+				ResourceComponent res = e.getComponent(ResourceComponent.class);
+				if(res != null)
+				{
+					// TODO fetch the resource object
+				}
+					
+				
 				/*System.out.println("terrain: " + mo.getName() + " X:" + mo.getProperties().get("x").toString() + " Y:"
 						+ mo.getProperties().get("y").toString());*/
 
@@ -169,10 +178,10 @@ public class MapLoader
 				}
 				case "Graphic":
 				{
-					comp = new GraphicComponent();
+					comp = new TextureComponent();
 					if (componentsJson.get("texture") != null)
 					{
-						((GraphicComponent) comp).textureName = componentsJson.get("texture").asString();
+						((TextureComponent) comp).textureName = componentsJson.get("texture").asString();
 					}
 					break;
 				}
@@ -261,6 +270,13 @@ public class MapLoader
 					
 					break;
 				}
+				
+				case "Resource":
+				{
+					comp = new ResourceComponent();
+					// TODO fetch initialization information for resourceComponent
+					break;
+				}
 			}
 			entity.add(comp);
 		}
@@ -291,11 +307,18 @@ public class MapLoader
 				
 				case "CollectibleBlueprintComponent":
 				{
-					System.out.println("wow");
 					CollectibleBlueprintComponent entityBlueprint = initialEntity.getComponent(CollectibleBlueprintComponent.class);
 					entityBlueprint.buildableEntityName = ((CollectibleBlueprintComponent) comp).buildableEntityName;
 					entityBlueprint.amount = ((CollectibleBlueprintComponent) comp).amount;
 					break;
+				}
+				
+				case "ResourceComponent":
+				{
+					ResourceComponent entityResource = initialEntity.getComponent(ResourceComponent.class);
+					entityResource.type = ((ResourceComponent) comp).type;
+					break;
+					// TODO make sure this is well implements
 				}
 			}
 		}

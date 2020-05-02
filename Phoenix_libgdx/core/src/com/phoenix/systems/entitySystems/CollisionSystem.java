@@ -1,4 +1,4 @@
-package com.phoenix.systems;
+package com.phoenix.systems.entitySystems;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
@@ -41,6 +42,20 @@ public class CollisionSystem extends IteratingSystem
 	{
 		PositionComponent position = pm.get(entity);
 		CollisionHitboxComponent collision = cm.get(entity);
+		
+		//TODO this is for debug purposes
+		debug.setColor(Color.ORANGE);
+
+		if (collision.hitboxShape.equals("Rectangle"))
+		{
+			debug.rect(position.pos.x - collision.size / 2, position.pos.y - collision.size / 2, collision.size,
+					collision.size);
+		}
+		else if (collision.hitboxShape.equals("Circle"))
+		{
+			debug.circle(position.pos.x, position.pos.y, collision.size);
+		}
+		
 		
 		Vector2 entityPosition = new Vector2(position.pos.x, position.pos.y);
 		

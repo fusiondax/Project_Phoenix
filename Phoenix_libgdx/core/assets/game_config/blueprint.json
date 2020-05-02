@@ -3,11 +3,11 @@
 	[
 		{
 			"component_type": "Name",
-			"name": "blueprint_duck"
+			"name": "blueprint"
 		},
 		{
 			"component_type": "Graphic",
-			"texture": "blueprint_duck"
+			"texture": "blueprint"
 		},
 		{
 			"component_type": "Position"

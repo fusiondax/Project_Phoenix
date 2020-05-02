@@ -6,24 +6,30 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.SelectionComponent;
-import com.phoenix.components.GraphicComponent;
+import com.phoenix.game.Player;
+import com.phoenix.components.TextureComponent;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.utility.MathUtility;
 
 public class InputManager implements InputProcessor
 {
-	public GameScreen gameScreen;
+	private GameScreen gameScreen;
+	private Player player;
 	
-	public InputManager(GameScreen gameScreen)
+	public InputManager(GameScreen gameScreen, ShapeRenderer renderer)
 	{
 		this.gameScreen = gameScreen;
+		this.player = this.gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME);
 	}
 
 	@Override
@@ -93,8 +99,8 @@ public class InputManager implements InputProcessor
 			{
 				Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
 				
-				gameScreen.selectionBox.x = worldPos.x;
-				gameScreen.selectionBox.y = worldPos.y;
+				player.selectionBox.x = worldPos.x;
+				player.selectionBox.y = worldPos.y;
 				
 //				System.out.println("world x: " + worldPos.x);
 //				System.out.println("world y: " + worldPos.y);
@@ -126,13 +132,10 @@ public class InputManager implements InputProcessor
 			// middle mouse for dragging the screen
 			case Input.Buttons.MIDDLE:
 			{
-				gameScreen.prevCamDragPos.set(screenX, screenY);
+				player.prevCamDragPos.set(screenX, screenY);
 				break;
 			}
 		}
-		
-		
-		
 		return false;
 	}
 
@@ -142,9 +145,7 @@ public class InputManager implements InputProcessor
 		OrthographicCamera cam = gameScreen.camera;
 		//System.out.println("touchUp X: " + screenX);
 		//System.out.println("touchUp Y: " + screenY);
-		
 		//System.out.println("button: " + MouseButtonConversion.ConvertButtonIntToString(button));
-		
 		switch(button)
 		{
 			// left button for unit selection
@@ -153,10 +154,10 @@ public class InputManager implements InputProcessor
 				//defines the height and width of the selection box
 				Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
 				
-				gameScreen.selectionBox.width = worldPos.x - gameScreen.selectionBox.x;
-				gameScreen.selectionBox.height = worldPos.y - gameScreen.selectionBox.y;
+				player.selectionBox.width = worldPos.x - player.selectionBox.x;
+				player.selectionBox.height = worldPos.y - player.selectionBox.y;
 				
-				gameScreen.selectionBox = MathUtility.readjustRectangle(gameScreen.selectionBox);
+				player.selectionBox = MathUtility.readjustRectangle(player.selectionBox);
 				
 //				System.out.println("selectionBox: " + gameScreen.selectionBox.toString());
 				
@@ -180,10 +181,10 @@ public class InputManager implements InputProcessor
 //					System.out.println("selectable entity position: " + position2d.toString());
 					
 					// if the entity's position is contained within the selection rectangle, add it to the selectedEntities list
-					if(gameScreen.selectionBox.contains(position2d))
+					if(player.selectionBox.contains(position2d))
 					{
 						select.selected = true;
-						GraphicComponent graph = e.getComponent(GraphicComponent.class); 
+						TextureComponent graph = e.getComponent(TextureComponent.class); 
 						System.out.println(graph.textureName);
 						gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities.add(e);
 					}
@@ -193,16 +194,13 @@ public class InputManager implements InputProcessor
 					}
 				}
 				
-				gameScreen.selectionBox = new Rectangle();
-				
+				player.selectionBox = new Rectangle();
 				break;
 			}
 			
 			// right button for giving commands
 			case Input.Buttons.RIGHT:
 			{
-				
-				
 				break;
 			}
 			
@@ -212,7 +210,6 @@ public class InputManager implements InputProcessor
 				break;
 			}
 		}
-		
 		return false;
 	}
 
@@ -227,18 +224,17 @@ public class InputManager implements InputProcessor
 		{
 			Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
 			
-			gameScreen.selectionBox.width = worldPos.x - gameScreen.selectionBox.x;
-			gameScreen.selectionBox.height = worldPos.y - gameScreen.selectionBox.y;
+			player.selectionBox.width = worldPos.x - player.selectionBox.x;
+			player.selectionBox.height = worldPos.y - player.selectionBox.y;
 			
 			//System.out.println("selectionBox: " + gameScreen.selectionBox.toString());
-			
 			//gameScreen.selectionBox = MathUtility.readjustRectangle(gameScreen.selectionBox);
 		}
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.MIDDLE))
 		{
-			gameScreen.camera.translate(gameScreen.prevCamDragPos.x - screenX, screenY - gameScreen.prevCamDragPos.y);
-			gameScreen.prevCamDragPos.set(screenX, screenY);
+			gameScreen.camera.translate(player.prevCamDragPos.x - screenX, screenY - player.prevCamDragPos.y);
+			player.prevCamDragPos.set(screenX, screenY);
 		}
 		
 		return false;

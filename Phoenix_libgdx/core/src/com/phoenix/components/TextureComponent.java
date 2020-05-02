@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class GraphicComponent implements Component, Serializable
+public class TextureComponent implements Component, Serializable
 {
 	public String textureName = "";
 

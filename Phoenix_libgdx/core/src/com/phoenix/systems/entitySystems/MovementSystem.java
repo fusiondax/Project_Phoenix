@@ -1,4 +1,4 @@
-package com.phoenix.systems;
+package com.phoenix.systems.entitySystems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;

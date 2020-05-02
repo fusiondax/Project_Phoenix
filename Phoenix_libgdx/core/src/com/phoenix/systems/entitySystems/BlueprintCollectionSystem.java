@@ -1,4 +1,4 @@
-package com.phoenix.systems;
+package com.phoenix.systems.entitySystems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -13,6 +13,7 @@ import com.phoenix.screens.GameScreen;
 public class BlueprintCollectionSystem extends IteratingSystem
 {
 	private ComponentMapper<CollectibleBlueprintComponent> cbm = ComponentMapper.getFor(CollectibleBlueprintComponent.class);
+	
 	private GameScreen gameScreen;
 	
 	public BlueprintCollectionSystem(GameScreen gs)

@@ -1,15 +1,20 @@
 package com.phoenix.game;
 
+import com.badlogic.gdx.math.Circle;
+
 public class Blueprint
 {
 	public String buildableEntityName;
 	
 	private int amount;
 	
+	public Circle validBuildIndicator;
+	
 	public Blueprint(String buildableEntityName, int amount)
 	{
 		this.buildableEntityName = buildableEntityName;
 		this.amount = amount;
+		this.validBuildIndicator = new Circle();
 	}
 
 	public int getAmount()
@@ -39,6 +44,16 @@ public class Blueprint
 	{
 		return buildableEntityName.equals(blueprint.buildableEntityName);
 	}
-
 	
+	/**
+	 * 
+	 * @return 
+	 */
+	public boolean isBlueprintValid()
+	{
+		boolean valid = false;
+		
+		
+		return valid;
+	}
 }
