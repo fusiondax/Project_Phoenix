@@ -2,7 +2,7 @@ package com.phoenix.input;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.phoenix.game.Blueprint;
+import com.phoenix.blueprint.Blueprint;
 import com.phoenix.game.Player;
 
 public class BlueprintIconInputListener extends InputListener

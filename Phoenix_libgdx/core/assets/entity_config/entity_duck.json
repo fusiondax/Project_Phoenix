@@ -6,7 +6,7 @@
 			"name": "duck"
 		},
 		{
-			"component_type": "Graphic",
+			"component_type": "Texture",
 			"texture": "unit_duck"
 		},
 		{

@@ -6,7 +6,7 @@
 			"name": "rocky_grass"
 		},
 		{
-			"component_type": "Graphic",
+			"component_type": "Texture",
 			"texture": "terrain_rocky_grass"
 		},
 		{

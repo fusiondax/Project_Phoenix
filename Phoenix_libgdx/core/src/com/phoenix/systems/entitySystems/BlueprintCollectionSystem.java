@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.phoenix.blueprint.Blueprint;
 import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.OwnershipComponent;
-import com.phoenix.game.Blueprint;
 import com.phoenix.game.Player;
 import com.phoenix.screens.GameScreen;
 
@@ -39,7 +39,7 @@ public class BlueprintCollectionSystem extends IteratingSystem
 				
 				if(collectorOwner != null)
 				{
-					Blueprint blueprint = new Blueprint(cbc.buildableEntityName, cbc.amount);
+					Blueprint blueprint = new Blueprint(gameScreen.blueprintData.get(cbc.buildableEntityName), cbc.amount);
 					collectorOwner.addBlueprintToCollection(blueprint);
 					System.out.println("a blueprint of " + cbc.buildableEntityName + " with " + cbc.amount + " charges was added to " + collectorOwner.name + "'s library");
 					

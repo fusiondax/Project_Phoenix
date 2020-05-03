@@ -26,7 +26,18 @@ public class BlueprintValidationIndicatorRenderSystem extends EntitySystem
 		{
 			Circle circle = player.selectedBlueprint.validBuildIndicator;
 			
-			Color color = Color.GREEN;
+			
+			Color color = new Color();
+			
+			if(player.selectedBlueprint.isValid())
+			{
+				color = Color.GREEN;
+			}
+			else
+			{
+				color = Color.RED;
+			}
+			
 			color.a = BLUEPRINT_VALIDATION_INDICATOR_TRANSPARENCY_VALUE;
 			
 			gameScreen.shapeRendererFilled.setColor(color);

@@ -1,12 +1,20 @@
 package com.phoenix.input;
 
+import java.util.ArrayList;
+
+import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import com.phoenix.components.BuildableComponent;
+import com.phoenix.components.OwnershipComponent;
+import com.phoenix.components.PositionComponent;
 import com.phoenix.game.Player;
+import com.phoenix.io.EntityLoader;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.utility.MathUtility;
 
@@ -58,12 +66,32 @@ public class BlueprintInputManager implements InputProcessor
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
-		
 		boolean handled = false;
 		
 		if(player.selectedBlueprint != null)
 		{
-			
+			if(player.selectedBlueprint.isValid())
+			{
+				OrthographicCamera cam = gameScreen.camera;
+				Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
+				
+				Entity newEntity = EntityLoader.getInitializedEntity(player.selectedBlueprint.data.buildableEntityName);
+				
+				// update the position to be where the mouse was clicked
+				PositionComponent position = newEntity.getComponent(PositionComponent.class);
+				position.pos.x = worldPos.x;
+				position.pos.y = worldPos.y;
+				
+				// update the ownership to be the active player
+				OwnershipComponent owner = newEntity.getComponent(OwnershipComponent.class);
+				owner.owner = player.name;
+				
+				// update the buildable component to have a positive buildRate
+				BuildableComponent buildable = newEntity.getComponent(BuildableComponent.class);
+				buildable.setBuildRate(player.selectedBlueprint.data.buildRate);
+				
+				gameScreen.engine.addEntity(newEntity);
+			}
 		}
 		return handled;
 	}
@@ -96,8 +124,7 @@ public class BlueprintInputManager implements InputProcessor
 			Circle validBuildIndicator = player.selectedBlueprint.validBuildIndicator;
 			
 			validBuildIndicator.setPosition(worldPos);
-			validBuildIndicator.radius = 10;
-//			player.selectedBlueprint.buildableEntityName
+			validBuildIndicator.radius = player.selectedBlueprint.data.buildRange;
 		}
 		
 		return handled;

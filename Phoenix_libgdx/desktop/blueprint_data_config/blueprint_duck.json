@@ -1,0 +1,17 @@
+{
+	"buildableEntityName": "duck",
+	"buildTime": 0.01,
+	"salvageTime": 0.01,
+	"buildRange": 50.0,
+	"resourceList":
+	[
+		{
+			"type": "cog",
+			"amount": 10
+		},
+		{
+			"type": "screw",
+			"amount": 10
+		}
+	]
+}

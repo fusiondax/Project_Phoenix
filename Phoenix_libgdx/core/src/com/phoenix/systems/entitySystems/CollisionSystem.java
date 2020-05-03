@@ -43,7 +43,7 @@ public class CollisionSystem extends IteratingSystem
 		PositionComponent position = pm.get(entity);
 		CollisionHitboxComponent collision = cm.get(entity);
 		
-		//TODO this is for debug purposes
+		// this is for debug purposes
 		debug.setColor(Color.ORANGE);
 
 		if (collision.hitboxShape.equals("Rectangle"))

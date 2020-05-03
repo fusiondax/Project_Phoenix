@@ -3,18 +3,18 @@
 	[
 		{
 			"component_type": "Name",
-			"name": "water"
+			"name": "grass"
 		},
 		{
-			"component_type": "Graphic",
-			"texture": "terrain_water"
+			"component_type": "Texture",
+			"texture": "terrain_grass"
 		},
 		{
 			"component_type": "Position"
 		},
 		{
 			"component_type": "Terrain",
-			"type": "liquid"
+			"type": "solid"
 		},
 	]
 }

@@ -31,7 +31,7 @@ public class CollisionDetector
 	
 	public static boolean isShapeCollisionShape(Shape2D shape1, Shape2D shape2)
 	{
-		// TODO  this is super ugly, and I don't know how to make it cleaner...
+		// this is super ugly, and I don't know how to make it cleaner...
 		boolean intersected = false;
 		
 		if(shape1 instanceof Circle)
@@ -123,8 +123,6 @@ public class CollisionDetector
 		
 		if(vttc != null)
 		{
-			// TODO potentially poorly optimized
-			// get all terrains
 			ImmutableArray<Entity> allTerrainEntities = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
 	
 			// remove terrains that are accessible to the moving entity to only have

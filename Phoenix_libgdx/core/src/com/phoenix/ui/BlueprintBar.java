@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.phoenix.game.Blueprint;
+import com.phoenix.blueprint.Blueprint;
 import com.phoenix.game.Player;
 import com.phoenix.input.BlueprintIconInputListener;
 import com.badlogic.gdx.Gdx;

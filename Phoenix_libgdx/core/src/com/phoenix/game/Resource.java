@@ -9,6 +9,11 @@ public class Resource implements Serializable
 	public String type = "";
 	public int amount = 1;
 	
+	public Resource()
+	{
+		this("", 1);
+	}
+	
 	public Resource(String type, int amount)
 	{
 		this.type = type;
@@ -27,6 +32,5 @@ public class Resource implements Serializable
 	{
 		type = jsonData.get("type").asString();
 		amount = jsonData.get("amount").asInt();
-		
 	}
 }

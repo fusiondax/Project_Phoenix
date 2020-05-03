@@ -3,22 +3,22 @@
 	[
 		{
 			"component_type": "Name",
-			"name": "cog"
+			"name": "blueprint"
 		},
 		{
-			"component_type": "Graphic",
-			"texture": "resource_cog"
+			"component_type": "Texture",
+			"texture": "blueprint"
 		},
 		{
 			"component_type": "Position"
 		},
 		{
-			"component_type": "Velocity"
-		},
-		{
 			"component_type": "CollisionHitbox",
 			"shape": "Circle",
-			"size": 10.0
+			"size": 20.0
+		},
+		{
+			"component_type": "CollectibleBlueprint"
 		}
 	]
 }

@@ -1,11 +1,14 @@
 package com.phoenix.io;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.phoenix.blueprint.BlueprintData;
 
 public class JsonUtility
 {
@@ -16,6 +19,24 @@ public class JsonUtility
 		JsonReader reader = new JsonReader();
 		
 		return reader.parse(handle);
+	}
+	
+	public static ArrayList<BlueprintData> getAllBlueprintDataFromConfig()
+	{
+		ArrayList<BlueprintData> datas = new ArrayList<BlueprintData>();
+		
+		FileHandle blueprintDataConfigDirectory = Gdx.files.local(BlueprintDataLoader.BLUEPRINT_DATA_CONFIG_PATH);
+		
+		JsonReader reader = new JsonReader();
+		
+		Json json = new Json();
+		
+		for(FileHandle blueprintDataConfigFile : blueprintDataConfigDirectory.list())
+		{
+			datas.add(json.fromJson(BlueprintData.class, reader.parse(blueprintDataConfigFile).toString()));
+		}
+		
+		return datas;
 	}
 		
 	public static GameMap readJsonGameMapFile(String fileName)
@@ -28,7 +49,8 @@ public class JsonUtility
 		
 		Json json = new Json();
 		
-		//System.out.println(reader.parse(handle).toString());
+		
+		String test = reader.parse(handle).toString();
 
 		gameMap = json.fromJson(GameMap.class, reader.parse(handle).toString());
 		

@@ -15,10 +15,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.phoenix.blueprint.BlueprintData;
 import com.phoenix.game.Phoenix;
 import com.phoenix.game.Player;
 import com.phoenix.input.BlueprintInputManager;
 import com.phoenix.input.InputManager;
+import com.phoenix.io.BlueprintDataLoader;
 import com.phoenix.io.JsonUtility;
 import com.phoenix.io.MapLoader;
 import com.phoenix.systems.BlueprintValidationIndicatorRenderSystem;
@@ -49,6 +51,10 @@ public class GameScreen extends ScreenAdapter
 	public ShapeRenderer shapeRendererFilled;
 	
 	public HashMap<String, Player> playerList;
+	public HashMap<String, BlueprintData> blueprintData;
+	
+	public ArrayList<String> buildingEntityList;
+	
 	
 	public GameScreen(Phoenix game)
 	{
@@ -59,6 +65,9 @@ public class GameScreen extends ScreenAdapter
 		
 		playerList = new HashMap<String, Player>();
 		playerList.put(ACTIVE_PLAYER_NAME, new Player(ACTIVE_PLAYER_NAME));
+		
+		blueprintData = new HashMap<String, BlueprintData>();
+		loadBlueprintData();
 		
 		shapeRendererLine = new ShapeRenderer();
 		shapeRendererFilled = new ShapeRenderer();
@@ -88,6 +97,11 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new SelectionBoxRenderSystem(this));
 		
 		//pauseSystems();
+	}
+	
+	private void loadBlueprintData()
+	{
+		BlueprintDataLoader.loadAllDataBlueprint(blueprintData);
 	}
 	
 	private void loadGameMap(String gameMapFileName)

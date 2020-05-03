@@ -10,26 +10,16 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.utils.JsonValue;
 import com.phoenix.components.BuildableComponent;
 import com.phoenix.components.CollectibleBlueprintComponent;
-import com.phoenix.components.CollisionHitboxComponent;
-import com.phoenix.components.TextureComponent;
-import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.NameComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.ResourceComponent;
-import com.phoenix.components.SelectionComponent;
-import com.phoenix.components.TerrainComponent;
-import com.phoenix.components.ValidTerrainTypesComponent;
-import com.phoenix.components.VelocityComponent;
 import com.phoenix.game.Resource;
 
 public class MapLoader
 {
-	public static final String GAME_CONFIG_PATH = "game_config";
-
 	public static GameMap createGameMapFromEngine(Engine engine)
 	{
 		GameMap gameMap = new GameMap();
@@ -66,11 +56,11 @@ public class MapLoader
 			// if the NameComponent was found, we can initialize the entity
 			if(nameComp != null)
 			{
-				e = getInitializedEntity(nameComp.name);
+				e = EntityLoader.getInitializedEntity(nameComp.name);
 			}
 			
 			// now, we give the entity its map-specific attributes
-			e = addMapSpecificAttributeToEntity(e, compList);
+			e = EntityLoader.updateEntityWithComponents(e, compList);
 			
 			// unless the entity wasn't able to be created, we add it to the engine
 			if(e != null)
@@ -98,7 +88,7 @@ public class MapLoader
 		{
 			for (MapObject mo : layer.getObjects())
 			{
-				Entity e = getInitializedEntity(mo.getName());
+				Entity e = EntityLoader.getInitializedEntity(mo.getName());
 				
 				// once the entity was initialized, we need to give it its's map-specific attributes
 				PositionComponent p = e.getComponent(PositionComponent.class);
@@ -124,13 +114,25 @@ public class MapLoader
 				ResourceComponent res = e.getComponent(ResourceComponent.class);
 				if(res != null)
 				{
-					// TODO fetch the resource object
+					res.resource.amount = Integer.parseInt(mo.getProperties().get("amount").toString());
+				}
+				
+				BuildableComponent build = e.getComponent(BuildableComponent.class);
+				if(build != null)
+				{
+					Object bp = mo.getProperties().get("build_progress");
+					if(bp != null)
+					{
+						build.setBuildProgress(Float.parseFloat(bp.toString()));
+					}
+					
+					Object br = mo.getProperties().get("build_rate");
+					if(br != null)
+					{
+						build.setBuildRate(Float.parseFloat(br.toString()));
+					}
 				}
 					
-				
-				/*System.out.println("terrain: " + mo.getName() + " X:" + mo.getProperties().get("x").toString() + " Y:"
-						+ mo.getProperties().get("y").toString());*/
-
 				// TODO Fetch other custom propertied from TiledMap objects to populate entity
 				// components
 				
@@ -147,187 +149,6 @@ public class MapLoader
 
 		JsonUtility.writeJsonGameMapFile(gameMapFileName, gameMap);
 	}
-
-	/**
-	 * creates a brand new entity of the given name and initializes it with its default configuration, giving it its components
-	 * and default values for those component's attributes
-	 * @param entityName the name of the entity
-	 * @return
-	 */
-	private static Entity getInitializedEntity(String entityName)
-	{
-		Entity entity = new Entity();
-
-		JsonValue entityConfig = getEntityConfigFile(entityName);
-
-		for (JsonValue componentsJson : entityConfig.get("components"))
-		{
-			String componentType = componentsJson.get("component_type").asString();
-
-			Component comp = null;
-			switch (componentType)
-			{
-				case "Name":
-				{
-					comp = new NameComponent();
-					if (componentsJson.get("name") != null)
-					{
-						((NameComponent) comp).name = componentsJson.get("name").asString();
-					}
-					break;
-				}
-				case "Graphic":
-				{
-					comp = new TextureComponent();
-					if (componentsJson.get("texture") != null)
-					{
-						((TextureComponent) comp).textureName = componentsJson.get("texture").asString();
-					}
-					break;
-				}
-				case "Position":
-				{
-					comp = new PositionComponent();
-					
-					break;
-				}
 	
-				case "Velocity":
-				{
-					comp = new VelocityComponent();
-					break;
-				}
 	
-				case "CollisionHitbox":
-				{
-					comp = new CollisionHitboxComponent();
-					if(componentsJson.get("shape") != null && componentsJson.get("size") != null)
-					{
-						((CollisionHitboxComponent) comp).hitboxShape = componentsJson.get("shape").asString();
-						((CollisionHitboxComponent) comp).size = componentsJson.get("size").asFloat();
-					}	
-					break;
-				}
-	
-				case "MovementAI":
-				{
-					comp = new MovementAIComponent();
-					if (componentsJson.get("unitMaxSpeed") != null)
-					{
-						((MovementAIComponent) comp).unitMaxSpeed = componentsJson.get("unitMaxSpeed").asFloat();
-					}
-					break;
-				}
-				
-				case "ValidTerrainTypes":
-				{
-					comp = new ValidTerrainTypesComponent();
-					if(componentsJson.get("types") != null)
-					{
-						String[] terrains = componentsJson.get("types").asStringArray();
-						
-						for(int i = 0; i < terrains.length; i++)
-						{
-							((ValidTerrainTypesComponent) comp).types.add(terrains[i]);
-						}
-					}
-					break;
-				}
-	
-				case "Selection":
-				{
-					comp = new SelectionComponent();
-					
-					//TODO instanciate "mode" parameter 
-					break;
-				}
-	
-				case "Terrain":
-				{
-					comp = new TerrainComponent();
-					if (componentsJson.get("type") != null)
-					{
-						((TerrainComponent)comp).type = componentsJson.get("type").asString();
-					}
-					break;
-				}
-				
-				case "Ownership":
-				{
-					comp = new OwnershipComponent();
-					break;
-				}
-				
-				case "CollectibleBlueprint":
-				{
-					comp = new CollectibleBlueprintComponent();
-					break;
-				}
-				
-				case "Buildable":
-				{
-					comp = new BuildableComponent();
-					
-					break;
-				}
-				
-				case "Resource":
-				{
-					comp = new ResourceComponent();
-					// TODO fetch initialization information for resourceComponent
-					break;
-				}
-			}
-			entity.add(comp);
-		}
-		return entity;
-	}
-	
-	private static Entity addMapSpecificAttributeToEntity(Entity initialEntity, ArrayList<Component> mapLoadedComponents)
-	{
-		for(Component comp : mapLoadedComponents)
-		{
-			String className = comp.getClass().getSimpleName();
-			
-			switch(className)
-			{
-				case "PositionComponent":
-				{
-					PositionComponent entityPos = initialEntity.getComponent(PositionComponent.class);
-					entityPos.pos.set(((PositionComponent) comp).pos);
-					break;
-				}
-				
-				case "OwnershipComponent":
-				{
-					OwnershipComponent entityOwner = initialEntity.getComponent(OwnershipComponent.class);
-					entityOwner.owner = ((OwnershipComponent) comp).owner;
-					break;
-				}
-				
-				case "CollectibleBlueprintComponent":
-				{
-					CollectibleBlueprintComponent entityBlueprint = initialEntity.getComponent(CollectibleBlueprintComponent.class);
-					entityBlueprint.buildableEntityName = ((CollectibleBlueprintComponent) comp).buildableEntityName;
-					entityBlueprint.amount = ((CollectibleBlueprintComponent) comp).amount;
-					break;
-				}
-				
-				case "ResourceComponent":
-				{
-					ResourceComponent entityResource = initialEntity.getComponent(ResourceComponent.class);
-					entityResource.type = ((ResourceComponent) comp).type;
-					break;
-					// TODO make sure this is well implements
-				}
-			}
-		}
-		
-		return initialEntity;
-	}
-
-	private static JsonValue getEntityConfigFile(String entityFileName)
-	{
-		return JsonUtility.readJson(GAME_CONFIG_PATH + "/" + entityFileName + ".json");
-	}
 }

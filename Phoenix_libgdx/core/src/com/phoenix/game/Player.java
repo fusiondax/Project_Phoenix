@@ -3,9 +3,9 @@ package com.phoenix.game;
 import java.util.ArrayList;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.phoenix.blueprint.Blueprint;
 
 public class Player
 {
@@ -15,15 +15,12 @@ public class Player
 	
 	private ArrayList<Blueprint> blueprintLibrary;
 
-	//TODO set the player's vision/fog of war
-	
 	public ArrayList<Entity> selectedEntities;
 
 	public Blueprint selectedBlueprint;
 	
 	public Vector2 prevCamDragPos;
 	public Rectangle selectionBox;
-	
 	
 	public Player(String name)
 	{

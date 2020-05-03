@@ -1,0 +1,28 @@
+{
+	"components":
+	[
+		{
+			"component_type": "Name",
+			"name": "screw"
+		},
+		{
+			"component_type": "Texture",
+			"texture": "resource_screw"
+		},
+		{
+			"component_type": "Position"
+		},
+		{
+			"component_type": "Velocity"
+		},
+		{
+			"component_type": "CollisionHitbox",
+			"shape": "Circle",
+			"size": 10.0
+		},
+		{
+			"component_type": "Resource",
+			"type_name": "screw"
+		}
+	]
+}

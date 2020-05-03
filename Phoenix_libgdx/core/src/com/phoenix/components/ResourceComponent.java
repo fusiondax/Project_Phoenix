@@ -8,20 +8,19 @@ import com.phoenix.game.Resource;
 
 public class ResourceComponent implements Component, Serializable
 {
-	public Resource type;
+	public Resource resource;
 
 	@Override
 	public void write(Json json)
 	{
-		
-		
+		json.writeValue("resource", resource);
 	}
 
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		// TODO Auto-generated method stub
-		
+		resource = new Resource();
+		resource.amount = jsonData.get("resource").get("amount").asInt();
 	}
 
 }
