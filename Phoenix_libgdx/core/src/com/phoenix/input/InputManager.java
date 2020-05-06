@@ -6,18 +6,16 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.SelectionComponent;
-import com.phoenix.game.Player;
 import com.phoenix.components.TextureComponent;
+import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.utility.MathUtility;
 
@@ -173,10 +171,10 @@ public class InputManager implements InputProcessor
 					SelectionComponent select = e.getComponent(SelectionComponent.class);
 					PositionComponent position = e.getComponent(PositionComponent.class);
 					
-					//TODO change the way units are selected/being controlled depending on ownership and selction mode
+					//TODO change the way units are selected/being controlled depending on ownership and selection mode
 					OwnershipComponent owner = e.getComponent(OwnershipComponent.class);
 					
-					Vector2 position2d = new Vector2(position.pos.x, position.pos.y);
+					Vector2 position2d = new Vector2(position.pos2D);
 					
 //					System.out.println("selectable entity position: " + position2d.toString());
 					

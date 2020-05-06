@@ -1,4 +1,4 @@
-package com.phoenix.game;
+package com.phoenix.resource;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
@@ -32,5 +32,10 @@ public class Resource implements Serializable
 	{
 		type = jsonData.get("type").asString();
 		amount = jsonData.get("amount").asInt();
+	}
+	
+	public String toString()
+	{
+		return "Resource: Type: " + type + " Amount: " + amount;
 	}
 }

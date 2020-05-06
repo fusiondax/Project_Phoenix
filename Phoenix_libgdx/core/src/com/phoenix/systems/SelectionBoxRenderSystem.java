@@ -2,7 +2,7 @@ package com.phoenix.systems;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.Color;
-import com.phoenix.game.Player;
+import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
 
 public class SelectionBoxRenderSystem extends EntitySystem

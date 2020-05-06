@@ -16,19 +16,19 @@ import com.phoenix.components.NameComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.ResourceComponent;
-import com.phoenix.game.Resource;
+import com.phoenix.resource.Resource;
 
 public class MapLoader
 {
 	public static GameMap createGameMapFromEngine(Engine engine)
 	{
 		GameMap gameMap = new GameMap();
-		
-		for(Entity e : engine.getEntities())
+
+		for (Entity e : engine.getEntities())
 		{
 			ArrayList<Component> comps = new ArrayList<Component>();
-			
-			for(Component c : e.getComponents())
+
+			for (Component c : e.getComponents())
 			{
 				comps.add(c);
 			}
@@ -36,38 +36,38 @@ public class MapLoader
 		}
 		return gameMap;
 	}
-	
+
 	public static void addEntitiesToEngine(Engine engine, GameMap gameMap)
 	{
-		for(ArrayList<Component> compList : gameMap.entities)
+		for (ArrayList<Component> compList : gameMap.entities)
 		{
 			Entity e = null;
 			NameComponent nameComp = null;
 			// retrieve the NameComponent from an entity's component list
 			for (Component comp : compList)
 			{
-				if(comp instanceof NameComponent)
+				if (comp instanceof NameComponent)
 				{
 					nameComp = (NameComponent) comp;
 					break;
 				}
 			}
-			
+
 			// if the NameComponent was found, we can initialize the entity
-			if(nameComp != null)
+			if (nameComp != null)
 			{
 				e = EntityLoader.getInitializedEntity(nameComp.name);
 			}
-			
+
 			// now, we give the entity its map-specific attributes
 			e = EntityLoader.updateEntityWithComponents(e, compList);
-			
+
 			// unless the entity wasn't able to be created, we add it to the engine
-			if(e != null)
+			if (e != null)
 			{
 				engine.addEntity(e);
 			}
-			
+
 		}
 	}
 
@@ -89,56 +89,57 @@ public class MapLoader
 			for (MapObject mo : layer.getObjects())
 			{
 				Entity e = EntityLoader.getInitializedEntity(mo.getName());
-				
-				// once the entity was initialized, we need to give it its's map-specific attributes
+
+				// once the entity was initialized, we need to give it its's map-specific
+				// attributes
 				PositionComponent p = e.getComponent(PositionComponent.class);
-				if(p != null)
+				if (p != null)
 				{
-					p.pos.x = Float.parseFloat(mo.getProperties().get("x").toString());
-					p.pos.y = Float.parseFloat(mo.getProperties().get("y").toString());
+					p.pos2D.set(Float.parseFloat(mo.getProperties().get("x").toString()),
+							Float.parseFloat(mo.getProperties().get("y").toString()));
 				}
-				
+
 				OwnershipComponent o = e.getComponent(OwnershipComponent.class);
-				if(o != null)
+				if (o != null)
 				{
 					o.owner = mo.getProperties().get("owner").toString();
 				}
-				
+
 				CollectibleBlueprintComponent coll = e.getComponent(CollectibleBlueprintComponent.class);
-				if(coll != null)
+				if (coll != null)
 				{
 					coll.buildableEntityName = mo.getProperties().get("buildableEntityName").toString();
 					coll.amount = Integer.parseInt(mo.getProperties().get("amount").toString());
 				}
-				
+
 				ResourceComponent res = e.getComponent(ResourceComponent.class);
-				if(res != null)
+				if (res != null)
 				{
 					res.resource.amount = Integer.parseInt(mo.getProperties().get("amount").toString());
 				}
-				
+
 				BuildableComponent build = e.getComponent(BuildableComponent.class);
-				if(build != null)
+				if (build != null)
 				{
 					Object bp = mo.getProperties().get("build_progress");
-					if(bp != null)
+					if (bp != null)
 					{
 						build.setBuildProgress(Float.parseFloat(bp.toString()));
 					}
-					
+
 					Object br = mo.getProperties().get("build_rate");
-					if(br != null)
+					if (br != null)
 					{
 						build.setBuildRate(Float.parseFloat(br.toString()));
 					}
 				}
-					
+
 				// TODO Fetch other custom propertied from TiledMap objects to populate entity
 				// components
-				
+
 				ArrayList<Component> comps = new ArrayList<Component>();
-				
-				for(Component c : e.getComponents())
+
+				for (Component c : e.getComponents())
 				{
 					comps.add(c);
 				}
@@ -149,6 +150,5 @@ public class MapLoader
 
 		JsonUtility.writeJsonGameMapFile(gameMapFileName, gameMap);
 	}
-	
-	
+
 }

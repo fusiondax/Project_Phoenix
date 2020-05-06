@@ -21,14 +21,6 @@ import com.phoenix.components.ValidTerrainTypesComponent;
 
 public class CollisionDetector
 {
-
-	private Engine engine;
-
-	public CollisionDetector(Engine engine)
-	{
-		this.engine = engine;
-	}
-	
 	public static boolean isShapeCollisionShape(Shape2D shape1, Shape2D shape2)
 	{
 		// this is super ugly, and I don't know how to make it cleaner...
@@ -59,20 +51,7 @@ public class CollisionDetector
 		return intersected;
 	}
 	
-	public boolean isCircleCollisionHitboxes(Circle entityHitbox, ArrayList<CollisionHitboxComponent> hitboxes)
-	{
-		
-		return false;
-	}
-	
-	
-	public boolean isRectangleCollisionHitboxes(Rectangle entityHitbox, ArrayList<CollisionHitboxComponent> hitboxes)
-	{
-		return false;
-	}
-	
-
-	public boolean isCircleCollisionRectangles(Circle entityHitbox, ArrayList<Rectangle> rects)
+	public static boolean isCircleCollisionRectangles(Circle entityHitbox, ArrayList<Rectangle> rects)
 	{
 		boolean isCollision = false;
 
@@ -87,7 +66,7 @@ public class CollisionDetector
 		return isCollision;
 	}
 
-	public boolean isPointCollisionRectangles(Vector2 targetLocation, ArrayList<Rectangle> rects)
+	public static boolean isPointCollisionRectangles(Vector2 targetLocation, ArrayList<Rectangle> rects)
 	{
 		boolean isCollision = false;
 
@@ -102,7 +81,7 @@ public class CollisionDetector
 		return isCollision;
 	}
 	
-	public boolean isSegmentCollisionRectangles(Vector2 segmentStart, Vector2 segmentEnd, ArrayList<Rectangle> rects)
+	public static boolean isSegmentCollisionRectangles(Vector2 segmentStart, Vector2 segmentEnd, ArrayList<Rectangle> rects)
 	{
 		boolean isCollision = false;
 
@@ -115,130 +94,5 @@ public class CollisionDetector
 			}
 		}
 		return isCollision;
-	}
-
-	public ArrayList<Entity> getImpassableTerrains(ValidTerrainTypesComponent vttc)
-	{
-		ArrayList<Entity> blockingTerrains = new ArrayList<Entity>();
-		
-		if(vttc != null)
-		{
-			ImmutableArray<Entity> allTerrainEntities = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
-	
-			// remove terrains that are accessible to the moving entity to only have
-			// terrains that blocks the entity
-	
-			ArrayList<String> passableTerrains = vttc.types;
-	
-			for (Entity e : allTerrainEntities)
-			{
-				TerrainComponent t = e.getComponent(TerrainComponent.class);
-	
-				if (!passableTerrains.contains(t.type))
-				{
-					blockingTerrains.add(e);
-				}
-			}
-		}
-		
-		return blockingTerrains;
-	}
-
-	public static ArrayList<Rectangle> getRectanglesFromTerrains(ArrayList<Entity> terrainEntities)
-	{
-		ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-
-		for (Entity e : terrainEntities)
-		{
-			PositionComponent terrainPos = e.getComponent(PositionComponent.class);
-			CollisionHitboxComponent hitbox = e.getComponent(CollisionHitboxComponent.class);
-
-			if (terrainPos != null && hitbox != null)
-			{
-				Rectangle terrainRect = new Rectangle(terrainPos.pos.x - hitbox.size / 2,
-						terrainPos.pos.y - hitbox.size / 2, hitbox.size, hitbox.size);
-
-				rectangles.add(terrainRect);
-			}
-		}
-		return rectangles;
-	}
-
-	/**
-	 * retrieves entities that are within the given range of the given position
-	 * 
-	 * @param location
-	 * @return
-	 */
-	public ArrayList<Entity> getProxyEntities(Vector2 location, float range, Family whitelist)
-	{
-		ImmutableArray<Entity> allEntities = new ImmutableArray<Entity>(new Array<Entity>());
-		
-		if (whitelist == null)
-		{
-			allEntities = engine.getEntities();
-		}
-		else
-		{
-			allEntities = engine.getEntitiesFor(whitelist);
-		}
-		
-		ArrayList<Entity> proxyEntities = new ArrayList<Entity>();
-
-		for (Entity e : allEntities)
-		{
-			PositionComponent entityPosition = e.getComponent(PositionComponent.class);
-			Vector2 entityPos2d = new Vector2(entityPosition.pos.x, entityPosition.pos.y);
-			if (entityPos2d.dst(location) <= range)
-			{
-				proxyEntities.add(e);
-			}
-		}
-		return proxyEntities;
-	}
-	
-	public Entity getEntityAtLocation(Vector2 location)
-	{
-		return getEntityAtLocation(location, null);
-	}
-
-	public Entity getEntityAtLocation(Vector2 location, Family whitelist)
-	{
-		ImmutableArray<Entity> allEntities = new ImmutableArray<Entity>(new Array<Entity>());
-		
-		if (whitelist == null)
-		{
-			allEntities = engine.getEntities();
-		}
-		else
-		{
-			allEntities = engine.getEntitiesFor(whitelist);
-		}
-
-		Entity closestEntity = null;
-		float closestDistance = Float.MAX_VALUE;
-
-		for (Entity e : allEntities)
-		{
-			PositionComponent entityPos = e.getComponent(PositionComponent.class);
-			Vector2 entityPos2d = new Vector2(entityPos.pos.x, entityPos.pos.y);
-
-			float distance = entityPos2d.dst(location);
-			if (distance < closestDistance)
-			{
-				closestEntity = e;
-				closestDistance = distance;
-			}
-		}
-		return closestEntity;
-	}
-
-	public void debugRectanglesHitbox(ShapeRenderer debug, ArrayList<Rectangle> rects)
-	{
-		debug.setColor(Color.BROWN);
-		for (Rectangle rect : rects)
-		{
-			debug.rect(rect.x, rect.y, rect.width, rect.height);
-		}
 	}
 }

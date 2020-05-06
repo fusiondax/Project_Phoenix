@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.screens.GameScreen;
 
@@ -32,9 +33,9 @@ public class InGameUI extends Stage
 
 	public boolean isSetup = false;
 	
-	public InGameUI(GameScreen gs)
+	public InGameUI(Viewport port, GameScreen gs)
 	{
-		super();
+		super(port);
 		this.gameScreen = gs;
 	}
 	

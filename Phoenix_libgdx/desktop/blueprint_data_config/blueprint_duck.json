@@ -1,7 +1,7 @@
 {
 	"buildableEntityName": "duck",
-	"buildTime": 0.01,
-	"salvageTime": 0.01,
+	"buildTime": 0.20,
+	"salvageTime": 0.20,
 	"buildRange": 50.0,
 	"resourceList":
 	[

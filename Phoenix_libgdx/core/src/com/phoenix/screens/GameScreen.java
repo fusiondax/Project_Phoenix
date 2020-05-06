@@ -15,20 +15,23 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.phoenix.blueprint.BlueprintData;
 import com.phoenix.game.Phoenix;
-import com.phoenix.game.Player;
 import com.phoenix.input.BlueprintInputManager;
 import com.phoenix.input.InputManager;
 import com.phoenix.io.BlueprintDataLoader;
 import com.phoenix.io.JsonUtility;
 import com.phoenix.io.MapLoader;
+import com.phoenix.player.Player;
 import com.phoenix.systems.BlueprintValidationIndicatorRenderSystem;
 import com.phoenix.systems.SelectionBoxRenderSystem;
 import com.phoenix.systems.entitySystems.BlueprintCollectionSystem;
 import com.phoenix.systems.entitySystems.CollisionSystem;
+import com.phoenix.systems.entitySystems.EntityBuildingSystem;
 import com.phoenix.systems.entitySystems.MovementAISystem;
 import com.phoenix.systems.entitySystems.MovementSystem;
+import com.phoenix.systems.entitySystems.ResourceEntitySystem;
 import com.phoenix.systems.entitySystems.SelectedEntityCircleRenderSystem;
 import com.phoenix.systems.entitySystems.TextureRenderSystem;
 import com.phoenix.ui.InGameUI;
@@ -53,9 +56,6 @@ public class GameScreen extends ScreenAdapter
 	public HashMap<String, Player> playerList;
 	public HashMap<String, BlueprintData> blueprintData;
 	
-	public ArrayList<String> buildingEntityList;
-	
-	
 	public GameScreen(Phoenix game)
 	{
 		this.game = game;
@@ -72,7 +72,7 @@ public class GameScreen extends ScreenAdapter
 		shapeRendererLine = new ShapeRenderer();
 		shapeRendererFilled = new ShapeRenderer();
 		
-		guiStage = new InGameUI(this);
+		guiStage = new InGameUI(new ScreenViewport(), this);
 		
 		inputs = new InputMultiplexer(new BlueprintInputManager(this, shapeRendererLine), new InputManager(this, shapeRendererLine), guiStage);
 		
@@ -87,10 +87,12 @@ public class GameScreen extends ScreenAdapter
 		// add the systems that manages entities
 		engine.addSystem(new TextureRenderSystem(this));
 		engine.addSystem(new SelectedEntityCircleRenderSystem(this));
-		engine.addSystem(new MovementSystem());
+		engine.addSystem(new MovementSystem(shapeRendererLine));
 		engine.addSystem(new MovementAISystem(shapeRendererLine));
 		engine.addSystem(new CollisionSystem(shapeRendererLine));
 		engine.addSystem(new BlueprintCollectionSystem(this));
+		engine.addSystem(new EntityBuildingSystem());
+		engine.addSystem(new ResourceEntitySystem());
 		
 		// add the systems that does not manage entities
 		engine.addSystem(new BlueprintValidationIndicatorRenderSystem(this));
@@ -168,9 +170,10 @@ public class GameScreen extends ScreenAdapter
 	@Override
 	public void resize(int width, int height)
 	{
-		guiStage.getViewport().update(width, height, true);
+		
 		camera.viewportHeight = Gdx.graphics.getHeight();
 		camera.viewportWidth = Gdx.graphics.getWidth();
+		guiStage.getViewport().update(width, height, true);
 	}
 
 	@Override

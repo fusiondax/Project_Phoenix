@@ -7,7 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.phoenix.blueprint.Blueprint;
 import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.OwnershipComponent;
-import com.phoenix.game.Player;
+import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
 
 public class BlueprintCollectionSystem extends IteratingSystem

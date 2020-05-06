@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
+import com.phoenix.resource.Resource;
 import com.badlogic.gdx.utils.JsonValue;
-import com.phoenix.game.Resource;
 
 public class BlueprintData implements Serializable
 {

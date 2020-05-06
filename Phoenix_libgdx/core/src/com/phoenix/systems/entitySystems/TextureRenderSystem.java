@@ -44,7 +44,7 @@ public class TextureRenderSystem extends IteratingSystem
 			float originX = width * -0.5f;
 			float originY = height * -0.5f;
 
-			batch.draw(sprite, pos.pos.x + originX, pos.pos.y + originY, 0, 0, width, height, 1, 1, 0);
+			batch.draw(sprite, pos.pos2D.x + originX, pos.pos2D.y + originY, 0, 0, width, height, 1, 1, 0);
 		}
 	}
 }

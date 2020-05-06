@@ -13,11 +13,11 @@ import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.CollisionHitboxComponent;
-import com.phoenix.components.NameComponent;
 import com.phoenix.components.PositionComponent;
-import com.phoenix.components.VelocityComponent;
+import com.phoenix.components.MovementComponent;
 import com.phoenix.physics.CollisionDetector;
 import com.phoenix.physics.CollisionEngine;
+import com.phoenix.utility.GameWorldUtility;
 
 public class CollisionSystem extends IteratingSystem
 {
@@ -48,25 +48,23 @@ public class CollisionSystem extends IteratingSystem
 
 		if (collision.hitboxShape.equals("Rectangle"))
 		{
-			debug.rect(position.pos.x - collision.size / 2, position.pos.y - collision.size / 2, collision.size,
+			debug.rect(position.pos2D.x - collision.size / 2, position.pos2D.y - collision.size / 2, collision.size,
 					collision.size);
 		}
 		else if (collision.hitboxShape.equals("Circle"))
 		{
-			debug.circle(position.pos.x, position.pos.y, collision.size);
+			debug.circle(position.pos2D.x, position.pos2D.y, collision.size);
 		}
 		
-		
-		Vector2 entityPosition = new Vector2(position.pos.x, position.pos.y);
+		Vector2 entityPosition = new Vector2(position.pos2D);
 		
 		Engine engine = getEngine();
-		CollisionDetector detector = new CollisionDetector(engine);
 
 		// get entities that are relatively close the the current entity and that have
 		// collision hitboxes. the range
 		// multiplier is guesswork...
 
-		ArrayList<Entity> proximityEntities = detector.getProxyEntities(entityPosition, collision.size * 5,
+		ArrayList<Entity> proximityEntities = GameWorldUtility.getProxyEntities(engine, entityPosition, collision.size * 5,
 				Family.all(CollisionHitboxComponent.class).get());
 		
 		// remove self from list of close by entities...
@@ -82,17 +80,17 @@ public class CollisionSystem extends IteratingSystem
 			if (CollisionDetector.isShapeCollisionShape(hitbox, shape))
 			{
 				
-				VelocityComponent proxyEntityVC = e.getComponent(VelocityComponent.class);
+				MovementComponent proxyEntityMC = e.getComponent(MovementComponent.class);
 				CollectibleBlueprintComponent proxyEntityCBC = e.getComponent(CollectibleBlueprintComponent.class);
 				
-				if(proxyEntityVC != null)
+				if(proxyEntityMC != null)
 				{
 					Vector2 repulsionForce = CollisionEngine.getCollisionRepulsionVector(e, entity);
 					
 //					System.out.println(entity.getComponent(NameComponent.class).name + " is pushing " 
 //							+ e.getComponent(NameComponent.class).name + " who has velocity " + proxyEntityVC.velocity);
 					
-					proxyEntityVC.velocity.add(repulsionForce);
+					proxyEntityMC.velocity.add(repulsionForce);
 					
 //					System.out.println(entity.getComponent(NameComponent.class).name + " is pushing on " 
 //							+ e.getComponent(NameComponent.class).name + " with force " + repulsionForce.toString());

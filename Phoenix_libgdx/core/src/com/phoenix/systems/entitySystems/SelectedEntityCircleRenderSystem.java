@@ -34,7 +34,7 @@ public class SelectedEntityCircleRenderSystem extends IteratingSystem
 		if (select.selected)
 		{
 			gameScreen.shapeRendererLine.setColor(Color.GREEN);
-			gameScreen.shapeRendererLine.circle(pos.pos.x, pos.pos.y, hitbox.size + 1);
+			gameScreen.shapeRendererLine.circle(pos.pos2D.x, pos.pos2D.y, hitbox.size + 1);
 		}
 	}
 }

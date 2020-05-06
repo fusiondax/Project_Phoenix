@@ -3,7 +3,7 @@
  <tileset firstgid="1" source="../graphics/tilesets/Default Resource Tileset.tsx"/>
  <object name="cog" gid="1" width="64" height="64">
   <properties>
-   <property name="amount" type="int" value="0"/>
+   <property name="amount" type="int" value="1"/>
   </properties>
  </object>
 </template>

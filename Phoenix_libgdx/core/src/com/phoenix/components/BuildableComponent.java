@@ -8,6 +8,8 @@ import com.phoenix.blueprint.BlueprintData;
 
 public class BuildableComponent implements Component, Serializable
 {
+	
+	public static final float NEW_BUILD_BUILD_PROGRESS_START_VALUE = 0.01f;
 	// TODO the component might not even need to have the blueprint data
 	//public BlueprintData data;
 
@@ -63,7 +65,15 @@ public class BuildableComponent implements Component, Serializable
 
 	public void setBuildRate(float buildRate)
 	{
-		if(buildRate <= 1.0 && buildRate >= -1.0)
+		if(buildRate > 1.0)
+		{
+			this.buildRate = 1.0f;
+		}
+		else if(buildRate < -1.0)
+		{
+			this.buildRate = -1.0f;
+		}
+		else
 		{
 			this.buildRate = buildRate;
 		}
@@ -76,7 +86,15 @@ public class BuildableComponent implements Component, Serializable
 
 	public void setBuildProgress(float buildProgress)
 	{
-		if(buildProgress <= 1.0 && buildProgress >= 0.0)
+		if(buildProgress > 1.0)
+		{
+			this.buildProgress = 1.0f;
+		}
+		else if(buildProgress < 0.0)
+		{
+			this.buildProgress = 0.0f;
+		}
+		else
 		{
 			this.buildProgress = buildProgress;
 		}

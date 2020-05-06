@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.PositionComponent;
-import com.phoenix.components.VelocityComponent;
+import com.phoenix.components.MovementComponent;
 
 public class CollisionEngine
 {
@@ -52,11 +52,11 @@ public class CollisionEngine
 	public static Vector2 collideCircles(Entity collider, Entity collided)
 	{
 		PositionComponent colliderPosition = collider.getComponent(PositionComponent.class);
-		Vector2 colliderPosition2D = new Vector2(colliderPosition.pos.x, colliderPosition.pos.y);
-		Vector2 colliderVelocityVector = collider.getComponent(VelocityComponent.class).velocity;
+		Vector2 colliderPosition2D = new Vector2(colliderPosition.pos2D);
+		Vector2 colliderVelocityVector = collider.getComponent(MovementComponent.class).velocity;
 
 		PositionComponent collidedPosition = collided.getComponent(PositionComponent.class);
-		Vector2 collidedPosition2D = new Vector2(collidedPosition.pos.x, collidedPosition.pos.y);
+		Vector2 collidedPosition2D = new Vector2(collidedPosition.pos2D);
 		
 		Vector2 repulsionVector = new Vector2();
 		
@@ -86,11 +86,11 @@ public class CollisionEngine
 	public static Vector2 collideRectangles(Entity collider, Entity collided)
 	{
 		PositionComponent colliderPosition = collider.getComponent(PositionComponent.class);
-		Vector2 colliderPosition2D = new Vector2(colliderPosition.pos.x, colliderPosition.pos.y);
-		Vector2 colliderVelocityVector = collider.getComponent(VelocityComponent.class).velocity;
+		Vector2 colliderPosition2D = new Vector2(colliderPosition.pos2D);
+		Vector2 colliderVelocityVector = collider.getComponent(MovementComponent.class).velocity;
 
 		PositionComponent collidedPosition = collided.getComponent(PositionComponent.class);
-		Vector2 collidedPosition2D = new Vector2(collidedPosition.pos.x, collidedPosition.pos.y);
+		Vector2 collidedPosition2D = new Vector2(collidedPosition.pos2D);
 
 		Vector2 repulsionVector = new Vector2();
 		
@@ -149,25 +149,25 @@ public class CollisionEngine
 		{
 			case "Circle":
 			{
-				shape = new Circle(pc.pos.x, pc.pos.y, chc.size);
+				shape = new Circle(pc.pos2D, chc.size);
 
-				if (debug != null)
-				{
-					debug.setColor(Color.ORANGE);
-					debug.circle(pc.pos.x, pc.pos.y, chc.size);
-				}
+//				if (debug != null)
+//				{
+//					debug.setColor(Color.ORANGE);
+//					debug.circle(pc.pos2D.x, pc.pos2D.y, chc.size);
+//				}
 				break;
 			}
 
 			case "Rectangle":
 			{
-				shape = new Rectangle(pc.pos.x - chc.size / 2, pc.pos.y - chc.size / 2, chc.size, chc.size);
+				shape = new Rectangle(pc.pos2D.x - chc.size / 2, pc.pos2D.y - chc.size / 2, chc.size, chc.size);
 
-				if (debug != null)
-				{
-					debug.setColor(Color.ORANGE);
-					debug.rect(pc.pos.x - chc.size / 2, pc.pos.y - chc.size / 2, chc.size, chc.size);
-				}
+//				if (debug != null)
+//				{
+//					debug.setColor(Color.ORANGE);
+//					debug.rect(pc.pos2D.x - chc.size / 2, pc.pos2D.y - chc.size / 2, chc.size, chc.size);
+//				}
 				break;
 			}
 		}

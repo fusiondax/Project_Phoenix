@@ -6,11 +6,11 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class VelocityComponent implements Component, Serializable
+public class MovementComponent implements Component, Serializable
 {
 	//TODO potential game exploit where saving and loading a game kills the momentum of a unit... not sure if desirable or not...
 	public Vector2 velocity = new Vector2();
-
+	
 	@Override
 	public void write(Json json)
 	{

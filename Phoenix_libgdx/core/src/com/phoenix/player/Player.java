@@ -1,4 +1,4 @@
-package com.phoenix.game;
+package com.phoenix.player;
 
 import java.util.ArrayList;
 
@@ -81,6 +81,7 @@ public class Player
 			if(existingBlueprint.getAmount() <= 0)
 			{
 				blueprintLibrary.remove(existingBlueprint);
+				selectedBlueprint = null;
 			}
 		}
 		else

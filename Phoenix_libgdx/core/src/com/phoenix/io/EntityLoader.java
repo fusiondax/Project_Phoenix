@@ -17,8 +17,8 @@ import com.phoenix.components.SelectionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.TextureComponent;
 import com.phoenix.components.ValidTerrainTypesComponent;
-import com.phoenix.components.VelocityComponent;
-import com.phoenix.game.Resource;
+import com.phoenix.components.MovementComponent;
+import com.phoenix.resource.Resource;
 
 public class EntityLoader
 {
@@ -70,7 +70,7 @@ public class EntityLoader
 	
 				case "Velocity":
 				{
-					comp = new VelocityComponent();
+					comp = new MovementComponent();
 					break;
 				}
 	
@@ -192,7 +192,7 @@ public class EntityLoader
 				case "PositionComponent":
 				{
 					PositionComponent entityPos = initialEntity.getComponent(PositionComponent.class);
-					entityPos.pos.set(((PositionComponent) comp).pos);
+					entityPos.pos2D.set(((PositionComponent) comp).pos2D);
 					break;
 				}
 				

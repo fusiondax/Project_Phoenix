@@ -23,16 +23,17 @@ import com.phoenix.components.MovementAIComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.ValidTerrainTypesComponent;
-import com.phoenix.components.VelocityComponent;
+import com.phoenix.components.MovementComponent;
 import com.phoenix.game.Phoenix;
 import com.phoenix.physics.CollisionDetector;
-import com.phoenix.utility.GameUtility;
+import com.phoenix.utility.EntityUtility;
+import com.phoenix.utility.GameWorldUtility;
 
 public class MovementAISystem extends IteratingSystem
 {
 	private ComponentMapper<MovementAIComponent> mam = ComponentMapper.getFor(MovementAIComponent.class);
 	private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
-	private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
+	private ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
 	private ComponentMapper<CollisionHitboxComponent> chm = ComponentMapper.getFor(CollisionHitboxComponent.class);
 	private ComponentMapper<ValidTerrainTypesComponent> vttm = ComponentMapper.getFor(ValidTerrainTypesComponent.class);
 
@@ -45,7 +46,7 @@ public class MovementAISystem extends IteratingSystem
 
 	public MovementAISystem(ShapeRenderer debug)
 	{
-		super(Family.all(PositionComponent.class, VelocityComponent.class, MovementAIComponent.class,
+		super(Family.all(PositionComponent.class, MovementComponent.class, MovementAIComponent.class,
 				CollisionHitboxComponent.class, ValidTerrainTypesComponent.class).get());
 		this.debug = debug;
 	}
@@ -59,19 +60,17 @@ public class MovementAISystem extends IteratingSystem
 		{
 			Engine engine = getEngine();
 			PositionComponent entityPosition = pm.get(entity);
-			VelocityComponent entityVelocity = vm.get(entity);
+			MovementComponent entityMovement = mm.get(entity);
 			CollisionHitboxComponent entityHitbox = chm.get(entity);
 			ValidTerrainTypesComponent entityValidTerrainTypes = vttm.get(entity);
 
-			Vector2 entityPosition2d = new Vector2(entityPosition.pos.x, entityPosition.pos.y);
+			Vector2 entityPosition2d = new Vector2(entityPosition.pos2D);
 			float unitMaxSpeed = mac.unitMaxSpeed;
 
 			Vector2 nextDestination = mac.destinations.get(0);
 
 			if (nextDestination.dst(entityPosition2d) >= entityHitbox.size / 2)
 			{
-				CollisionDetector detector = new CollisionDetector(engine);
-
 				Vector2 nextDestinationVector = new Vector2(nextDestination.x - entityPosition2d.x,
 						nextDestination.y - entityPosition2d.y);
 				nextDestinationVector.setLength(unitMaxSpeed);
@@ -89,16 +88,17 @@ public class MovementAISystem extends IteratingSystem
 				// debug.line(nextPathStartPoint, nextDestination);
 				// debug.setColor(Color.YELLOW);
 				// debug.circle(hitboxCircle.x, hitboxCircle.y, hitboxCircle.radius);
-				
+
 				// if the unit is colliding with something for more than a second
 				// TODO add more refined pathfinding start conditions: ignore moving friendly
 				// units, ask stationary friendly units who are blocking to move around
-				if (detector.isCircleCollisionRectangles(hitboxCircle,
-						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(entityValidTerrainTypes))))
+				if (CollisionDetector.isCircleCollisionRectangles(hitboxCircle, EntityUtility.getRectanglesFromTerrains(
+						EntityUtility.getImpassableTerrains(engine, entityValidTerrainTypes))))
 				{
 					if (mac.startPathfindingDelay <= 0)
 					{
-						searchNewPath(detector, entityPosition2d, nextPathStartPoint, nextDestination, mac, entityValidTerrainTypes);
+						searchNewPath(entityPosition2d, nextPathStartPoint, nextDestination, mac,
+								entityValidTerrainTypes);
 					}
 					else
 					{
@@ -114,39 +114,41 @@ public class MovementAISystem extends IteratingSystem
 
 				}
 				// debugFoundPath(mac.destinations);
-//				System.out.println("units wants to move by: " + entityVelocity.velocity);
-				entityVelocity.velocity.set(nextDestinationVector);
+				// System.out.println("units wants to move by: " + entityVelocity.velocity);
+				entityMovement.velocity.set(nextDestinationVector);
 
 			}
 			else // unit's hitbox is at destination, remove current destination point and stops
 					// the unit there
 			{
 				mac.destinations.remove(0);
-				entityVelocity.velocity.setZero();
+				entityMovement.velocity.setZero();
 			}
 		}
 	}
 
-	private void searchNewPath(CollisionDetector detector, Vector2 initialPoint, Vector2 startNode, Vector2 endNode,
+	private void searchNewPath(Vector2 initialPoint, Vector2 startNode, Vector2 endNode,
 			MovementAIComponent mac, ValidTerrainTypesComponent vttc)
 	{
 		Engine engine = getEngine();
 		ImmutableArray<Entity> allTerrains = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
 
-		Entity startTerrain = detector.getEntityAtLocation(initialPoint, Family.one(TerrainComponent.class).get());
+		Entity startTerrain = GameWorldUtility.getEntityAtLocation(engine, initialPoint,
+				Family.one(TerrainComponent.class).get());
 		PositionComponent startTerrainPos = startTerrain.getComponent(PositionComponent.class);
 
-		Entity endTerrain = detector.getEntityAtLocation(endNode, Family.one(TerrainComponent.class).get());
+		Entity endTerrain = GameWorldUtility.getEntityAtLocation(engine, endNode,
+				Family.one(TerrainComponent.class).get());
 		PositionComponent endTerrainPos = endTerrain.getComponent(PositionComponent.class);
 
-		int[] mapDimension = GameUtility.getMapDimension(engine);
+		int[] mapDimension = GameWorldUtility.getMapDimension(engine);
 		GridCell[][] cells = new GridCell[mapDimension[0]][mapDimension[1]];
 
 		for (Entity terrainEntity : allTerrains)
 		{
 			PositionComponent entityPos = terrainEntity.getComponent(PositionComponent.class);
 			TerrainComponent terrainComp = terrainEntity.getComponent(TerrainComponent.class);
-			Vector2 terrainPos2D = new Vector2(entityPos.pos.x, entityPos.pos.y);
+			Vector2 terrainPos2D = new Vector2(entityPos.pos2D);
 
 			int x = (int) terrainPos2D.x / Phoenix.TERRAIN_SIZE;
 			int y = (int) terrainPos2D.y / Phoenix.TERRAIN_SIZE;
@@ -170,11 +172,11 @@ public class MovementAISystem extends IteratingSystem
 		opt.allowDiagonal = false;
 		AStarGridFinder<GridCell> finder = new AStarGridFinder<GridCell>(GridCell.class, opt);
 
-		Vector2 startTerrainPosition2D = new Vector2(startTerrainPos.pos.x, startTerrainPos.pos.y);
+		Vector2 startTerrainPosition2D = new Vector2(startTerrainPos.pos2D);
 		// debug.setColor(Color.WHITE);
 		// debug.circle(startTerrainPosition2D.x, startTerrainPosition2D.y, 15);
 
-		Vector2 endTerrainPosition2D = new Vector2(endTerrainPos.pos.x, endTerrainPos.pos.y);
+		Vector2 endTerrainPosition2D = new Vector2(endTerrainPos.pos2D);
 		// debug.setColor(Color.BLACK);
 		// debug.circle(endTerrainPosition2D.x, endTerrainPosition2D.y, 15);
 
@@ -195,7 +197,7 @@ public class MovementAISystem extends IteratingSystem
 				// debugFoundPath(convertedPath);
 				if (convertedPath.size() > 0)
 				{
-					convertedPath = getOptimizedPath(convertedPath, detector, vttc);
+					convertedPath = getOptimizedPath(convertedPath, engine, vttc);
 				}
 
 				updateEntityDestinations(mac, convertedPath);
@@ -234,7 +236,8 @@ public class MovementAISystem extends IteratingSystem
 		return convertedPath;
 	}
 
-	private ArrayList<Vector2> getOptimizedPath(ArrayList<Vector2> pathToOptimize, CollisionDetector detector, ValidTerrainTypesComponent vttc)
+	private ArrayList<Vector2> getOptimizedPath(ArrayList<Vector2> pathToOptimize, Engine engine,
+			ValidTerrainTypesComponent vttc)
 	{
 		ArrayList<Vector2> pathToOptimizeWithMidNodes = new ArrayList<Vector2>();
 
@@ -274,8 +277,8 @@ public class MovementAISystem extends IteratingSystem
 			{
 				Vector2 endNodeToConnect = pathToOptimizeWithMidNodes.get(endNodeIndex);
 
-				if (!detector.isSegmentCollisionRectangles(startNodeToConnect, endNodeToConnect,
-						CollisionDetector.getRectanglesFromTerrains(detector.getImpassableTerrains(vttc))))
+				if (!CollisionDetector.isSegmentCollisionRectangles(startNodeToConnect, endNodeToConnect,
+						EntityUtility.getRectanglesFromTerrains(EntityUtility.getImpassableTerrains(engine, vttc))))
 				{
 					optimizedPath.add(endNodeToConnect);
 					startNodeToConnect = endNodeToConnect;
