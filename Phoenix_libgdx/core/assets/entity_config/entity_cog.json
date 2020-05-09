@@ -13,7 +13,8 @@
 			"component_type": "Position"
 		},
 		{
-			"component_type": "Velocity"
+			"component_type": "Velocity",
+			"friction": 0.9
 		},
 		{
 			"component_type": "CollisionHitbox",

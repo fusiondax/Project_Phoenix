@@ -19,48 +19,48 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.CollisionHitboxComponent;
-import com.phoenix.components.MovementAIComponent;
+import com.phoenix.components.MoveCommandComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.ValidTerrainTypesComponent;
-import com.phoenix.components.MovementComponent;
+import com.phoenix.components.VelocityComponent;
 import com.phoenix.game.Phoenix;
 import com.phoenix.physics.CollisionDetector;
 import com.phoenix.utility.EntityUtility;
 import com.phoenix.utility.GameWorldUtility;
 
-public class MovementAISystem extends IteratingSystem
+public class MoveCommandSystem extends IteratingSystem
 {
-	private ComponentMapper<MovementAIComponent> mam = ComponentMapper.getFor(MovementAIComponent.class);
+	private ComponentMapper<MoveCommandComponent> mam = ComponentMapper.getFor(MoveCommandComponent.class);
 	private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
-	private ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
+	private ComponentMapper<VelocityComponent> mm = ComponentMapper.getFor(VelocityComponent.class);
 	private ComponentMapper<CollisionHitboxComponent> chm = ComponentMapper.getFor(CollisionHitboxComponent.class);
 	private ComponentMapper<ValidTerrainTypesComponent> vttm = ComponentMapper.getFor(ValidTerrainTypesComponent.class);
 
 	private ShapeRenderer debug;
 
-	public MovementAISystem()
+	public MoveCommandSystem()
 	{
 		this(null);
 	}
 
-	public MovementAISystem(ShapeRenderer debug)
+	public MoveCommandSystem(ShapeRenderer debug)
 	{
-		super(Family.all(PositionComponent.class, MovementComponent.class, MovementAIComponent.class,
-				CollisionHitboxComponent.class, ValidTerrainTypesComponent.class).get());
+		super(Family.all(PositionComponent.class, VelocityComponent.class, MoveCommandComponent.class,
+				CollisionHitboxComponent.class, ValidTerrainTypesComponent.class).get(), 0);
 		this.debug = debug;
 	}
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime)
 	{
-		MovementAIComponent mac = mam.get(entity);
+		MoveCommandComponent mac = mam.get(entity);
 
 		if (!mac.destinations.isEmpty())
 		{
 			Engine engine = getEngine();
 			PositionComponent entityPosition = pm.get(entity);
-			MovementComponent entityMovement = mm.get(entity);
+			VelocityComponent entityMovement = mm.get(entity);
 			CollisionHitboxComponent entityHitbox = chm.get(entity);
 			ValidTerrainTypesComponent entityValidTerrainTypes = vttm.get(entity);
 
@@ -107,7 +107,7 @@ public class MovementAISystem extends IteratingSystem
 				}
 				else // if not, proceed on current vector
 				{
-					mac.startPathfindingDelay = MovementAIComponent.START_PATHFINDING_DELAY_MAX;
+					mac.startPathfindingDelay = MoveCommandComponent.START_PATHFINDING_DELAY_MAX;
 
 					// debug.setColor(Color.RED);
 					// debug.line(new Vector2(), velocityVector);
@@ -115,7 +115,14 @@ public class MovementAISystem extends IteratingSystem
 				}
 				// debugFoundPath(mac.destinations);
 				// System.out.println("units wants to move by: " + entityVelocity.velocity);
-				entityMovement.velocity.set(nextDestinationVector);
+				
+				entityMovement.velocity.add(nextDestinationVector);
+				
+//				debug.setColor(Color.WHITE);
+//				debug.line(entityPosition2d, entityPosition2d.cpy().add(nextDestinationVector));
+//				
+//				debug.circle(entityPosition2d.x + nextDestinationVector.x, entityPosition2d.y + nextDestinationVector.y, nextDestinationVector.len() / 10);
+				
 
 			}
 			else // unit's hitbox is at destination, remove current destination point and stops
@@ -128,7 +135,7 @@ public class MovementAISystem extends IteratingSystem
 	}
 
 	private void searchNewPath(Vector2 initialPoint, Vector2 startNode, Vector2 endNode,
-			MovementAIComponent mac, ValidTerrainTypesComponent vttc)
+			MoveCommandComponent mac, ValidTerrainTypesComponent vttc)
 	{
 		Engine engine = getEngine();
 		ImmutableArray<Entity> allTerrains = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
@@ -214,7 +221,7 @@ public class MovementAISystem extends IteratingSystem
 		}
 	}
 
-	private void updateEntityDestinations(MovementAIComponent mac, ArrayList<Vector2> newPath)
+	private void updateEntityDestinations(MoveCommandComponent mac, ArrayList<Vector2> newPath)
 	{
 		ArrayList<Vector2> oldDestinations = new ArrayList<Vector2>(mac.destinations);
 

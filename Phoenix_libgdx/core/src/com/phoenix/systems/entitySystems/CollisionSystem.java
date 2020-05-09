@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Shape2D;
@@ -14,7 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.PositionComponent;
-import com.phoenix.components.MovementComponent;
+import com.phoenix.components.VelocityComponent;
 import com.phoenix.physics.CollisionDetector;
 import com.phoenix.physics.CollisionEngine;
 import com.phoenix.utility.GameWorldUtility;
@@ -80,25 +82,25 @@ public class CollisionSystem extends IteratingSystem
 			if (CollisionDetector.isShapeCollisionShape(hitbox, shape))
 			{
 				
-				MovementComponent proxyEntityMC = e.getComponent(MovementComponent.class);
-				CollectibleBlueprintComponent proxyEntityCBC = e.getComponent(CollectibleBlueprintComponent.class);
+				VelocityComponent entityVC = entity.getComponent(VelocityComponent.class);
+				CollectibleBlueprintComponent entityCBC = entity.getComponent(CollectibleBlueprintComponent.class);
 				
-				if(proxyEntityMC != null)
+				if(entityVC != null)
 				{
-					Vector2 repulsionForce = CollisionEngine.getCollisionRepulsionVector(e, entity);
+					Vector2 repulsionForce = CollisionEngine.getCollisionRepulsionVector(entity, e, debug);
 					
 //					System.out.println(entity.getComponent(NameComponent.class).name + " is pushing " 
 //							+ e.getComponent(NameComponent.class).name + " who has velocity " + proxyEntityVC.velocity);
 					
-					proxyEntityMC.velocity.add(repulsionForce);
+					entityVC.velocity.add(repulsionForce);
 					
 //					System.out.println(entity.getComponent(NameComponent.class).name + " is pushing on " 
 //							+ e.getComponent(NameComponent.class).name + " with force " + repulsionForce.toString());
 				}
 				
-				if(proxyEntityCBC != null)
+				if(entityCBC != null)
 				{
-					proxyEntityCBC.collector = entity;
+					entityCBC.collector = e;
 				}
 			}
 		}

@@ -8,9 +8,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class MovementAIComponent implements Component, Serializable
+public class MoveCommandComponent implements Component, Serializable
 {
-	public static final int START_PATHFINDING_DELAY_MAX = 15;
+	public static final int START_PATHFINDING_DELAY_MAX = 1000;
 	
 	public ArrayList<Vector2> destinations = new ArrayList<Vector2>();
 	public float unitMaxSpeed = 0.0f;

@@ -10,13 +10,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.phoenix.components.MovementAIComponent;
+import com.phoenix.components.MoveCommandComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.SelectionComponent;
 import com.phoenix.components.TextureComponent;
 import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
+import com.phoenix.ui.PhoenixCursor;
 import com.phoenix.utility.MathUtility;
 
 public class InputManager implements InputProcessor
@@ -36,33 +37,57 @@ public class InputManager implements InputProcessor
 //		System.out.println(Input.Keys.toString(keycode));
 		
 		boolean handled = false;
-		switch(Input.Keys.toString(keycode))
+		switch(keycode)
 		{
-			case "W":
+			case Input.Keys.W:
 			{
 				gameScreen.camera.translate(0, 10);
 				handled = true;
 				break;
 			}
 			
-			case "A":
+			case Input.Keys.A:
 			{
 				gameScreen.camera.translate(-10, 0);
 				handled = true;
 				break;
 			}
 			
-			case "S":
+			case Input.Keys.S:
 			{
 				gameScreen.camera.translate(0, -10);
 				handled = true;
 				break;
 			}
 			
-			case "D":
+			case Input.Keys.D:
 			{
 				gameScreen.camera.translate(10, 0);
 				handled = true;
+				break;
+			}
+			
+			case Input.Keys.P:
+			{
+				gameScreen.toggleSystems();
+				break;
+			}
+			
+			case Input.Keys.PLUS:
+			{
+				gameScreen.setTimeDilation(gameScreen.getTimeDilation() + 0.1f);
+				break;
+			}
+			
+			case Input.Keys.MINUS:
+			{
+				gameScreen.setTimeDilation(gameScreen.getTimeDilation() - 0.1f);
+				break;
+			}
+			
+			case Input.Keys.L:
+			{
+				gameScreen.setTimeDilation(1);
 				break;
 			}
 		}
@@ -115,11 +140,11 @@ public class InputManager implements InputProcessor
 				
 				for(Entity e : gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities)
 				{
-					MovementAIComponent mac = e.getComponent(MovementAIComponent.class);
+					MoveCommandComponent mac = e.getComponent(MoveCommandComponent.class);
 					PositionComponent pc = e.getComponent(PositionComponent.class);
 					if(mac != null && pc != null)
 					{
-						mac.startPathfindingDelay = MovementAIComponent.START_PATHFINDING_DELAY_MAX;
+						mac.startPathfindingDelay = MoveCommandComponent.START_PATHFINDING_DELAY_MAX;
 						mac.destinations.clear();
 						mac.destinations.add(worldPos);
 					}
@@ -218,6 +243,8 @@ public class InputManager implements InputProcessor
 		//System.out.println("Y: " + screenY);
 		OrthographicCamera cam = gameScreen.camera;
 		
+		boolean handled = false;
+		
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 		{
 			Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
@@ -227,20 +254,24 @@ public class InputManager implements InputProcessor
 			
 			//System.out.println("selectionBox: " + gameScreen.selectionBox.toString());
 			//gameScreen.selectionBox = MathUtility.readjustRectangle(gameScreen.selectionBox);
+			
+			handled = true;
 		}
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.MIDDLE))
 		{
 			gameScreen.camera.translate(player.prevCamDragPos.x - screenX, screenY - player.prevCamDragPos.y);
 			player.prevCamDragPos.set(screenX, screenY);
+			handled = true;
 		}
 		
-		return false;
+		return handled;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY)
 	{
+		gameScreen.game.cursor = PhoenixCursor.Arrow.getCursor();
 		return false;
 	}
 

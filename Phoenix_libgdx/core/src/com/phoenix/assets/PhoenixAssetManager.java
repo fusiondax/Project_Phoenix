@@ -23,6 +23,7 @@ public class PhoenixAssetManager
 	private void loadTextures()
 	{
 		manager.load("graphics/atlas/entities.atlas", TextureAtlas.class);
+		manager.load("graphics/atlas/ui.atlas", TextureAtlas.class);
 		/*
 		manager.load("graphics/terrain_grass.png", TextureRegion.class);
 		manager.load("graphics/terrain_rocky_grass.png", TextureRegion.class);

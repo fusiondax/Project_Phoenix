@@ -3,10 +3,14 @@ package com.phoenix.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.screens.GameScreen;
+import com.phoenix.ui.PhoenixCursor;
 
 public class Phoenix extends Game
 {
@@ -16,6 +20,8 @@ public class Phoenix extends Game
 	//public InputManager inputManager;
 	
 	public GameScreen gameScreen;
+	
+	public Cursor cursor;
 
 	@Override
 	public void create()
@@ -26,6 +32,7 @@ public class Phoenix extends Game
 		
 		this.gameScreen = new GameScreen(this);
 		
+		cursor = PhoenixCursor.Arrow.getCursor();
 	}
 	
 	@Override
@@ -47,6 +54,8 @@ public class Phoenix extends Game
 			System.out.println(manager.getProgress());
 		}
 		super.render();
+		
+		Gdx.graphics.setCursor(this.cursor);
 	}
 	
 	@Override

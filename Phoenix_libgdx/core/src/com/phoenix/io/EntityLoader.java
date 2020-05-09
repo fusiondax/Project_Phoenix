@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.phoenix.components.BuildableComponent;
 import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.CollisionHitboxComponent;
-import com.phoenix.components.MovementAIComponent;
+import com.phoenix.components.MoveCommandComponent;
 import com.phoenix.components.NameComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
@@ -17,7 +17,7 @@ import com.phoenix.components.SelectionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.TextureComponent;
 import com.phoenix.components.ValidTerrainTypesComponent;
-import com.phoenix.components.MovementComponent;
+import com.phoenix.components.VelocityComponent;
 import com.phoenix.resource.Resource;
 
 public class EntityLoader
@@ -64,13 +64,16 @@ public class EntityLoader
 				case "Position":
 				{
 					comp = new PositionComponent();
-					
 					break;
 				}
 	
 				case "Velocity":
 				{
-					comp = new MovementComponent();
+					comp = new VelocityComponent();
+					if(componentsJson.get("friction")!= null)
+					{
+						((VelocityComponent) comp).friction = componentsJson.get("friction").asFloat();
+					}
 					break;
 				}
 	
@@ -81,16 +84,17 @@ public class EntityLoader
 					{
 						((CollisionHitboxComponent) comp).hitboxShape = componentsJson.get("shape").asString();
 						((CollisionHitboxComponent) comp).size = componentsJson.get("size").asFloat();
-					}	
+					}
+					
 					break;
 				}
 	
-				case "MovementAI":
+				case "MoveCommand":
 				{
-					comp = new MovementAIComponent();
+					comp = new MoveCommandComponent();
 					if (componentsJson.get("unitMaxSpeed") != null)
 					{
-						((MovementAIComponent) comp).unitMaxSpeed = componentsJson.get("unitMaxSpeed").asFloat();
+						((MoveCommandComponent) comp).unitMaxSpeed = componentsJson.get("unitMaxSpeed").asFloat();
 					}
 					break;
 				}

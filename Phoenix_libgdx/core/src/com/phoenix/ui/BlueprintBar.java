@@ -47,14 +47,12 @@ public class BlueprintBar extends Table
 			{
 				// TODO bind this key to the future keybind map when configurable keys becomes a
 				// thing
-
 				boolean handled = false;
 				if (Input.Keys.TAB == keycode)
 				{
 					toggle();
 					handled = true;
 				}
-
 				return handled;
 			}
 

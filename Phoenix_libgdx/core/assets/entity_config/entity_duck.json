@@ -13,7 +13,8 @@
 			"component_type": "Position"
 		},
 		{
-			"component_type": "Velocity"
+			"component_type": "Velocity",
+			"friction": 0.1
 		},
 		{
 			"component_type": "CollisionHitbox",
@@ -28,7 +29,7 @@
 			"mode": "any"
 		},
 		{
-			"component_type": "MovementAI",
+			"component_type": "MoveCommand",
 			"unitMaxSpeed": 100.0,
 		},
 		{
