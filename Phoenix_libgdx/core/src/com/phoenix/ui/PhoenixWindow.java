@@ -3,21 +3,27 @@ package com.phoenix.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Align;
+import com.phoenix.input.WindowCloseButtonInputListener;
+import com.phoenix.input.WindowInputListener;
+import com.phoenix.input.WindowMinMaxButtonInputListener;
 import com.phoenix.screens.GameScreen;
 
 public class PhoenixWindow extends Window
 {
-	private GameScreen gameScreen;
+	public GameScreen gameScreen;
+	private boolean keepWithinStage = true;
 
 	public static final int RESIZE_BORDER = 5;
+	public static final int TITLE_TABLE_HEIGHT = 20;
 
 	public PhoenixWindow(String title, Skin skin, String styleName, GameScreen gs)
 	{
@@ -28,77 +34,83 @@ public class PhoenixWindow extends Window
 		setModal(false);
 		setResizable(true);
 		setLayoutEnabled(true);
-		setResizeBorder(RESIZE_BORDER * 2);
-		padTop(20);
-		
-		getTitleTable().align(Align.center);
-		
-		getTitleLabel().setAlignment(Align.center);
+		setKeepWithinStage(true);
+		// pad top defines the height of the title bar
+		padTop(TITLE_TABLE_HEIGHT);
 
 		Pixmap titleTableColor = new Pixmap(10, 10, Pixmap.Format.RGB888);
 		titleTableColor.setColor(Color.BLUE);
 		titleTableColor.fill();
 		getTitleTable().setBackground(new Image(new Texture(titleTableColor)).getDrawable());
 
-		getTitleTable().setScale(0.2f);
+		// getTitleLabel().
+		getTitleTable().getCell(getTitleLabel()).padLeft(RESIZE_BORDER).minWidth(getTitleLabel().getWidth());
 
-		addListener(new InputListener()
+		addTitleBarButtons(skin);
+
+		// clear the listeners from the parent class. the listener will be replaced by a
+		// similar listener with updated features
+		clearListeners();
+		addListener(new WindowInputListener(this));
+	}
+
+	private void addTitleBarButtons(Skin skin)
+	{
+		// minimize/maximize button
+		Image minMaxWindowButton = new Image(skin, "ui_minimize_window_button");
+		minMaxWindowButton.addListener(new WindowMinMaxButtonInputListener(minMaxWindowButton, this));
+		getTitleTable().add(minMaxWindowButton).align(Align.right).padRight(RESIZE_BORDER).padTop(RESIZE_BORDER)
+				.minWidth(minMaxWindowButton.getWidth());
+
+		// close button
+		Image closeWindowButton = new Image(skin, "ui_close_window_button");
+		closeWindowButton.addListener(new WindowCloseButtonInputListener());
+		getTitleTable().add(closeWindowButton).align(Align.right).padRight(RESIZE_BORDER).padTop(RESIZE_BORDER)
+				.minWidth(closeWindowButton.getWidth());
+	}
+
+	@Override
+	public float getMinHeight()
+	{
+		return getPadTop();
+
+	}
+
+	@Override
+	public float getMinWidth()
+	{
+		float minWidth = 0;
+
+		for (Cell<Actor> c : getTitleTable().getCells())
 		{
-			public boolean mouseMoved(InputEvent event, float x, float y)
-			{
-				System.out.println("mouse cursor at x: " + x + " y: " + y);
+			minWidth += c.getMinWidth();
+		}
 
-				// left or right
-				if ((x >= 0 && x <= RESIZE_BORDER) || (x <= getWidth() && x >= getWidth() - RESIZE_BORDER))
-				{
-					gameScreen.game.cursor = PhoenixCursor.Horizontal_Resize.getCursor();
-				}
+		System.out.println("min width: " + minWidth);
 
-				// TODO weird bug where you can't resize windows from the top. I believe it's
-				// from the Window class that I inherit
-				// bottom
-				if ((y >= 0 && y <= RESIZE_BORDER) || (y >= getHeight() - RESIZE_BORDER && y <= getHeight()))
-				{
-					gameScreen.game.cursor = PhoenixCursor.Vertical_Resize.getCursor();
-				}
-
-				// top right doesn't work
-				// bottom left
-				if (((x >= 0 && x <= 30) && (y >= 0 && y <= 30))
-						/*|| ((x <= getWidth() && x >= getWidth() - 30) && (y <= getHeight() && y >= getHeight() - 30))*/)
-				{
-					gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Left_Resize.getCursor();
-				}
-				// top left doesn't work
-				// bottom right
-				if ((x <= getWidth() && x >= getWidth() - 30) && (y >= 0 && y <= 30)
-						/*|| ((x >= 0 && x <= 30) && (y <= getHeight() && y >= getHeight() - 30))*/)
-				{
-					gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Right_Resize.getCursor();
-				}
-
-				// center
-				if ((x <= getWidth() - RESIZE_BORDER && x >= RESIZE_BORDER)
-						&& (y <= getHeight() - RESIZE_BORDER && y >= RESIZE_BORDER))
-				{
-					gameScreen.game.cursor = PhoenixCursor.Arrow.getCursor();
-				}
-				return true;
-			}
-
-			public void touchDragged(InputEvent event, float x, float y, int pointer)
-			{
-				if ((y >= getHeight() - RESIZE_BORDER && y <= getHeight()))
-				{
-					System.out.println("wow");
-				}
-			}
-		});
+		return minWidth;
 	}
 
 	@Override
 	public void act(float delta)
 	{
 
+	}
+
+	public boolean getKeepWithinStage()
+	{
+		return keepWithinStage;
+	}
+
+	@Override
+	public void setKeepWithinStage(boolean keepWithinStage)
+	{
+		this.keepWithinStage = keepWithinStage;
+		super.setKeepWithinStage(this.keepWithinStage);
+	}
+
+	public enum WindowResizeMode
+	{
+		None, Top, Bottom, Left, Right, Top_Left, Top_Right, Bottom_Left, Bottom_Right, Move;
 	}
 }

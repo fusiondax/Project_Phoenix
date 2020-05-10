@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class BlueprintBar extends Table
@@ -75,25 +76,21 @@ public class BlueprintBar extends Table
 
 			for (Blueprint b : player.getBlueprintLibrary())
 			{
+				Table icon = new Table(getSkin());
 				
-				// for every blueprint type in the player's blueprint library, create a smaller
-				// image of a blueprint that can fit in the blueprint bar
-				ImageTextButton blueprintIcon = new ImageTextButton("", getSkin(), "default_image_text_button");
+				icon.setSize(40, 40);
+				
+				icon.setBackground(getSkin().getDrawable("blueprint"));
+				
+				Label blueprintAmount = new Label(String.valueOf(b.getAmount()), getSkin(), "default_label");
+				
+				icon.add(blueprintAmount);
 
-				blueprintIcon.setWidth(40);
-				blueprintIcon.setHeight(40);
-				blueprintIcon.align(Align.center);
-				// TODO set different styles for when the button is used
-				// blueprintIcon.setStyle(ButtonStyle.);
+				icon.addListener(new BlueprintIconInputListener(b, player));
 
-				blueprintIcon.getImage().setDrawable(getSkin(), "blueprint");
-				blueprintIcon.getLabel().setText(b.getAmount());
+				//icon.debug();
 
-				blueprintIcon.addListener(new BlueprintIconInputListener(b, player));
-
-				blueprintIcon.debug();
-
-				hGroup.addActor(blueprintIcon);
+				hGroup.addActor(icon);
 			}
 		}
 		else

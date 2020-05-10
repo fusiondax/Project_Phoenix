@@ -10,7 +10,8 @@ public enum PhoenixCursor
 	Vertical_Resize("ui_ver_resize_cursor", 16, 16), 
 	Horizontal_Resize("ui_hor_resize_cursor", 16, 16), 
 	Diagonal_Bottom_Right_Resize("ui_diagonal_bot_right_resize_cursor", 16, 16), 
-	Diagonal_Bottom_Left_Resize("ui_diagonal_bot_left_resize_cursor", 16, 16);
+	Diagonal_Bottom_Left_Resize("ui_diagonal_bot_left_resize_cursor", 16, 16),
+	Hand("ui_hand_cursor", 16, 16);
 	
 	private Cursor cursor;
 	
