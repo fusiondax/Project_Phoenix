@@ -6,18 +6,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class FramerateCounterLabel extends Label
 {
-
-	public FramerateCounterLabel(CharSequence text, Skin skin)
+	public FramerateCounterLabel(Skin skin, String styleName)
 	{
-		super(text, skin, "default_label");
+		super("waddup", skin, styleName);
 	}
-	
 	
 	@Override
 	public void act(float delta)
 	{
-		setBounds(Gdx.graphics.getWidth() - 75, Gdx.graphics.getHeight() / 2, 0, 0);
 		setText("FPS: " + Gdx.graphics.getFramesPerSecond());
 	}
-
 }

@@ -46,17 +46,17 @@ public class CollisionSystem extends IteratingSystem
 		CollisionHitboxComponent collision = cm.get(entity);
 		
 		// this is for debug purposes
-		debug.setColor(Color.ORANGE);
-
-		if (collision.hitboxShape.equals("Rectangle"))
-		{
-			debug.rect(position.pos2D.x - collision.size / 2, position.pos2D.y - collision.size / 2, collision.size,
-					collision.size);
-		}
-		else if (collision.hitboxShape.equals("Circle"))
-		{
-			debug.circle(position.pos2D.x, position.pos2D.y, collision.size);
-		}
+//		debug.setColor(Color.ORANGE);
+//
+//		if (collision.hitboxShape.equals("Rectangle"))
+//		{
+//			debug.rect(position.pos2D.x - collision.size / 2, position.pos2D.y - collision.size / 2, collision.size,
+//					collision.size);
+//		}
+//		else if (collision.hitboxShape.equals("Circle"))
+//		{
+//			debug.circle(position.pos2D.x, position.pos2D.y, collision.size);
+//		}
 		
 		Vector2 entityPosition = new Vector2(position.pos2D);
 		

@@ -27,18 +27,18 @@ import com.phoenix.utility.MathUtility;
 public class BlueprintInputManager implements InputProcessor
 {
 	private GameScreen gameScreen;
-	private Player player;
 
 	public BlueprintInputManager(GameScreen gameScreen, ShapeRenderer renderer)
 	{
 		this.gameScreen = gameScreen;
-		this.player = this.gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME);
 	}
 
 	@Override
 	public boolean keyDown(int keycode)
 	{
 		boolean handled = false;
+		
+		Player player = this.gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME);
 
 		if (player.selectedBlueprint != null)
 		{
@@ -79,6 +79,7 @@ public class BlueprintInputManager implements InputProcessor
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)
 	{
+		Player player = this.gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME);
 		boolean handled = false;
 
 		switch (button)
@@ -189,6 +190,8 @@ public class BlueprintInputManager implements InputProcessor
 	public boolean mouseMoved(int screenX, int screenY)
 	{
 		boolean handled = false;
+		
+		Player player = this.gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME);
 
 		if (player.selectedBlueprint != null)
 		{

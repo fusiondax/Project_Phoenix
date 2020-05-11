@@ -5,15 +5,19 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.phoenix.ui.PhoenixCursor;
 import com.phoenix.ui.PhoenixWindow;
-import com.phoenix.ui.PhoenixWindow.WindowResizeMode;
 
 public class WindowInputListener extends InputListener
 {
+	public enum WindowResizeMode
+	{
+		None, Top, Bottom, Left, Right, Top_Left, Top_Right, Bottom_Left, Bottom_Right, Move;
+	}
+
 	private PhoenixWindow ownerWindow;
 
 	private float startX, startY, lastX, lastY;
 	private Rectangle window = new Rectangle();
-	private WindowResizeMode edge;
+	private WindowInputListener.WindowResizeMode edge;
 	private boolean clampPosition;
 	private boolean dragging;
 
@@ -27,78 +31,83 @@ public class WindowInputListener extends InputListener
 	{
 		//System.out.println("mouse cursor at x: " + x + " y: " + y);
 
-		edge = WindowResizeMode.None;
-		// left
-		if (x >= 0 && x <= PhoenixWindow.RESIZE_BORDER)
+		edge = WindowInputListener.WindowResizeMode.None;
+		
+		if(ownerWindow.isResizable())
 		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Horizontal_Resize.getCursor();
-			edge = WindowResizeMode.Left;
+			// left
+			if (x >= 0 && x <= PhoenixWindow.RESIZE_BORDER)
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Horizontal_Resize.getCursor();
+				edge = WindowInputListener.WindowResizeMode.Left;
+			}
+	
+			// right
+			if (x <= ownerWindow.getWidth() && x >= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER)
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Horizontal_Resize.getCursor();
+				edge = WindowInputListener.WindowResizeMode.Right;
+			}
+	
+			// top
+			if (y >= ownerWindow.getHeight() - PhoenixWindow.RESIZE_BORDER && y <= ownerWindow.getHeight())
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Vertical_Resize.getCursor();
+				edge = WindowInputListener.WindowResizeMode.Top;
+			}
+	
+			// bottom
+			if (y >= 0 && y <= PhoenixWindow.RESIZE_BORDER)
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Vertical_Resize.getCursor();
+				edge = WindowInputListener.WindowResizeMode.Bottom;
+			}
+			// top right
+			if ((x <= ownerWindow.getWidth() && x >= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER)
+					&& (y <= ownerWindow.getHeight() && y >= ownerWindow.getHeight() - PhoenixWindow.RESIZE_BORDER))
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Left_Resize.getCursor();
+				edge = WindowInputListener.WindowResizeMode.Top_Right;
+			}
+	
+			// top left
+			if ((x >= 0 && x <= PhoenixWindow.RESIZE_BORDER) && (y <= ownerWindow.getHeight() && y >= ownerWindow.getHeight() - PhoenixWindow.RESIZE_BORDER))
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Right_Resize.getCursor();
+				edge = WindowInputListener.WindowResizeMode.Top_Left;
+			}
+	
+			// TitleTable
+			if ((y >= ownerWindow.getHeight() - ownerWindow.getPadTop() && y <= ownerWindow.getHeight() - PhoenixWindow.RESIZE_BORDER)
+					&& (x <= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER && x >= PhoenixWindow.RESIZE_BORDER))
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Arrow.getCursor();
+				edge = WindowInputListener.WindowResizeMode.Move;
+			}
+	
+			// bottom left
+			if ((x >= 0 && x <= PhoenixWindow.RESIZE_BORDER) && (y >= 0 && y <= PhoenixWindow.RESIZE_BORDER))
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Left_Resize.getCursor();
+				edge = WindowInputListener.WindowResizeMode.Bottom_Left;
+			}
+	
+			// bottom right
+			if ((x <= ownerWindow.getWidth() && x >= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER) && (y >= 0 && y <= PhoenixWindow.RESIZE_BORDER))
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Right_Resize.getCursor();
+				edge = WindowInputListener.WindowResizeMode.Bottom_Right;
+			}
+	
+			// center
+			if ((x <= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER && x >= PhoenixWindow.RESIZE_BORDER)
+					&& (y <= ownerWindow.getHeight() - ownerWindow.getPadTop() && y >= PhoenixWindow.RESIZE_BORDER))
+			{
+				ownerWindow.gameScreen.game.cursor = PhoenixCursor.Arrow.getCursor();
+				edge = WindowInputListener.WindowResizeMode.None;
+			}
 		}
-
-		// right
-		if (x <= ownerWindow.getWidth() && x >= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER)
-		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Horizontal_Resize.getCursor();
-			edge = WindowResizeMode.Right;
-		}
-
-		// top
-		if (y >= ownerWindow.getHeight() - PhoenixWindow.RESIZE_BORDER && y <= ownerWindow.getHeight())
-		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Vertical_Resize.getCursor();
-			edge = WindowResizeMode.Top;
-		}
-
-		// bottom
-		if (y >= 0 && y <= PhoenixWindow.RESIZE_BORDER)
-		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Vertical_Resize.getCursor();
-			edge = WindowResizeMode.Bottom;
-		}
-		// top right
-		if ((x <= ownerWindow.getWidth() && x >= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER)
-				&& (y <= ownerWindow.getHeight() && y >= ownerWindow.getHeight() - PhoenixWindow.RESIZE_BORDER))
-		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Left_Resize.getCursor();
-			edge = WindowResizeMode.Top_Right;
-		}
-
-		// top left
-		if ((x >= 0 && x <= PhoenixWindow.RESIZE_BORDER) && (y <= ownerWindow.getHeight() && y >= ownerWindow.getHeight() - PhoenixWindow.RESIZE_BORDER))
-		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Right_Resize.getCursor();
-			edge = WindowResizeMode.Top_Left;
-		}
-
-		// TitleTable
-		if ((y >= ownerWindow.getHeight() - ownerWindow.getPadTop() && y <= ownerWindow.getHeight() - PhoenixWindow.RESIZE_BORDER)
-				&& (x <= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER && x >= PhoenixWindow.RESIZE_BORDER))
-		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Arrow.getCursor();
-			edge = WindowResizeMode.Move;
-		}
-
-		// bottom left
-		if ((x >= 0 && x <= PhoenixWindow.RESIZE_BORDER) && (y >= 0 && y <= PhoenixWindow.RESIZE_BORDER))
-		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Left_Resize.getCursor();
-			edge = WindowResizeMode.Bottom_Left;
-		}
-
-		// bottom right
-		if ((x <= ownerWindow.getWidth() && x >= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER) && (y >= 0 && y <= PhoenixWindow.RESIZE_BORDER))
-		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Diagonal_Bottom_Right_Resize.getCursor();
-			edge = WindowResizeMode.Bottom_Right;
-		}
-
-		// center
-		if ((x <= ownerWindow.getWidth() - PhoenixWindow.RESIZE_BORDER && x >= PhoenixWindow.RESIZE_BORDER)
-				&& (y <= ownerWindow.getHeight() - ownerWindow.getPadTop() && y >= PhoenixWindow.RESIZE_BORDER))
-		{
-			ownerWindow.gameScreen.game.cursor = PhoenixCursor.Arrow.getCursor();
-			edge = WindowResizeMode.None;
-		}
+		
 	}
 
 	private void resizeLeft(float x, float y)
@@ -155,13 +164,13 @@ public class WindowInputListener extends InputListener
 		if (button == 0)
 		{
 			updateEdge(x, y);
-			dragging = edge != WindowResizeMode.None;
+			dragging = edge != WindowInputListener.WindowResizeMode.None;
 			startX = x;
 			startY = y;
 			lastX = x - ownerWindow.getWidth();
 			lastY = y - ownerWindow.getHeight();
 		}
-		return edge != WindowResizeMode.None || ownerWindow.isModal();
+		return edge != WindowInputListener.WindowResizeMode.None || ownerWindow.isModal();
 	}
 
 	public void touchUp(InputEvent event, float x, float y, int pointer, int button)
@@ -179,7 +188,7 @@ public class WindowInputListener extends InputListener
 					&& ownerWindow.getParent() == ownerWindow.getStage().getRoot();
 
 			// System.out.println(edge);
-
+			
 			switch (edge)
 			{
 				case Move:
@@ -239,6 +248,12 @@ public class WindowInputListener extends InputListener
 			}
 			ownerWindow.setBounds(Math.round(window.x), Math.round(window.y), Math.round(window.width),
 					Math.round(window.height));
+			
+			// if the window was resized or moved, set "minimized" to false
+			if(ownerWindow.isMinimized())
+			{
+				ownerWindow.setMinimized(false, false);
+			}
 		}
 	}
 

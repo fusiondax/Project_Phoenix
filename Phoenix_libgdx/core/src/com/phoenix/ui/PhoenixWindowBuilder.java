@@ -1,0 +1,71 @@
+package com.phoenix.ui;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.phoenix.screens.GameScreen;
+
+public class PhoenixWindowBuilder
+{
+	private Skin skin;
+	
+	private String labelStyleName;
+	private String windowStyleName;
+
+	private GameScreen gameScreen;
+
+	public PhoenixWindowBuilder(Skin skin, String labelStyleName, String windowStyleName, GameScreen gameScreen)
+	{
+		this.skin = skin;
+		this.labelStyleName = labelStyleName;
+		this.windowStyleName = windowStyleName;
+		this.gameScreen = gameScreen;
+	}
+
+	public PhoenixWindow getWindow(String windowName)
+	{
+		PhoenixWindow window;
+		
+		switch(windowName)
+		{
+			case "misc_info":
+			{
+				//window = buildMiscInfoWindow(skin, labelStyleName, windowStyleName, gs)
+				break;
+			}
+		}
+		
+		
+		return null;
+	}
+	
+	
+	private PhoenixWindow buildMiscInfoWindow()
+	{
+		FramerateCounterLabel framerateCounter = new FramerateCounterLabel(skin, labelStyleName);
+		TimeDilationLabel timeDilationCounter = new TimeDilationLabel(skin, labelStyleName, gameScreen);
+
+		Rectangle miscInformationWindowDisposition = new Rectangle(Gdx.graphics.getWidth() - 200,
+				Gdx.graphics.getHeight() / 2, 200, 100);
+		
+		PhoenixWindow miscInformationWindow = new PhoenixWindow("misc_info", "Misc Information", miscInformationWindowDisposition, skin,
+				windowStyleName, gameScreen);
+		miscInformationWindow.add(framerateCounter);
+		miscInformationWindow.row();
+		miscInformationWindow.add(timeDilationCounter);
+		
+		return miscInformationWindow;
+	}
+	
+	private PhoenixWindow buildBlueprintBarWindow()
+	{
+		BlueprintBar blueprintBar = new BlueprintBar(skin, gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME));
+		
+		Rectangle blueprintBarWindowDisposition = new Rectangle(0, Gdx.graphics.getHeight() - 400 , 50, 400);
+		
+		PhoenixWindow blueprintBarWindow = new PhoenixWindow("blueprint_bar", "Blueprint Bar", blueprintBarWindowDisposition, skin, "default_window", gameScreen);
+		blueprintBarWindow.add(blueprintBar);
+		
+		return blueprintBarWindow;
+	}
+}
