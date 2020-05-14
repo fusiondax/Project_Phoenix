@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 public class MoveCommandComponent implements Component, Serializable
 {
-	public static final int START_PATHFINDING_DELAY_MAX = 1000;
+	public static final int START_PATHFINDING_DELAY_MAX = 15;
 	
 	public ArrayList<Vector2> destinations = new ArrayList<Vector2>();
 	public float unitMaxSpeed = 0.0f;

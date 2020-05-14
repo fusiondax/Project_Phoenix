@@ -22,21 +22,38 @@ public class PhoenixWindowBuilder
 		this.gameScreen = gameScreen;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param windowName
+	 * @return the window with the given name, or null if the name wasn't found
+	 */
 	public PhoenixWindow getWindow(String windowName)
 	{
-		PhoenixWindow window;
+		PhoenixWindow window = null;
 		
 		switch(windowName)
 		{
 			case "misc_info":
 			{
-				//window = buildMiscInfoWindow(skin, labelStyleName, windowStyleName, gs)
+				window = buildMiscInfoWindow();
+				break;
+			}
+			
+			case "blueprint_bar":
+			{
+				window = buildBlueprintBarWindow();
+				break;
+			}
+			
+			default:
+			{
+				System.out.println("the given window name wasn't found");
 				break;
 			}
 		}
 		
-		
-		return null;
+		return window;
 	}
 	
 	

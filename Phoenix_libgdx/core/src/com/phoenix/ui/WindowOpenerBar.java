@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.phoenix.input.WindowOpenerButtonInputListener;
 
 public class WindowOpenerBar extends Table
@@ -16,15 +17,15 @@ public class WindowOpenerBar extends Table
 	{
 		super(skin);
 		
-		setSize(200, 200);
-		
 		initializeWindowBar();
-		
-		debugAll();
+		//debugAll();
 	}
 	
 	private void initializeWindowBar()
 	{
+		setBackground(getSkin().get("default_ui_background", TextureRegionDrawable.class));
+		//setBackground("default_ui_background");
+		
 		// open blueprint bar button
 		Image blueprintBarButton = new Image(getSkin(), "ui_open_blueprint_bar_button");
 		blueprintBarButton.addListener(new WindowOpenerButtonInputListener("blueprint_bar"));
@@ -43,13 +44,13 @@ public class WindowOpenerBar extends Table
 	public void act(float delta)
 	{
 		super.act(delta);
-		setBounds(0, Gdx.graphics.getHeight() - getHeight(), getMinWidth(), getMinHeight());
+		setBounds(0, Gdx.graphics.getHeight() - getPrefHeight(), getPrefWidth(), getPrefHeight());
 	}
 	
 	@Override
 	public float getMinHeight()
 	{
-		return getPadTop() + getCells().first().getActorHeight() + getPadBottom();
+		return getPadTop() + getCells().first().getActor().getHeight() + getPadBottom();
 	}
 
 	@Override
@@ -59,7 +60,7 @@ public class WindowOpenerBar extends Table
 
 		for (Cell<Actor> c : getCells())
 		{
-			minContentWidth += c.getMinWidth() + c.getPadRight() + c.getPadLeft();
+			minContentWidth += c.getActor().getWidth() + c.getPadRight() + c.getPadLeft();
 		}
 
 		return minContentWidth;

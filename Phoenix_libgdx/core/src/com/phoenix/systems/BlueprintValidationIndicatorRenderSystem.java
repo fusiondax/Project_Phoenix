@@ -32,19 +32,19 @@ public class BlueprintValidationIndicatorRenderSystem extends EntitySystem
 			{
 				case InvalidTerrain:
 				{
-					color = Color.RED;
+					color = new Color(Color.RED);
 					break;
 				}
 
 				case MissingResources:
 				{
-					color = Color.YELLOW;
+					color = new Color(Color.YELLOW);
 					break;
 				}
 
 				case Valid:
 				{
-					color = Color.GREEN;
+					color = new Color(Color.GREEN);
 					break;
 				}
 			}
@@ -53,6 +53,7 @@ public class BlueprintValidationIndicatorRenderSystem extends EntitySystem
 
 			gameScreen.shapeRendererFilled.setColor(color);
 			gameScreen.shapeRendererFilled.circle(circle.x, circle.y, circle.radius);
+			gameScreen.shapeRendererFilled.setColor(Color.GREEN);
 		}
 	}
 }

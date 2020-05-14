@@ -16,6 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.screens.GameScreen;
@@ -47,8 +50,11 @@ public class InGameUI extends Stage
 		Pixmap windowBackgroundColor = new Pixmap(10, 10, Pixmap.Format.RGB888);
 		windowBackgroundColor.setColor(Color.NAVY);
 		windowBackgroundColor.fill();
+		
+		Drawable windowBackgroundDrawable = (Drawable) new Image(new Texture(windowBackgroundColor)).getDrawable();
+		
 		WindowStyle windowStyle = new WindowStyle(new BitmapFont(), Color.WHITE,
-				new Image(new Texture(windowBackgroundColor)).getDrawable());
+				windowBackgroundDrawable);
 
 		// ButtonStyle closeWindowButtonStyle = new
 		// ButtonStyle(skin.getDrawable("ui_close_window_button_up"),
@@ -57,6 +63,7 @@ public class InGameUI extends Stage
 		//
 		// skin.add("default_close_window_button", closeWindowButtonStyle);
 
+		skin.add("default_ui_background", windowBackgroundDrawable);
 		skin.add("default_label", labelStyle);
 		skin.add("default_window", windowStyle);
 
