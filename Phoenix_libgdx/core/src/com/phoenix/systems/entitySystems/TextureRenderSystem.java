@@ -15,7 +15,7 @@ import com.phoenix.components.TextureComponent;
 
 public class TextureRenderSystem extends IteratingSystem
 {
-	private ComponentMapper<TextureComponent> gm = ComponentMapper.getFor(TextureComponent.class);
+	private ComponentMapper<TextureComponent> tm = ComponentMapper.getFor(TextureComponent.class);
 	private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
 
 	private SpriteBatch batch;
@@ -33,7 +33,7 @@ public class TextureRenderSystem extends IteratingSystem
 		if (batch.isDrawing())
 		{
 			AssetManager manager = PhoenixAssetManager.getInstance().manager;
-			TextureComponent graph = gm.get(entity);
+			TextureComponent graph = tm.get(entity);
 			PositionComponent pos = pm.get(entity);
 
 			TextureAtlas texAtlas = manager.get("graphics/atlas/entities.atlas");

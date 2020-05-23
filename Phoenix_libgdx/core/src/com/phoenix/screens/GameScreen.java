@@ -22,6 +22,7 @@ import com.phoenix.io.MapLoader;
 import com.phoenix.player.Player;
 import com.phoenix.systems.BlueprintValidationIndicatorRenderSystem;
 import com.phoenix.systems.SelectionBoxRenderSystem;
+import com.phoenix.systems.entitySystems.AnimationSystem;
 import com.phoenix.systems.entitySystems.BlueprintCollectionSystem;
 import com.phoenix.systems.entitySystems.CollisionSystem;
 import com.phoenix.systems.entitySystems.EntityBuildingSystem;
@@ -85,6 +86,8 @@ public class GameScreen extends ScreenAdapter
 		loadGameMap("test_map_write.json");
 
 		// add the systems that manages entities
+		engine.addSystem(new AnimationSystem());
+		
 		engine.addSystem(new TextureRenderSystem(this));
 		engine.addSystem(new SelectedEntityCircleRenderSystem(this));
 		engine.addSystem(new VelocitySystem(shapeRendererLine));
