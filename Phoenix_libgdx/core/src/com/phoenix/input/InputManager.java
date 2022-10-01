@@ -208,7 +208,7 @@ public class InputManager implements InputProcessor
 					{
 						select.selected = true;
 						TextureComponent graph = e.getComponent(TextureComponent.class); 
-						System.out.println(graph.textureName);
+						//System.out.println(graph.textureName);
 						gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities.add(e);
 					}
 					else

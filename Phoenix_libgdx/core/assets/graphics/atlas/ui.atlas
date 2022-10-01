@@ -11,6 +11,20 @@ blueprint
   orig: 64, 64
   offset: 0, 0
   index: -1
+ui_button_down
+  rotate: false
+  xy: 78, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ui_button_up
+  rotate: false
+  xy: 44, 28
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 ui_close_window_button
   rotate: false
   xy: 110, 92
@@ -27,7 +41,7 @@ ui_lock_window_button
   index: -1
 ui_maximize_window_button
   rotate: false
-  xy: 110, 74
+  xy: 78, 34
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

@@ -79,11 +79,7 @@ public class GameScreen extends ScreenAdapter
 
 		Gdx.input.setInputProcessor(inputs);
 
-		// TODO put this somewhere else
-		MapLoader.convertTiledMapToGameMap("maze_alt_2_compatible.tmx", "test_map_write.json");
-
 		engine = new Engine();
-		loadGameMap("test_map_write.json");
 
 		// add the systems that manages entities
 		engine.addSystem(new AnimationSystem());
@@ -109,12 +105,12 @@ public class GameScreen extends ScreenAdapter
 		BlueprintDataLoader.loadAllDataBlueprint(blueprintData);
 	}
 
-	private void loadGameMap(String gameMapFileName)
+	public void loadGameMap(String gameMapFileName)
 	{
 		MapLoader.addEntitiesToEngine(this.engine, MapLoader.getGameMap(gameMapFileName));
 	}
 
-	private void saveGameMap(String gameMapFileName)
+	public void saveGameMap(String gameMapFileName)
 	{
 		JsonUtility.writeJsonGameMapFile(gameMapFileName, MapLoader.createGameMapFromEngine(this.engine));
 	}
@@ -176,7 +172,7 @@ public class GameScreen extends ScreenAdapter
 	@Override
 	public void show()
 	{
-
+		Gdx.input.setInputProcessor(this.inputs);
 	}
 
 	@Override
@@ -218,7 +214,6 @@ public class GameScreen extends ScreenAdapter
 	@Override
 	public void resize(int width, int height)
 	{
-
 		camera.viewportHeight = Gdx.graphics.getHeight();
 		camera.viewportWidth = Gdx.graphics.getWidth();
 		guiStage.getViewport().update(width, height, true);

@@ -49,12 +49,25 @@ public class JsonUtility
 		
 		Json json = new Json();
 		
-		
 		String test = reader.parse(handle).toString();
 
 		gameMap = json.fromJson(GameMap.class, reader.parse(handle).toString());
 		
 		return gameMap;
+	}
+	
+	public static ArrayList<String> getAllGameMapNames()
+	{
+		ArrayList<String> levelNameList = new ArrayList<String>();
+		
+		FileHandle levelDirectory = Gdx.files.internal("gamemaps");
+		
+		for(FileHandle levelFile : levelDirectory.list())
+		{
+			levelNameList.add(levelFile.name());
+		}
+		
+		return levelNameList;
 	}
 	
 	public static void writeJsonGameMapFile(String fileName, GameMap gameMap)

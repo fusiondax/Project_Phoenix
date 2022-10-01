@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.screens.GameScreen;
+import com.phoenix.screens.TitleScreen;
 import com.phoenix.ui.PhoenixCursor;
 
 public class Phoenix extends Game
@@ -20,6 +21,7 @@ public class Phoenix extends Game
 	//public InputManager inputManager;
 	
 	public GameScreen gameScreen;
+	public TitleScreen titleScreen;
 	
 	public Cursor cursor;
 
@@ -31,6 +33,7 @@ public class Phoenix extends Game
 		//Gdx.input.setInputProcessor(inputManager);
 		
 		this.gameScreen = new GameScreen(this);
+		this.titleScreen = new TitleScreen(this);
 		
 		cursor = PhoenixCursor.Arrow.getCursor();
 	}
@@ -44,14 +47,17 @@ public class Phoenix extends Game
 		AssetManager manager = PhoenixAssetManager.getInstance().manager;
 		if(manager.update())
 		{
+			//initialize the default skin or the skin defines in the user's preferences
+			PhoenixAssetManager.getInstance().initializeDefaultSkin();
 			if(getScreen() == null)
 			{
-				setScreen(this.gameScreen);
+				setScreen(this.titleScreen);
+				//setScreen(this.gameScreen);
 			}
 		}
 		else
 		{
-			System.out.println(manager.getProgress());
+			System.out.println("Loading assets... " + manager.getProgress() * 100 + "%");
 		}
 		super.render();
 		
