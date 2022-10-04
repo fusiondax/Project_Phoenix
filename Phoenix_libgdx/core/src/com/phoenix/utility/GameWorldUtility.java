@@ -55,7 +55,7 @@ public class GameWorldUtility
 	 * retrieves entities that are within the given range of the given position
 	 * 
 	 * @param location
-	 * @return
+	 * @return a list of entities
 	 */
 	public static ArrayList<Entity> getProxyEntities(Engine engine, Vector2 location, float range, Family whitelist)
 	{
@@ -74,11 +74,15 @@ public class GameWorldUtility
 
 		for (Entity e : allEntities)
 		{
+			// TODO 4 the 'entity.getComponent()' method is technically slower than to be using a componentMapper
 			PositionComponent entityPosition = e.getComponent(PositionComponent.class);
-			Vector2 entityPos2d = new Vector2(entityPosition.pos2D);
-			if (entityPos2d.dst(location) <= range)
+			if(entityPosition != null)
 			{
-				proxyEntities.add(e);
+				Vector2 entityPos2d = new Vector2(entityPosition.pos2D);
+				if (entityPos2d.dst(location) <= range)
+				{
+					proxyEntities.add(e);
+				}
 			}
 		}
 		return proxyEntities;
@@ -89,6 +93,12 @@ public class GameWorldUtility
 		return getEntityAtLocation(engine, location, null);
 	}
 
+	/**
+	 * @param engine
+	 * @param location
+	 * @param whitelist
+	 * @return a single Entity, the one closest to {@link location}
+	 */
 	public static Entity getEntityAtLocation(Engine engine, Vector2 location, Family whitelist)
 	{
 		ImmutableArray<Entity> allEntities = new ImmutableArray<Entity>(new Array<Entity>());
@@ -108,14 +118,18 @@ public class GameWorldUtility
 		for (Entity e : allEntities)
 		{
 			PositionComponent entityPos = e.getComponent(PositionComponent.class);
-			Vector2 entityPos2d = new Vector2(entityPos.pos2D);
-
-			float distance = entityPos2d.dst(location);
-			if (distance < closestDistance)
+			if(entityPos != null)
 			{
-				closestEntity = e;
-				closestDistance = distance;
+				Vector2 entityPos2d = new Vector2(entityPos.pos2D);
+
+				float distance = entityPos2d.dst(location);
+				if (distance < closestDistance)
+				{
+					closestEntity = e;
+					closestDistance = distance;
+				}	
 			}
+			
 		}
 		return closestEntity;
 	}

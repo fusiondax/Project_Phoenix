@@ -19,7 +19,10 @@ public class ResourceComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
+		// TODO 1 shouldn't the Resource be able to build itself since it is serializable and defines a "read" function ?
+		
 		resource = new Resource();
+		resource.type = jsonData.get("resource").get("type").asString();
 		resource.amount = jsonData.get("resource").get("amount").asInt();
 	}
 

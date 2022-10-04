@@ -16,6 +16,7 @@ import com.phoenix.components.ResourceComponent;
 import com.phoenix.components.SelectionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.TextureComponent;
+import com.phoenix.components.TriggerComponent;
 import com.phoenix.components.ValidTerrainTypesComponent;
 import com.phoenix.components.VelocityComponent;
 import com.phoenix.resource.Resource;
@@ -118,7 +119,7 @@ public class EntityLoader
 				{
 					comp = new SelectionComponent();
 					
-					//TODO instanciate "mode" parameter 
+					//TODO 3 instanciate "mode" parameter 
 					break;
 				}
 	
@@ -155,7 +156,6 @@ public class EntityLoader
 					{
 						((BuildableComponent)comp).setBuildRate(componentsJson.get("build_rate").asFloat());
 					}
-					
 					break;
 				}
 				
@@ -167,6 +167,12 @@ public class EntityLoader
 					{
 						((ResourceComponent)comp).resource.type = componentsJson.get("type_name").asString();
 					}
+					break;
+				}
+				
+				case "Trigger":
+				{
+					comp = new TriggerComponent();
 					break;
 				}
 			}
@@ -219,7 +225,7 @@ public class EntityLoader
 				{
 					ResourceComponent entityResource = initialEntity.getComponent(ResourceComponent.class);
 					
-					// TODO might only need to fetch the resource's amount
+					// TODO 4 might only need to fetch the resource's amount
 					entityResource.resource.amount = ((ResourceComponent) comp).resource.amount;
 					//entityResource.resource = ((ResourceComponent) comp).resource;
 					break;
@@ -231,6 +237,18 @@ public class EntityLoader
 					
 					build.setBuildProgress(((BuildableComponent) comp).getBuildProgress());
 					build.setBuildRate(((BuildableComponent) comp).getBuildRate());
+					break;
+				}
+				
+				case "TriggerComponent":
+				{
+					TriggerComponent trigger = initialEntity.getComponent(TriggerComponent.class);
+					
+					trigger.conditions.addAll(((TriggerComponent)comp).conditions);
+					trigger.actions.addAll(((TriggerComponent)comp).actions);
+					
+					trigger.allConditionsMet = ((TriggerComponent)comp).allConditionsMet;
+					trigger.persistant = ((TriggerComponent)comp).persistant;
 					break;
 				}
 			}

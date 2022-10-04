@@ -3,16 +3,20 @@ package com.phoenix.screens;
 import java.util.HashMap;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.phoenix.blueprint.BlueprintData;
+import com.phoenix.components.TriggerComponent;
 import com.phoenix.game.Phoenix;
 import com.phoenix.input.BlueprintInputManager;
 import com.phoenix.input.InputManager;
@@ -28,15 +32,18 @@ import com.phoenix.systems.entitySystems.CollisionSystem;
 import com.phoenix.systems.entitySystems.EntityBuildingSystem;
 import com.phoenix.systems.entitySystems.MoveCommandSystem;
 import com.phoenix.systems.entitySystems.VelocitySystem;
+import com.phoenix.trigger.TriggerCondition;
+import com.phoenix.trigger.UnitAtPositionCondition;
 import com.phoenix.systems.entitySystems.ResourceEntitySystem;
 import com.phoenix.systems.entitySystems.SelectedEntityCircleRenderSystem;
 import com.phoenix.systems.entitySystems.TextureRenderSystem;
+import com.phoenix.systems.entitySystems.TriggerSystem;
 import com.phoenix.ui.InGameUI;
 import com.phoenix.utility.MathUtility;
 
 public class GameScreen extends ScreenAdapter
 {
-	// TODO revamp this
+	// TODO 3 revamp this
 	public static final String ACTIVE_PLAYER_NAME = "Player1";
 
 	public Phoenix game;
@@ -92,6 +99,7 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new BlueprintCollectionSystem(this));
 		engine.addSystem(new EntityBuildingSystem());
 		engine.addSystem(new ResourceEntitySystem());
+		engine.addSystem(new TriggerSystem(this));
 
 		// add the systems that does not manage entities
 		engine.addSystem(new BlueprintValidationIndicatorRenderSystem(this));
@@ -194,7 +202,23 @@ public class GameScreen extends ScreenAdapter
 
 		shapeRendererLine.begin(ShapeType.Line);
 		shapeRendererFilled.begin(ShapeType.Filled);
-
+		
+		// TODO 1 debugging code, remove ASAP
+		shapeRendererLine.setColor(Color.GOLD);
+		
+		for(Entity e : engine.getEntitiesFor(Family.all(TriggerComponent.class).get()))
+		{
+			TriggerComponent tp = e.getComponent(TriggerComponent.class);
+			for(TriggerCondition tc : tp.conditions)
+			{
+				if(tc instanceof UnitAtPositionCondition)
+				{
+					UnitAtPositionCondition cond = ((UnitAtPositionCondition)tc); 
+					shapeRendererLine.circle(cond.targetPosition.x, cond.targetPosition.y, cond.targetRadius);
+				}
+			}
+		}
+		
 		engine.update(delta);
 
 		shapeRendererLine.end();

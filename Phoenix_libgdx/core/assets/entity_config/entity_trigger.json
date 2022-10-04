@@ -1,0 +1,13 @@
+{
+	"components":
+	[
+		{
+			"component_type": "Name",
+			"name": "trigger"
+		},
+		{
+			"component_type": "Trigger"
+		}
+		
+	]
+}

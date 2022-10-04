@@ -16,7 +16,6 @@ import com.phoenix.components.NameComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.ResourceComponent;
-import com.phoenix.resource.Resource;
 
 public class MapLoader
 {
@@ -52,22 +51,18 @@ public class MapLoader
 					break;
 				}
 			}
-
-			// if the NameComponent was found, we can initialize the entity
+			// if the NameComponent was found, we can initialize the entity and give it its map-specific attributes
 			if (nameComp != null)
 			{
 				e = EntityLoader.getInitializedEntity(nameComp.name);
+				e = EntityLoader.updateEntityWithComponents(e, compList);
 			}
-
-			// now, we give the entity its map-specific attributes
-			e = EntityLoader.updateEntityWithComponents(e, compList);
 
 			// unless the entity wasn't able to be created, we add it to the engine
 			if (e != null)
 			{
 				engine.addEntity(e);
 			}
-
 		}
 	}
 

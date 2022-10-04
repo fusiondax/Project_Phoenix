@@ -6,6 +6,11 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.JsonValue;
 
+/**
+ * Defines the position of an Entity at a 'float' precision.
+ * @author David Janelle
+ *
+ */
 public class PositionComponent implements Component, Serializable
 {
 	public final Vector2 pos2D = new Vector2();
@@ -19,7 +24,7 @@ public class PositionComponent implements Component, Serializable
 		json.writeValue("position_x", pos2D.x);
 		json.writeValue("position_y", pos2D.y);
 		
-		//TODO for now, scale and rotation are not used, but will be eventually
+		//TODO 3 for now, scale and rotation are not used, but will be eventually
 		//the z value might be useful later for render priority
 		//json.writeValue("position_z", pos.z);
 	}
@@ -29,7 +34,7 @@ public class PositionComponent implements Component, Serializable
 		pos2D.set(new Vector2(jsonData.get("position_x").asFloat(),
 				jsonData.get("position_y").asFloat()));
 		
-		//TODO eventually, set scale and rotation attributes
+		//TODO 3 eventually, set scale and rotation attributes
 		//zDepth = jsonData.get("z_depth").asInt();
 	}
 }

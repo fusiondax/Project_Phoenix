@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
@@ -63,8 +60,7 @@ public class CollisionSystem extends IteratingSystem
 		Engine engine = getEngine();
 
 		// get entities that are relatively close the the current entity and that have
-		// collision hitboxes. the range
-		// multiplier is guesswork...
+		// collision hitboxes. the range multiplier is guess work...
 
 		ArrayList<Entity> proximityEntities = GameWorldUtility.getProxyEntities(engine, entityPosition, collision.size * 5,
 				Family.all(CollisionHitboxComponent.class).get());
@@ -74,7 +70,7 @@ public class CollisionSystem extends IteratingSystem
 		
 		Shape2D hitbox = CollisionEngine.getShapeFromEntity(entity);
 
-		// TODO collision between more than 3 entities is bugged
+		// TODO 1 collision between more than 3 entities is bugged
 		for (Entity e : proximityEntities)
 		{
 			Shape2D shape = CollisionEngine.getShapeFromEntity(e);
