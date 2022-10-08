@@ -1,6 +1,6 @@
 
 ui.png
-size: 128,128
+size: 256,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -13,23 +13,44 @@ blueprint
   index: -1
 ui_button_down
   rotate: false
-  xy: 78, 52
+  xy: 128, 18
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui_button_up
   rotate: false
-  xy: 44, 28
+  xy: 128, 52
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+ui_checkmark_icon
+  rotate: false
+  xy: 110, 86
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
 ui_close_window_button
   rotate: false
-  xy: 110, 92
+  xy: 38, 2
   size: 16, 16
   orig: 16, 16
+  offset: 0, 0
+  index: -1
+ui_cross_mark_icon
+  rotate: false
+  xy: 2, 20
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+ui_exclamation_mark_icon
+  rotate: false
+  xy: 44, 20
+  size: 40, 40
+  orig: 40, 40
   offset: 0, 0
   index: -1
 ui_lock_window_button
@@ -39,28 +60,49 @@ ui_lock_window_button
   orig: 16, 16
   offset: 0, 0
   index: -1
+ui_look_at_button
+  rotate: false
+  xy: 194, 86
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+ui_magnifier_icon
+  rotate: false
+  xy: 152, 86
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
 ui_maximize_window_button
   rotate: false
-  xy: 78, 34
+  xy: 236, 110
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ui_minimize_window_button
   rotate: false
-  xy: 110, 110
+  xy: 2, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ui_open_blueprint_bar_button
   rotate: false
-  xy: 2, 20
+  xy: 86, 44
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 ui_open_misc_info_button
+  rotate: false
+  xy: 86, 2
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+ui_open_objective_window_button
   rotate: false
   xy: 68, 86
   size: 40, 40
@@ -69,14 +111,14 @@ ui_open_misc_info_button
   index: -1
 ui_reset_window_button
   rotate: false
-  xy: 2, 2
+  xy: 68, 68
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ui_unlock_window_button
   rotate: false
-  xy: 38, 2
+  xy: 56, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
