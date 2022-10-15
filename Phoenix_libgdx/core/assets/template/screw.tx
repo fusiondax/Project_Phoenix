@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <tileset firstgid="1" source="../graphics/tilesets/Default Resource Tileset.tsx"/>
+ <object name="screw" gid="2" width="64" height="64">
+  <properties>
+   <property name="amount" type="int" value="0"/>
+  </properties>
+ </object>
+</template>
