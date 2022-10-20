@@ -1,10 +1,10 @@
-package com.phoenix.input;
+package com.phoenix.input.listener;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.phoenix.ui.PhoenixCursor;
-import com.phoenix.ui.PhoenixWindow;
+import com.phoenix.ui.window.PhoenixWindow;
 
 public class WindowInputListener extends InputListener
 {

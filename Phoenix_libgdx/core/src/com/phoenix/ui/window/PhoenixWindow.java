@@ -1,4 +1,4 @@
-package com.phoenix.ui;
+package com.phoenix.ui.window;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Align;
-import com.phoenix.input.WindowCloseButtonInputListener;
-import com.phoenix.input.WindowInputListener;
+import com.phoenix.input.listener.WindowCloseButtonInputListener;
+import com.phoenix.input.listener.WindowInputListener;
 import com.phoenix.screens.GameScreen;
 
 public class PhoenixWindow extends Window
@@ -63,6 +63,7 @@ public class PhoenixWindow extends Window
 		setResizable(true);
 		setLayoutEnabled(true);
 		setKeepWithinStage(true);
+		
 		// pad top defines the height of the title bar
 		padTop(TITLE_TABLE_HEIGHT);
 		padBottom(RESIZE_BORDER);

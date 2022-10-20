@@ -70,7 +70,7 @@ public class CollisionSystem extends IteratingSystem
 		
 		Shape2D hitbox = CollisionEngine.getShapeFromEntity(entity);
 
-		// TODO 1 collision between more than 3 entities is bugged
+		// TODO 1 collision between more than 3 entities is jank
 		for (Entity e : proximityEntities)
 		{
 			Shape2D shape = CollisionEngine.getShapeFromEntity(e);

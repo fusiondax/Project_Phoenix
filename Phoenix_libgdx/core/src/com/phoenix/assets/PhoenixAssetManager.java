@@ -10,9 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.payne.games.piemenu.PieMenu;
 
 public class PhoenixAssetManager
 {
@@ -63,12 +65,25 @@ public class PhoenixAssetManager
 		buttonStyle.up = (Drawable) new Image(activeSkin, "ui_button_up").getDrawable();
 		buttonStyle.down = (Drawable) new Image(activeSkin, "ui_button_down").getDrawable();
 		
+		PieMenu.PieMenuStyle radialMenuStyle = new PieMenu.PieMenuStyle();
+		radialMenuStyle.sliceColor = new Color(.33f,.33f,.33f,1);
+		radialMenuStyle.selectedColor = Color.YELLOW;
+		radialMenuStyle.separatorColor = Color.RED;
+		radialMenuStyle.hoverColor = Color.GRAY;
+		radialMenuStyle.circumferenceColor = Color.RED;
+		radialMenuStyle.separatorWidth = 2.0f;
+		radialMenuStyle.circumferenceWidth = 2.0f;
+		
+		
+		// TODO 3 is that used?
+		//activeSkin.addRegions(texAtlas);
+		
+		activeSkin.add("default_radial_menu", radialMenuStyle);
 		activeSkin.add("default_label", labelStyle);
 		activeSkin.add("default_text_button", bStyle);
 		activeSkin.add("default_button", buttonStyle);
 		activeSkin.add("default_ui_background", windowBackgroundDrawable);
 		activeSkin.add("default_window", windowStyle);
-		
 	}
 	
 	private void loadAssets()

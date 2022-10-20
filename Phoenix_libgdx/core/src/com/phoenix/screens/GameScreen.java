@@ -14,12 +14,20 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.payne.games.piemenu.PieMenu;
+import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.blueprint.BlueprintData;
 import com.phoenix.components.TriggerComponent;
 import com.phoenix.game.Phoenix;
-import com.phoenix.input.BlueprintInputManager;
-import com.phoenix.input.InputManager;
+import com.phoenix.input.manager.BlueprintInputManager;
+import com.phoenix.input.manager.GameWorldInputManager;
+import com.phoenix.input.manager.RadialMenuInputManager;
 import com.phoenix.io.BlueprintDataLoader;
 import com.phoenix.io.JsonUtility;
 import com.phoenix.io.MapLoader;
@@ -81,8 +89,8 @@ public class GameScreen extends ScreenAdapter
 
 		guiStage = new InGameUI(new ScreenViewport(), this);
 
-		inputs = new InputMultiplexer(new BlueprintInputManager(this, shapeRendererLine), guiStage,
-				new InputManager(this, shapeRendererLine));
+		inputs = new InputMultiplexer(new BlueprintInputManager(this), guiStage, new RadialMenuInputManager(this),
+				new GameWorldInputManager(this));
 
 		Gdx.input.setInputProcessor(inputs);
 
@@ -90,7 +98,7 @@ public class GameScreen extends ScreenAdapter
 
 		// add the systems that manages entities
 		engine.addSystem(new AnimationSystem());
-		
+
 		engine.addSystem(new TextureRenderSystem(this));
 		engine.addSystem(new SelectedEntityCircleRenderSystem(this));
 		engine.addSystem(new VelocitySystem(shapeRendererLine));
@@ -104,13 +112,11 @@ public class GameScreen extends ScreenAdapter
 		// add the systems that does not manage entities
 		engine.addSystem(new BlueprintValidationIndicatorRenderSystem(this));
 		engine.addSystem(new SelectionBoxRenderSystem(this));
-
-		// pauseSystems();
 	}
 
 	private void loadBlueprintData()
 	{
-		BlueprintDataLoader.loadAllDataBlueprint(blueprintData);
+		BlueprintDataLoader.loadAllBlueprintData(blueprintData);
 	}
 
 	public void loadGameMap(String gameMapFileName)
@@ -190,6 +196,7 @@ public class GameScreen extends ScreenAdapter
 		camera.update();
 
 		game.gameBatcher.setProjectionMatrix(camera.combined);
+		
 		game.gameBatcher.begin();
 		engine.getSystem(TextureRenderSystem.class).update(delta);
 		game.gameBatcher.end();
@@ -202,23 +209,23 @@ public class GameScreen extends ScreenAdapter
 
 		shapeRendererLine.begin(ShapeType.Line);
 		shapeRendererFilled.begin(ShapeType.Filled);
-		
+
 		// TODO 1 debugging code, remove ASAP
 		shapeRendererLine.setColor(Color.GOLD);
-		
-		for(Entity e : engine.getEntitiesFor(Family.all(TriggerComponent.class).get()))
+
+		for (Entity e : engine.getEntitiesFor(Family.all(TriggerComponent.class).get()))
 		{
 			TriggerComponent tp = e.getComponent(TriggerComponent.class);
-			for(TriggerCondition tc : tp.conditions)
+			for (TriggerCondition tc : tp.conditions)
 			{
-				if(tc instanceof UnitAtPositionCondition)
+				if (tc instanceof UnitAtPositionCondition)
 				{
-					UnitAtPositionCondition cond = ((UnitAtPositionCondition)tc); 
+					UnitAtPositionCondition cond = ((UnitAtPositionCondition) tc);
 					shapeRendererLine.circle(cond.targetPosition.x, cond.targetPosition.y, cond.targetRadius);
 				}
 			}
 		}
-		
+
 		engine.update(delta);
 
 		shapeRendererLine.end();
@@ -226,7 +233,7 @@ public class GameScreen extends ScreenAdapter
 
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
-		if (!guiStage.isSetup)
+		if (!guiStage.isSetup())
 		{
 			guiStage.setupUI();
 		}

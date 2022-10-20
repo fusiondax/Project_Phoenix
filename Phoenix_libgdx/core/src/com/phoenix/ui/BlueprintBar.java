@@ -3,7 +3,7 @@ package com.phoenix.ui;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.phoenix.blueprint.Blueprint;
-import com.phoenix.input.BlueprintIconInputListener;
+import com.phoenix.input.listener.BlueprintIconInputListener;
 import com.phoenix.player.Player;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

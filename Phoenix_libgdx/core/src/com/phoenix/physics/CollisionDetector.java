@@ -12,7 +12,7 @@ public class CollisionDetector
 {
 	public static boolean isShapeCollisionShape(Shape2D shape1, Shape2D shape2)
 	{
-		// this is super ugly, and I don't know how to make it cleaner...
+		// TODO 4 this is super ugly, and I don't know how to make it cleaner...
 		boolean intersected = false;
 		
 		if(shape1 instanceof Circle)

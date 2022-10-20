@@ -1,10 +1,13 @@
-package com.phoenix.ui;
+package com.phoenix.ui.window;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.phoenix.screens.GameScreen;
+import com.phoenix.ui.BlueprintBar;
+import com.phoenix.ui.FramerateCounterLabel;
+import com.phoenix.ui.TimeDilationLabel;
 
 public class PhoenixWindowBuilder
 {
@@ -56,7 +59,6 @@ public class PhoenixWindowBuilder
 		
 		return window;
 	}
-	
 	
 	private PhoenixWindow buildMiscInfoWindow()
 	{

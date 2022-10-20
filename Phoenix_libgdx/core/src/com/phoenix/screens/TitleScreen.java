@@ -6,8 +6,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.phoenix.game.Phoenix;
-import com.phoenix.input.BlueprintInputManager;
-import com.phoenix.input.InputManager;
 import com.phoenix.ui.TitleMenu;
 import com.phoenix.ui.TitleMenu.MainMenuType;
 
@@ -36,7 +34,6 @@ public class TitleScreen extends ScreenAdapter
 	@Override
 	public void show()
 	{
-		System.out.println("TitleScreen.show() was called");
 		menuStage.changeMenu(MainMenuType.Title);
 		Gdx.input.setInputProcessor(inputs);
 	}

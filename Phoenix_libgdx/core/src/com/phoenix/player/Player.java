@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.payne.games.piemenu.PieMenu;
 import com.phoenix.blueprint.Blueprint;
 
 public class Player
 {
 	public String name = "";
 	
-	//TODO set the player's vision/fog of war
+	//TODO 2 set the player's vision/fog of war
 	
 	private ArrayList<Blueprint> blueprintLibrary;
 

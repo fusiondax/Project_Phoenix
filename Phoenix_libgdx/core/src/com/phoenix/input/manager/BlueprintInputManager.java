@@ -1,14 +1,12 @@
-package com.phoenix.input;
+package com.phoenix.input.manager;
 
 import java.util.ArrayList;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.blueprint.Blueprint.BlueprintBuildStatus;
@@ -17,7 +15,6 @@ import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.ResourceComponent;
 import com.phoenix.io.EntityLoader;
-import com.phoenix.physics.CollisionDetector;
 import com.phoenix.player.Player;
 import com.phoenix.resource.Resource;
 import com.phoenix.screens.GameScreen;
@@ -28,7 +25,7 @@ public class BlueprintInputManager implements InputProcessor
 {
 	private GameScreen gameScreen;
 
-	public BlueprintInputManager(GameScreen gameScreen, ShapeRenderer renderer)
+	public BlueprintInputManager(GameScreen gameScreen)
 	{
 		this.gameScreen = gameScreen;
 	}
@@ -80,16 +77,17 @@ public class BlueprintInputManager implements InputProcessor
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)
 	{
 		Player player = this.gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME);
+		
 		boolean handled = false;
-
-		switch (button)
+		
+		if(player.selectedBlueprint != null)
 		{
-			case Input.Buttons.LEFT:
+			switch (button)
 			{
-				if (player.selectedBlueprint != null)
+				case Input.Buttons.LEFT:
 				{
 					OrthographicCamera cam = gameScreen.camera;
-					Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
+					Vector2 worldPos = GameWorldUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
 					Entity buildingEntity = EntityLoader
 							.getInitializedEntity(player.selectedBlueprint.data.buildableEntityName);
 
@@ -163,13 +161,14 @@ public class BlueprintInputManager implements InputProcessor
 
 						handled = true;
 					}
+					break;
 				}
-				break;
-			}
-			case Input.Buttons.RIGHT:
-			{
-				player.selectedBlueprint = null;
-				break;
+				
+				case Input.Buttons.RIGHT:
+				{
+					player.selectedBlueprint = null;
+					break;
+				}
 			}
 		}
 
@@ -196,7 +195,7 @@ public class BlueprintInputManager implements InputProcessor
 		if (player.selectedBlueprint != null)
 		{
 			OrthographicCamera cam = gameScreen.camera;
-			Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
+			Vector2 worldPos = GameWorldUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
 
 			Circle validBuildIndicator = player.selectedBlueprint.validBuildIndicator;
 

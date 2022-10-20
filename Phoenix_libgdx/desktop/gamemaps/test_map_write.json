@@ -1966,6 +1966,9 @@
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
+		},
+		{
+			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
@@ -2004,6 +2007,9 @@
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
+		},
+		{
+			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
@@ -2042,6 +2048,9 @@
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
+		},
+		{
+			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
@@ -2080,6 +2089,9 @@
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
+		},
+		{
+			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
@@ -2118,6 +2130,9 @@
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
+		},
+		{
+			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
@@ -2156,6 +2171,9 @@
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
+		},
+		{
+			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
@@ -2194,6 +2212,9 @@
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
+		},
+		{
+			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
@@ -2232,6 +2253,9 @@
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
+		},
+		{
+			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[

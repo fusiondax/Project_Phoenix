@@ -38,6 +38,28 @@
 		},
 		{
 			"component_type": "Buildable"
+		},
+		{
+			"component_type": "RadialMenu",
+			"buttons":
+			[
+				{
+					"type": "move",
+					"icon_name": "ui_move_command_icon"
+				},
+				{
+					"type": "carry",
+					"icon_name": "ui_carry_resources_command_icon"
+				},
+				{
+					"type": "disassemble",
+					"icon_name": ""
+				},
+				{
+					"type": "information",
+					"icon_name": "ui_information_icon"
+				}
+			]
 		}
 	]
 }

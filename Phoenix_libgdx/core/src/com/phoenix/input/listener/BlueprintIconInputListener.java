@@ -1,4 +1,4 @@
-package com.phoenix.input;
+package com.phoenix.input.listener;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

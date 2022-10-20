@@ -1,4 +1,4 @@
-package com.phoenix.input;
+package com.phoenix.input.manager;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.MoveCommandComponent;
@@ -18,14 +17,15 @@ import com.phoenix.components.TextureComponent;
 import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.ui.PhoenixCursor;
+import com.phoenix.utility.GameWorldUtility;
 import com.phoenix.utility.MathUtility;
 
-public class InputManager implements InputProcessor
+public class GameWorldInputManager implements InputProcessor
 {
 	private GameScreen gameScreen;
 	private Player player;
 	
-	public InputManager(GameScreen gameScreen, ShapeRenderer renderer)
+	public GameWorldInputManager(GameScreen gameScreen)
 	{
 		this.gameScreen = gameScreen;
 		this.player = this.gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME);
@@ -111,6 +111,7 @@ public class InputManager implements InputProcessor
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
 		OrthographicCamera cam = gameScreen.camera;
+		Vector2 worldPos = GameWorldUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
 		//System.out.println("touchDown X: " + screenX);
 		//System.out.println("touchDown Y: " + screenY);
 		//System.out.println("button: " + MouseButtonConversion.ConvertButtonIntToString(button));
@@ -120,7 +121,7 @@ public class InputManager implements InputProcessor
 			// left button for unit selection
 			case Input.Buttons.LEFT:
 			{
-				Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
+				
 				
 				player.selectionBox.x = worldPos.x;
 				player.selectionBox.y = worldPos.y;
@@ -131,25 +132,10 @@ public class InputManager implements InputProcessor
 				break;
 			}
 			
-			// right button for giving commands
+			
 			case Input.Buttons.RIGHT:
 			{
-				//System.out.println(gameScreen.selectedEntities.size());
-				Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
 				
-				
-				for(Entity e : gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities)
-				{
-					MoveCommandComponent mac = e.getComponent(MoveCommandComponent.class);
-					PositionComponent pc = e.getComponent(PositionComponent.class);
-					if(mac != null && pc != null)
-					{
-						mac.startPathfindingDelay = MoveCommandComponent.START_PATHFINDING_DELAY_MAX;
-						mac.destinations.clear();
-						mac.destinations.add(worldPos);
-					}
-				}
-				break;
 			}
 			
 			// middle mouse for dragging the screen
@@ -166,6 +152,7 @@ public class InputManager implements InputProcessor
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)
 	{
 		OrthographicCamera cam = gameScreen.camera;
+		Vector2 worldPos = GameWorldUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
 		//System.out.println("touchUp X: " + screenX);
 		//System.out.println("touchUp Y: " + screenY);
 		//System.out.println("button: " + MouseButtonConversion.ConvertButtonIntToString(button));
@@ -175,8 +162,6 @@ public class InputManager implements InputProcessor
 			case Input.Buttons.LEFT:
 			{
 				//defines the height and width of the selection box
-				Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
-				
 				player.selectionBox.width = worldPos.x - player.selectionBox.x;
 				player.selectionBox.height = worldPos.y - player.selectionBox.y;
 				
@@ -221,9 +206,20 @@ public class InputManager implements InputProcessor
 				break;
 			}
 			
-			// right button for giving commands
 			case Input.Buttons.RIGHT:
 			{
+				// if there are selectable entities in the player selected entities list
+				for(Entity e : gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities)
+				{
+					MoveCommandComponent mac = e.getComponent(MoveCommandComponent.class);
+					PositionComponent pc = e.getComponent(PositionComponent.class);
+					if(mac != null && pc != null)
+					{
+						mac.startPathfindingDelay = MoveCommandComponent.START_PATHFINDING_DELAY_MAX;
+						mac.destinations.clear();
+						mac.destinations.add(worldPos);
+					}
+				}
 				break;
 			}
 			
@@ -239,6 +235,7 @@ public class InputManager implements InputProcessor
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer)
 	{
+		// TODO 1 weird graphical but with dragging left mouse button while a radial menu is present...
 		//System.out.println("X: " + screenX);
 		//System.out.println("Y: " + screenY);
 		OrthographicCamera cam = gameScreen.camera;
@@ -247,7 +244,7 @@ public class InputManager implements InputProcessor
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 		{
-			Vector2 worldPos = MathUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
+			Vector2 worldPos = GameWorldUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
 			
 			player.selectionBox.width = worldPos.x - player.selectionBox.x;
 			player.selectionBox.height = worldPos.y - player.selectionBox.y;
@@ -302,4 +299,6 @@ public class InputManager implements InputProcessor
 		
 		return false;
 	}
+	
+	
 }

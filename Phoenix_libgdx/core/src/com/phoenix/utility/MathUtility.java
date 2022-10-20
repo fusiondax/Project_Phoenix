@@ -17,31 +17,6 @@ public class MathUtility
 		return Float.parseFloat(format.format(originalFloat).replace(',', '.'));
 	}
 	
-	public static Vector2 getWorldPositionFromScreenLocation(int screenX, int screenY, OrthographicCamera cam)
-	{
-		Vector2 worldPos = new Vector2();
-		
-		Vector2 adjustedScreenPos = getCenterScreenOriginScreenPos(screenX, screenY);
-		
-		worldPos.x = cam.position.x + ((cam.viewportWidth / 2) * adjustedScreenPos.x);
-		worldPos.y = cam.position.y + ((cam.viewportHeight / 2) * adjustedScreenPos.y);
-		
-		return worldPos;
-	}
-	
-	public static Vector2 getCenterScreenOriginScreenPos(int screenX, int screenY)
-	{
-		Vector2 adjustedScreenPos = new Vector2();
-		
-		adjustedScreenPos.x = screenX - (Gdx.graphics.getWidth() / 2);
-		adjustedScreenPos.y = (screenY - Gdx.graphics.getHeight() / 2) * -1.0f;
-		
-		adjustedScreenPos.x /= (float) (Gdx.graphics.getWidth() / 2);
-		adjustedScreenPos.y /= (float) (Gdx.graphics.getHeight() / 2);
-		
-		return adjustedScreenPos;
-	}
-	
 	/**
 	 * found some bug/limitation with the Rectangle class
 	 * @return
