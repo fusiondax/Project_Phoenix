@@ -235,7 +235,7 @@ public class GameWorldInputManager implements InputProcessor
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer)
 	{
-		// TODO 1 weird graphical but with dragging left mouse button while a radial menu is present...
+		// TODO 2 weird graphical but with dragging left mouse button while a radial menu is present...
 		//System.out.println("X: " + screenX);
 		//System.out.println("Y: " + screenY);
 		OrthographicCamera cam = gameScreen.camera;

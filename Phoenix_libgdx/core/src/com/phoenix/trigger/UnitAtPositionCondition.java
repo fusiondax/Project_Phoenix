@@ -33,7 +33,7 @@ public class UnitAtPositionCondition implements TriggerCondition
 	public Vector2 targetPosition;
 	public float targetRadius;
 
-	// TODO 1 implements condition logic
+	// TODO 2 implements condition logic
 
 	/**
 	 * if a unit: 
@@ -116,13 +116,13 @@ public class UnitAtPositionCondition implements TriggerCondition
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		unitOwner = jsonData.get("unit_owner").asString();
-		unitTypeName = jsonData.get("unit_type").asString();		
+		this.unitOwner = jsonData.get("unit_owner").asString();
+		this.unitTypeName = jsonData.get("unit_type").asString();		
 		
-		targetPosition.set(new Vector2(jsonData.get("target_position_x").asFloat(),
+		this.targetPosition.set(new Vector2(jsonData.get("target_position_x").asFloat(),
 				jsonData.get("target_position_y").asFloat()));
 		
-		targetRadius = jsonData.get("target_radius").asFloat();
+		this.targetRadius = jsonData.get("target_radius").asFloat();
 	}
 
 }

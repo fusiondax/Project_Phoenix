@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.phoenix.components.BuildableComponent;
 import com.phoenix.components.CollectibleBlueprintComponent;
@@ -18,6 +19,7 @@ import com.phoenix.components.SelectionComponent;
 import com.phoenix.components.TerrainComponent;
 import com.phoenix.components.TextureComponent;
 import com.phoenix.components.TriggerComponent;
+import com.phoenix.components.EntityActionsComponent;
 import com.phoenix.components.ValidTerrainTypesComponent;
 import com.phoenix.components.VelocityComponent;
 import com.phoenix.resource.Resource;
@@ -39,14 +41,17 @@ public class EntityLoader
 	public static Entity getInitializedEntity(String entityName)
 	{
 		Entity entity = new Entity();
+		
+		Json json = new Json();
 
 		JsonValue entityConfig = getEntityConfigFile("entity_" + entityName);
 
 		for (JsonValue componentsJson : entityConfig.get("components"))
 		{
 			String componentType = componentsJson.get("component_type").asString();
-
+			
 			Component comp = null;
+			
 			switch (componentType)
 			{
 				case "Name":
@@ -183,6 +188,7 @@ public class EntityLoader
 
 				case "RadialMenu":
 				{
+					
 					comp = new RadialMenuComponent();
 
 					for (JsonValue jsonButton : componentsJson.get("buttons"))
@@ -190,15 +196,24 @@ public class EntityLoader
 						((RadialMenuComponent) comp).buttons.add(new RadialMenuButton(jsonButton.get("type").asString(),
 								jsonButton.get("icon_name").asString()));
 					}
+					
+					break;
+				}
+				
+				case "EntityActions":
+				{
+					comp = json.readValue(EntityActionsComponent.class, componentsJson);
 					break;
 				}
 			}
+			
+			
 			entity.add(comp);
 		}
 		return entity;
 	}
 
-	// TODO this method could be updated to be more generic: its role, as of right
+	// TODO 3 this method could be updated to be more generic: its role, as of right
 	// now, is very specific and might even work in a similar fashion
 	// to the "MapLoader.convertTiledMapToGameMap" method
 
@@ -210,7 +225,7 @@ public class EntityLoader
 	 * @param updatedComponents
 	 *            the list of components to be used to update the initialEntity's
 	 *            existing components
-	 * @return the initialEntity with its conponents attributes updated using the
+	 * @return the initialEntity with its components attributes updated using the
 	 *         updatedComponents list
 	 */
 	public static Entity updateEntityWithComponents(Entity initialEntity, ArrayList<Component> updatedComponents)

@@ -9,9 +9,6 @@ import com.phoenix.ui.radialMenu.RadialMenuButton;
 import com.badlogic.gdx.utils.JsonValue;
 
 /**
- * An entity with this component has the ability to display a
- * {@link RadialMenu} (usually by right-clicking it) around itself to
- * allow for contextual information or control options for that entity
  * 
  * @author David Janelle
  *
@@ -30,6 +27,17 @@ public class RadialMenuComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
+		/*
+		JsonValue list = jsonData.get("buttons");
 		
+		if(list != null)
+		{
+			for (JsonValue entry = list.child; entry != null; entry = entry.next)
+			{
+				RadialMenuButton rmb = json.readValue(null, entry);
+				buttons.add(rmb);
+			}
+		}
+		*/
 	}
 }

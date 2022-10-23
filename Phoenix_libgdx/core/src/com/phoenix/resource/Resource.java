@@ -30,7 +30,6 @@ public class Resource implements Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		// TODO 1 use json.readValue
 		type = jsonData.get("type").asString();
 		amount = jsonData.get("amount").asInt();
 	}

@@ -1,5 +1,7 @@
 package com.phoenix.input.manager;
 
+import java.util.ArrayList;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
@@ -16,9 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.payne.games.piemenu.PieMenu;
 import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.components.CollisionHitboxComponent;
+import com.phoenix.components.EntityActionsComponent;
 import com.phoenix.components.RadialMenuComponent;
+import com.phoenix.entityAction.EntityAction;
+import com.phoenix.entityAction.MoveEntityAction;
 import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
+import com.phoenix.ui.InGameUI;
 import com.phoenix.ui.radialMenu.RadialMenuButton;
 import com.phoenix.utility.GameWorldUtility;
 
@@ -70,10 +76,10 @@ public class RadialMenuInputManager implements InputProcessor
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)
 	{
 		boolean handled = false;
-		
+
 		switch (button)
 		{
-			case Input.Buttons.RIGHT:
+			case Input.Buttons.MIDDLE:
 			{
 				handled = handleRadialMenuButtonInteractions(screenX, screenY, pointer, button);
 				break;
@@ -101,94 +107,115 @@ public class RadialMenuInputManager implements InputProcessor
 	}
 
 	// TODO 3 maybe put this in the GameWorld input manager...
+	/**
+	 * 
+	 * Note: if multiple entities have buttons of the same type but those entities
+	 * define different icons for that button type, the first entity to be process
+	 * will have its icon used.
+	 * 
+	 * @param screenX
+	 * @param screenY
+	 * @param pointer
+	 * @param button
+	 * @return
+	 */
 	private boolean handleRadialMenuButtonInteractions(int screenX, int screenY, int pointer, int button)
 	{
 		boolean handled = false;
-		// does the player has an active Radial Menu?
-		
-		
+
+		// does the player already has an active Radial Menu in the UI stage?
 		if (!gameScreen.guiStage.hasRadialMenu())
 		{
-			OrthographicCamera cam = gameScreen.camera;
-			Vector2 worldPos = GameWorldUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
-			
-			
-			// activate radial menus on entities with such feature
-			Entity entity = GameWorldUtility.getEntityAtLocation(gameScreen.engine, worldPos, 20.0f,
-					Family.all(RadialMenuComponent.class).get());
+			// retrieve all radialMenuComponents from the player's selected entities
+			ArrayList<RadialMenuComponent> radMenuComps = new ArrayList<RadialMenuComponent>();
 
-			if (entity != null)
+			for (Entity e : player.selectedEntities)
 			{
-				float entitySize = 20.0f;
-				// TODO 4 can there be a unit with a "size" but no "collision hitbox" ?
-				CollisionHitboxComponent chc = entity.getComponent(CollisionHitboxComponent.class);
-				
-				if(chc != null)
+				RadialMenuComponent rmc = e.getComponent(RadialMenuComponent.class);
+
+				if (rmc != null)
 				{
-					entitySize = chc.size;
+					radMenuComps.add(rmc);
 				}
-				Skin skin = PhoenixAssetManager.getInstance().activeSkin;
-				
-				// TODO 3 maybe use an anonymous class to fine-tune behaviours (see documentation)
-				PieMenu menu = new PieMenu(skin.getRegion("white_pixel"), skin, "default_radial_menu", entitySize * 5);
-				menu.setPosition(screenX - (menu.getWidth() / 2), Gdx.graphics.getHeight() - screenY - (menu.getHeight() / 2));
+			}
+			Skin skin = PhoenixAssetManager.getInstance().activeSkin;
+			PieMenu menu = null;
+
+			// if there is at least one of those units who had a radial menu, create a
+			// radial Menu centered on the mouse pointer.
+			if (!radMenuComps.isEmpty())
+			{
+				// TODO 3 maybe use an anonymous class to fine-tune behaviours (see
+				// documentation)
+				menu = new PieMenu(skin.getRegion("white_pixel"), skin, "default_radial_menu", 100.0f);
+
+				menu.setPosition(screenX - (menu.getWidth() / 2),
+						Gdx.graphics.getHeight() - screenY - (menu.getHeight() / 2));
 				menu.setInnerRadiusPercent(0.5f);
-				
-				// menu.setHitThroughInnerRadius(true);
-				
-				
-				// add behaviour to close radial menu on right-click
-				menu.addListener(new InputListener() 
+
+				menu.addListener(new InputListener()
 				{
 					@Override
 					public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
 					{
-						PieMenu radialMenu = (PieMenu)event.getListenerActor();
-						Vector2 cursorPos = new Vector2(x - (radialMenu.getWidth() / 2), y - (radialMenu.getHeight() / 2));
-						
+						PieMenu radialMenu = (PieMenu) event.getListenerActor();
+						Vector2 cursorPos = new Vector2(x - (radialMenu.getWidth() / 2),
+								y - (radialMenu.getHeight() / 2));
+
 						float cursorDistance = cursorPos.dst(0, 0);
-						
-						if(cursorDistance > radialMenu.getWidth() / 2)
+
+						if (cursorDistance > radialMenu.getWidth() / 2)
 						{
 							event.getStage().getActors().removeValue(radialMenu, false);
 						}
 					}
 				});
-				
-				RadialMenuComponent radialMenuComp = entity.getComponent(RadialMenuComponent.class);
-				
-				for(RadialMenuButton b : radialMenuComp.buttons)
+
+				menu.addListener(new ChangeListener()
 				{
-					Image icon;
-					
-					if(!b.iconName.equals(""))
+					@Override
+					public void changed(ChangeEvent event, Actor actor)
 					{
-						icon = new Image(skin, b.iconName);
-						menu.addActor(icon);
+						((InGameUI) event.getStage()).executeRadialMenuAction();
 					}
-					else
-					{
-						icon = new Image();
-					}
-					
-					menu.addActor(icon);
-				}
-				
-				// TODO 1 define listener to execute action on sector click
-				menu.addListener(new ChangeListener() 
-				{
-				    @Override
-				    public void changed(ChangeEvent event, Actor actor) {
-				    	//System.out.println("actor: " + actor.toString());
-				        System.out.println("The selected index is: " + ((PieMenu)actor).getSelectedIndex());
-				    }
 				});
 				
-				
 				gameScreen.guiStage.addActor(menu);
-				
-				handled = true;
 			}
+
+			// add radial menu buttons to the menu. There can only be one button of each
+			// type.
+
+			ArrayList<String> existingButtonTypes = new ArrayList<String>();
+			
+			// for each radial menu component in the player entity selection...
+			for (RadialMenuComponent rmc : radMenuComps)
+			{
+				// for each button in that entity's button type list...
+				for (RadialMenuButton b : rmc.buttons)
+				{
+					// add the button only if it wasn't added before
+					if(!existingButtonTypes.contains(b.type))
+					{
+						Image icon;
+
+						if (!b.iconName.equals(""))
+						{
+							icon = new Image(skin, b.iconName);
+						}
+						else
+						{
+							icon = new Image();
+						}
+						
+						icon.setName(b.type);
+						menu.addActor(icon);
+						existingButtonTypes.add(b.type);
+					}
+				}
+			}
+
+			handled = true;
 		}
 		return handled;
 	}

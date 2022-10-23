@@ -29,6 +29,24 @@
 			"mode": "any"
 		},
 		{
+			"component_type": "EntityActions",
+			"actions":
+			[
+				{
+					"class": "com.phoenix.entityAction.MoveEntityAction",
+					"unit_max_speed": 100.0
+				},
+				{
+					"class": "com.phoenix.entityAction.CarryResourceEntityAction",
+					"max_capacity": 50
+				},
+				{
+					"class": "com.phoenix.entityAction.DisassembleEntityAction",
+					"disassembly_time": 200 
+				}
+			]
+		},
+		{
 			"component_type": "MoveCommand",
 			"unitMaxSpeed": 100.0,
 		},

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.payne.games.piemenu.PieMenu;
 import com.phoenix.blueprint.Blueprint;
+import com.phoenix.entityAction.EntityAction;
 
 public class Player
 {
@@ -15,9 +15,10 @@ public class Player
 	//TODO 2 set the player's vision/fog of war
 	
 	private ArrayList<Blueprint> blueprintLibrary;
-
 	public ArrayList<Entity> selectedEntities;
-
+	
+	public ArrayList<EntityAction> entityActionQueue;
+	
 	public Blueprint selectedBlueprint;
 	
 	public Vector2 prevCamDragPos;
@@ -28,6 +29,9 @@ public class Player
 		this.name = name;
 		this.selectedEntities = new ArrayList<Entity>();
 		this.blueprintLibrary = new ArrayList<Blueprint>();
+		
+		this.entityActionQueue = new ArrayList<EntityAction>();
+		
 		this.selectedBlueprint = null;
 		
 		this.prevCamDragPos = new Vector2();

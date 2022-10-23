@@ -14,14 +14,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.payne.games.piemenu.PieMenu;
-import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.blueprint.BlueprintData;
 import com.phoenix.components.TriggerComponent;
 import com.phoenix.game.Phoenix;
@@ -210,7 +203,7 @@ public class GameScreen extends ScreenAdapter
 		shapeRendererLine.begin(ShapeType.Line);
 		shapeRendererFilled.begin(ShapeType.Filled);
 
-		// TODO 1 debugging code, remove ASAP
+		// TODO 3 debugging code, remove ASAP
 		shapeRendererLine.setColor(Color.GOLD);
 
 		for (Entity e : engine.getEntitiesFor(Family.all(TriggerComponent.class).get()))

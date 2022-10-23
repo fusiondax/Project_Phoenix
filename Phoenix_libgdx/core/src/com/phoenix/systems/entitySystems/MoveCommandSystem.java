@@ -90,8 +90,10 @@ public class MoveCommandSystem extends IteratingSystem
 				// debug.circle(hitboxCircle.x, hitboxCircle.y, hitboxCircle.radius);
 
 				// if the unit is colliding with something for more than a second
-				// TODO add more refined pathfinding start conditions: ignore moving friendly
-				// units, ask stationary friendly units who are blocking to move around
+				/*
+				 * TODO 3 add more refined pathfinding start conditions: ignore moving friendly
+				 * units, ask stationary friendly units who are blocking to move around
+				 */
 				if (CollisionDetector.isCircleCollisionRectangles(hitboxCircle, EntityUtility.getRectanglesFromTerrains(
 						EntityUtility.getImpassableTerrains(engine, entityValidTerrainTypes))))
 				{
@@ -115,14 +117,15 @@ public class MoveCommandSystem extends IteratingSystem
 				}
 				// debugFoundPath(mac.destinations);
 				// System.out.println("units wants to move by: " + entityVelocity.velocity);
-				
+
 				entityMovement.velocity.add(nextDestinationVector);
-				
-//				debug.setColor(Color.WHITE);
-//				debug.line(entityPosition2d, entityPosition2d.cpy().add(nextDestinationVector));
-//				
-//				debug.circle(entityPosition2d.x + nextDestinationVector.x, entityPosition2d.y + nextDestinationVector.y, nextDestinationVector.len() / 10);
-				
+
+				// debug.setColor(Color.WHITE);
+				// debug.line(entityPosition2d,
+				// entityPosition2d.cpy().add(nextDestinationVector));
+				//
+				// debug.circle(entityPosition2d.x + nextDestinationVector.x, entityPosition2d.y
+				// + nextDestinationVector.y, nextDestinationVector.len() / 10);
 
 			}
 			else // unit's hitbox is at destination, remove current destination point and stops
@@ -134,8 +137,8 @@ public class MoveCommandSystem extends IteratingSystem
 		}
 	}
 
-	private void searchNewPath(Vector2 initialPoint, Vector2 startNode, Vector2 endNode,
-			MoveCommandComponent mac, ValidTerrainTypesComponent vttc)
+	private void searchNewPath(Vector2 initialPoint, Vector2 startNode, Vector2 endNode, MoveCommandComponent mac,
+			ValidTerrainTypesComponent vttc)
 	{
 		Engine engine = getEngine();
 		ImmutableArray<Entity> allTerrains = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
@@ -151,6 +154,7 @@ public class MoveCommandSystem extends IteratingSystem
 		int[] mapDimension = GameWorldUtility.getMapDimension(engine);
 		GridCell[][] cells = new GridCell[mapDimension[0]][mapDimension[1]];
 
+		// populate cells with all of the terrain tiles
 		for (Entity terrainEntity : allTerrains)
 		{
 			PositionComponent entityPos = terrainEntity.getComponent(PositionComponent.class);
