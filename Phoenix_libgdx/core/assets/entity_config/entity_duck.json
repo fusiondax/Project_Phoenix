@@ -32,23 +32,31 @@
 			"component_type": "EntityActions",
 			"actions":
 			[
+			{
+				"action_name": "move",
+				"action_obj":
 				{
 					"class": "com.phoenix.entityAction.MoveEntityAction",
 					"unit_max_speed": 100.0
-				},
+				}
+			},
+			{
+				"action_name": "carry",
+				"action_obj":
 				{
 					"class": "com.phoenix.entityAction.CarryResourceEntityAction",
 					"max_capacity": 50
-				},
+				}
+			},
+			{
+				"action_name": "disassemble",
+				"action_obj":
 				{
 					"class": "com.phoenix.entityAction.DisassembleEntityAction",
 					"disassembly_time": 200 
 				}
+			}
 			]
-		},
-		{
-			"component_type": "MoveCommand",
-			"unitMaxSpeed": 100.0,
 		},
 		{
 			"component_type": "ValidTerrainTypes",
@@ -64,6 +72,10 @@
 				{
 					"type": "move",
 					"icon_name": "ui_move_command_icon"
+				},
+				{
+					"type": "stop",
+					"icon_name": "ui_cross_mark_icon"
 				},
 				{
 					"type": "carry",

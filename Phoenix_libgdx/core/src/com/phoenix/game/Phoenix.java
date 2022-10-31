@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.phoenix.assets.PhoenixAssetManager;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.screens.TitleScreen;
-import com.phoenix.ui.PhoenixCursor;
+import com.phoenix.ui.cursor.PhoenixCursor;
 
 public class Phoenix extends Game
 {

@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.phoenix.components.BuildableComponent;
 import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.CollisionHitboxComponent;
-import com.phoenix.components.MoveCommandComponent;
 import com.phoenix.components.NameComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
@@ -97,16 +96,6 @@ public class EntityLoader
 						((CollisionHitboxComponent) comp).size = componentsJson.get("size").asFloat();
 					}
 
-					break;
-				}
-
-				case "MoveCommand":
-				{
-					comp = new MoveCommandComponent();
-					if (componentsJson.get("unitMaxSpeed") != null)
-					{
-						((MoveCommandComponent) comp).unitMaxSpeed = componentsJson.get("unitMaxSpeed").asFloat();
-					}
 					break;
 				}
 

@@ -1,13 +1,23 @@
 package com.phoenix.ui;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.payne.games.piemenu.PieMenu;
 import com.phoenix.assets.PhoenixAssetManager;
+import com.phoenix.components.EntityActionsComponent;
+import com.phoenix.components.PositionComponent;
+import com.phoenix.entityAction.EntityAction;
+import com.phoenix.entityAction.EntityActionKnownType;
+import com.phoenix.entityAction.MoveEntityAction;
+import com.phoenix.entityAction.MoveEntityActionParameters;
+import com.phoenix.player.CursorMode;
+import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
+import com.phoenix.ui.cursor.PhoenixCursor;
 import com.phoenix.ui.window.PhoenixWindowBuilder;
 import com.phoenix.ui.window.PhoenixWindowUtility;
 import com.phoenix.ui.window.WindowOpenerBar;
@@ -49,6 +59,7 @@ public class InGameUI extends Stage
 		super.act(delta);
 	}
 
+	// TODO 2 find a better place for this method, some sort of Radial Menu utility class or something...
 	/**
 	 * Note: the 'name' attribute of the menu's children is used to define what the
 	 * button's action is suppose to be.
@@ -75,7 +86,10 @@ public class InGameUI extends Stage
 
 		PieMenu menu = getActiveRadialMenu();
 
+		// TODO 3 I got a null pointer exception here, and I was not able to re-create it...
 		String selectedButtonAction = menu.getChildren().get(menu.getSelectedIndex()).getName();
+		
+		Player p = gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME);
 
 		System.out.println("Selected button type: " + selectedButtonAction);
 
@@ -85,17 +99,30 @@ public class InGameUI extends Stage
 			{
 				// this requires a new UI elements that prompts the player to 'select' a
 				// destination for the unit to move to.
-
-				// once a destination (as game world coordinates) has been established, all
-				// units part of the player's selection must be given the order to go to that
-				// location.
-				System.out.println("A Behavior has not yet been implemented for this button type");
+				
+				// TODO 1 need a label that follows the cursor around
+				
+				p.setCursorMode(CursorMode.CoordinateSelection);
+				p.setCursorDisplay(PhoenixCursor.Target, Player.CURSOR_MODE_PRIORITY_NAME);
+				
+				// System.out.println("A Behavior has not yet been implemented for this button type");
+				break;
+			}
+			case "stop":
+			{
+				for(Entity e : p.selectedEntities)
+				{
+					EntityAction ea = e.getComponent(EntityActionsComponent.class).actions.get(EntityActionKnownType.Move.getName());
+					if(ea instanceof MoveEntityAction)
+					{
+						ea.setCommandParameters(null);
+					}
+				}
 				break;
 			}
 
 			case "carry":
 			{
-				
 				System.out.println("A Behavior has not yet been implemented for this button type");
 				break;
 			}
@@ -116,12 +143,10 @@ public class InGameUI extends Stage
 			{
 				PhoenixWindowUtility.openWindow(this, "misc_info");
 				// TODO 3 debug behavior, remove this eventually
-				for(Entity e : gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities)
+				for(Entity e : p.selectedEntities)
 				{
 					e.getComponents().toString();
 				}
-				
-				
 				break;
 			}
 			default:
@@ -132,6 +157,8 @@ public class InGameUI extends Stage
 		}
 		// TODO 2 Once the button on the menu is selected, does the radial menu needs to
 		// disappear?
+		
+		getActors().removeValue(menu, false);
 	}
 
 	// TODO 2 this is pretty gross way to check if a radial menu is already being

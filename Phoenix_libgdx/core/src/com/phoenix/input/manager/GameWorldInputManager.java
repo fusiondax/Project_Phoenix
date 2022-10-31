@@ -9,14 +9,19 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.phoenix.components.MoveCommandComponent;
+import com.phoenix.components.EntityActionsComponent;
 import com.phoenix.components.OwnershipComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.SelectionComponent;
 import com.phoenix.components.TextureComponent;
+import com.phoenix.entityAction.EntityAction;
+import com.phoenix.entityAction.EntityActionKnownType;
+import com.phoenix.entityAction.MoveEntityAction;
+import com.phoenix.entityAction.MoveEntityActionParameters;
+import com.phoenix.player.CursorMode;
 import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
-import com.phoenix.ui.PhoenixCursor;
+import com.phoenix.ui.cursor.PhoenixCursor;
 import com.phoenix.utility.GameWorldUtility;
 import com.phoenix.utility.MathUtility;
 
@@ -39,34 +44,6 @@ public class GameWorldInputManager implements InputProcessor
 		boolean handled = false;
 		switch(keycode)
 		{
-			case Input.Keys.W:
-			{
-				gameScreen.camera.translate(0, 10);
-				handled = true;
-				break;
-			}
-			
-			case Input.Keys.A:
-			{
-				gameScreen.camera.translate(-10, 0);
-				handled = true;
-				break;
-			}
-			
-			case Input.Keys.S:
-			{
-				gameScreen.camera.translate(0, -10);
-				handled = true;
-				break;
-			}
-			
-			case Input.Keys.D:
-			{
-				gameScreen.camera.translate(10, 0);
-				handled = true;
-				break;
-			}
-			
 			case Input.Keys.P:
 			{
 				gameScreen.toggleSystems();
@@ -98,6 +75,22 @@ public class GameWorldInputManager implements InputProcessor
 	@Override
 	public boolean keyUp(int keycode)
 	{
+		switch(keycode)
+		{
+			// player's selected entities's stop movement command
+			case Input.Keys.S:
+			{
+				for(Entity e: player.selectedEntities)
+				{
+					EntityAction ea = e.getComponent(EntityActionsComponent.class).actions.get(EntityActionKnownType.Move.getName());
+					if(ea instanceof MoveEntityAction)
+					{
+						ea.setCommandParameters(null);
+					}
+				}
+				break;
+			}
+		}
 		return false;
 	}
 
@@ -153,82 +146,104 @@ public class GameWorldInputManager implements InputProcessor
 	{
 		OrthographicCamera cam = gameScreen.camera;
 		Vector2 worldPos = GameWorldUtility.getWorldPositionFromScreenLocation(screenX, screenY, cam);
-		//System.out.println("touchUp X: " + screenX);
-		//System.out.println("touchUp Y: " + screenY);
-		//System.out.println("button: " + MouseButtonConversion.ConvertButtonIntToString(button));
-		switch(button)
+		
+		switch(player.getCursorMode())
 		{
-			// left button for unit selection
-			case Input.Buttons.LEFT:
+			case CoordinateSelection:
 			{
-				//defines the height and width of the selection box
-				player.selectionBox.width = worldPos.x - player.selectionBox.x;
-				player.selectionBox.height = worldPos.y - player.selectionBox.y;
-				
-				player.selectionBox = MathUtility.readjustRectangle(player.selectionBox);
-				
-//				System.out.println("selectionBox: " + gameScreen.selectionBox.toString());
-				
-				//clear the selected entities list when trying to select new selctables
-				gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities.clear();
-				
-				//find "selectable" entities that are included in the rectangle
-				ImmutableArray<Entity> selectableEntities = gameScreen.engine.getEntitiesFor(
-						Family.all(SelectionComponent.class, PositionComponent.class).get());
-				
-				for(Entity e : selectableEntities)
+				switch(button)
 				{
-					SelectionComponent select = e.getComponent(SelectionComponent.class);
-					PositionComponent position = e.getComponent(PositionComponent.class);
-					
-					//TODO change the way units are selected/being controlled depending on ownership and selection mode
-					OwnershipComponent owner = e.getComponent(OwnershipComponent.class);
-					
-					Vector2 position2d = new Vector2(position.pos2D);
-					
-//					System.out.println("selectable entity position: " + position2d.toString());
-					
-					// if the entity's position is contained within the selection rectangle, add it to the selectedEntities list
-					if(player.selectionBox.contains(position2d))
+					case Input.Buttons.LEFT:
 					{
-						select.selected = true;
-						TextureComponent graph = e.getComponent(TextureComponent.class); 
-						//System.out.println(graph.textureName);
-						gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities.add(e);
-					}
-					else
-					{
-						select.selected = false;
+						System.out.println("A coordinate has been defined by the player.");
+						for(Entity e : player.selectedEntities)
+						{
+							EntityActionsComponent eac = e.getComponent(EntityActionsComponent.class);
+							eac.actions.get(EntityActionKnownType.Move.getName()).setCommandParameters(new MoveEntityActionParameters(worldPos));
+						}
+						break;
 					}
 				}
-				
-				player.selectionBox = new Rectangle();
+				player.setCursorMode(CursorMode.Normal);
+				player.setCursorDisplay(PhoenixCursor.Arrow, Player.CURSOR_MODE_PRIORITY_NAME);
 				break;
 			}
-			
-			case Input.Buttons.RIGHT:
+				
+			case Normal:
 			{
-				// if there are selectable entities in the player selected entities list
-				for(Entity e : gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities)
+				switch(button)
 				{
-					MoveCommandComponent mac = e.getComponent(MoveCommandComponent.class);
-					PositionComponent pc = e.getComponent(PositionComponent.class);
-					if(mac != null && pc != null)
+					// left button for unit selection
+					case Input.Buttons.LEFT:
 					{
-						mac.startPathfindingDelay = MoveCommandComponent.START_PATHFINDING_DELAY_MAX;
-						mac.destinations.clear();
-						mac.destinations.add(worldPos);
+						//defines the height and width of the selection box
+						player.selectionBox.width = worldPos.x - player.selectionBox.x;
+						player.selectionBox.height = worldPos.y - player.selectionBox.y;
+						
+						player.selectionBox = MathUtility.readjustRectangle(player.selectionBox);
+						
+//						System.out.println("selectionBox: " + gameScreen.selectionBox.toString());
+						
+						//clear the selected entities list when trying to select new selctables
+						gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities.clear();
+						
+						//find "selectable" entities that are included in the rectangle
+						ImmutableArray<Entity> selectableEntities = gameScreen.engine.getEntitiesFor(
+								Family.all(SelectionComponent.class, PositionComponent.class).get());
+						
+						for(Entity e : selectableEntities)
+						{
+							SelectionComponent select = e.getComponent(SelectionComponent.class);
+							PositionComponent position = e.getComponent(PositionComponent.class);
+							
+							//TODO change the way units are selected/being controlled depending on ownership and selection mode
+							OwnershipComponent owner = e.getComponent(OwnershipComponent.class);
+							
+							Vector2 position2d = new Vector2(position.pos2D);
+							
+//							System.out.println("selectable entity position: " + position2d.toString());
+							
+							// if the entity's position is contained within the selection rectangle, add it to the selectedEntities list
+							if(player.selectionBox.contains(position2d))
+							{
+								select.selected = true;
+								TextureComponent graph = e.getComponent(TextureComponent.class); 
+								//System.out.println(graph.textureName);
+								gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities.add(e);
+							}
+							else
+							{
+								select.selected = false;
+							}
+						}
+						
+						player.selectionBox = new Rectangle();
+						break;
+					}
+					
+					case Input.Buttons.RIGHT:
+					{
+						// if there are selectable entities in the player selected entities list
+						for(Entity e : gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities)
+						{
+							EntityActionsComponent eac = e.getComponent(EntityActionsComponent.class);
+							eac.actions.get(EntityActionKnownType.Move.getName()).setCommandParameters(new MoveEntityActionParameters(worldPos));
+						}
+						break;
+					}
+					
+					// middle mouse for dragging the screen
+					case Input.Buttons.MIDDLE:
+					{
+						break;
 					}
 				}
-				break;
-			}
-			
-			// middle mouse for dragging the screen
-			case Input.Buttons.MIDDLE:
-			{
 				break;
 			}
 		}
+		
+		
+		
 		return false;
 	}
 
@@ -266,13 +281,6 @@ public class GameWorldInputManager implements InputProcessor
 	}
 
 	@Override
-	public boolean mouseMoved(int screenX, int screenY)
-	{
-		gameScreen.game.cursor = PhoenixCursor.Arrow.getCursor();
-		return false;
-	}
-
-	@Override
 	public boolean scrolled(int amount)
 	{
 		
@@ -297,6 +305,12 @@ public class GameWorldInputManager implements InputProcessor
 			gameScreen.camera.viewportHeight = prevViewportHeight;
 		}
 		
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY)
+	{
 		return false;
 	}
 	

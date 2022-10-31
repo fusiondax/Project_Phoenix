@@ -1,7 +1,6 @@
 package com.phoenix.ui.window;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.phoenix.screens.GameScreen;

@@ -1,9 +1,15 @@
 package com.phoenix.entityAction;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.phoenix.entityAction.CarryResourceEntityAction.CarryResourceEntityActionParameters;
 
+/**
+ * 
+ * @author David Janelle
+ *
+ */
 public class DisassembleEntityAction extends EntityAction
 {
 	/**
@@ -12,8 +18,6 @@ public class DisassembleEntityAction extends EntityAction
 	 */
 	public int disassemblyTime;
 
-	private DisassembleEntityActionParameters commandParams;
-	
 	public DisassembleEntityAction()
 	{
 		
@@ -24,11 +28,6 @@ public class DisassembleEntityAction extends EntityAction
 		this.disassemblyTime = dt;
 	}
 	
-	public void setCommandParameters(CarryResourceEntityActionParameters params)
-	{
-		
-	}
-	
 	@Override
 	public int validate()
 	{
@@ -36,11 +35,41 @@ public class DisassembleEntityAction extends EntityAction
 	}
 
 	@Override
-	protected void execute()
+	public boolean isErrorCodeExecuteSafe(int errCode)
 	{
+		boolean safe = false;
+		switch(errCode)
+		{
+			case 0:
+			{
+				safe = true;
+				break;
+			}
+		}
+		return safe;
+	}
+
+	@Override
+	protected void execute(Engine engine, Entity entity, float deltaTime)
+	{
+		// TODO Auto-generated method stub
 		
 	}
-	
+
+	@Override
+	public boolean isGoalReached()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void stopAction(Entity entity)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	public void write(Json json)
 	{
@@ -52,14 +81,9 @@ public class DisassembleEntityAction extends EntityAction
 		this.disassemblyTime = jsonData.get("disassembly_time").asInt();
 	}
 
-	public static class DisassembleEntityActionParameters
+	@Override
+	protected Class getCommandParametersClass()
 	{
-		// TODO 3 param value added as example, might be removed later
-		public boolean emergencyDisassembly;
-
-		public DisassembleEntityActionParameters(boolean emergencyDisassembly)
-		{
-			this.emergencyDisassembly = emergencyDisassembly;
-		}
+		return DisassembleEntityActionParameters.class;
 	}
 }

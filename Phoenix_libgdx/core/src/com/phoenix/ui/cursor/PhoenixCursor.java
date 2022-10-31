@@ -1,4 +1,4 @@
-package com.phoenix.ui;
+package com.phoenix.ui.cursor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor;
@@ -11,7 +11,8 @@ public enum PhoenixCursor
 	Horizontal_Resize("ui_hor_resize_cursor", 16, 16), 
 	Diagonal_Bottom_Right_Resize("ui_diagonal_bot_right_resize_cursor", 16, 16), 
 	Diagonal_Bottom_Left_Resize("ui_diagonal_bot_left_resize_cursor", 16, 16),
-	Hand("ui_hand_cursor", 16, 16);
+	Hand("ui_hand_cursor", 16, 16),
+	Target("ui_target_cursor", 16, 16);
 	
 	private Cursor cursor;
 	

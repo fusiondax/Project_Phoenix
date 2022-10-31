@@ -37,8 +37,8 @@ public class CollisionEngine
 		// debug.line(colliderPosition2D,
 		// colliderPosition2D.cpy().add(colliderVelocityVector));
 		// debug.circle(colliderPosition2D.x + colliderVelocityVector.x,
-		// colliderPosition2D.y + colliderVelocityVector.y,
-		// colliderVelocityVector.len() / 10);
+		// colliderPosition2D.y + colliderVelocityVector.y, colliderVelocityVector.len()
+		// / 10);
 		// }
 
 		switch (collidedHitbox.hitboxShape)
@@ -88,10 +88,10 @@ public class CollisionEngine
 
 		Vector2 repulsionVector = collisionVector.rotate(180).setLength(repulsionValue);
 
-//		debug.setColor(Color.RED);
-//		debug.line(collidedPosition2D, collidedPosition2D.cpy().add(repulsionVector));
-//		debug.circle(collidedPosition2D.x + repulsionVector.x, collidedPosition2D.y + repulsionVector.y,
-//				repulsionVector.len() / 10);
+		debug.setColor(Color.RED);
+		debug.line(collidedPosition2D, collidedPosition2D.cpy().add(repulsionVector));
+		debug.circle(collidedPosition2D.x + repulsionVector.x, collidedPosition2D.y + repulsionVector.y,
+				repulsionVector.len() / 10);
 
 		return repulsionVector;
 	}
@@ -101,65 +101,69 @@ public class CollisionEngine
 		PositionComponent colliderPosition = collider.getComponent(PositionComponent.class);
 		Vector2 colliderPosition2D = new Vector2(colliderPosition.pos2D);
 		Vector2 colliderVelocityVector = collider.getComponent(VelocityComponent.class).velocity;
-
+		
 		PositionComponent collidedPosition = collided.getComponent(PositionComponent.class);
 		Vector2 collidedPosition2D = new Vector2(collidedPosition.pos2D);
 
 		Vector2 repulsionVector = new Vector2();
-		
+
 		Vector2 collisionVector = new Vector2().add(colliderPosition2D).sub(collidedPosition2D);
 
-//		float angle = collisionVector.angle();
-//
-//		// collider coming from the right
-//		if (angle > 315 || angle < 45)
-//		{
-//			if (colliderVelocityVector.x < 0)
-//			{
-//				repulsionVector.x = -colliderVelocityVector.x;
-//			}
-//		}
-//		// collider coming from the left
-//		else if (angle > 135 && angle < 225)
-//		{
-//			if (colliderVelocityVector.x > 0)
-//			{
-//				repulsionVector.x = -colliderVelocityVector.x;
-//			}
-//		}
-//		// collider coming from the bottom
-//		else if (angle > 225 && angle < 315)
-//		{
-//			if (colliderVelocityVector.y > 0)
-//			{
-//				repulsionVector.y = -colliderVelocityVector.y;
-//			}
-//		}
-//		// collider coming from the top
-//		else if ((angle > 45 && angle < 135))
-//		{
-//			if (colliderVelocityVector.y < 0)
-//			{
-//				repulsionVector.y = -colliderVelocityVector.y;
-//			}
-//		}
+		// float angle = collisionVector.angle();
+		//
+		// // collider coming from the right
+		// if (angle > 315 || angle < 45)
+		// {
+		// if (colliderVelocityVector.x < 0)
+		// {
+		// repulsionVector.x = -colliderVelocityVector.x;
+		// }
+		// }
+		// // collider coming from the left
+		// else if (angle > 135 && angle < 225)
+		// {
+		// if (colliderVelocityVector.x > 0)
+		// {
+		// repulsionVector.x = -colliderVelocityVector.x;
+		// }
+		// }
+		// // collider coming from the bottom
+		// else if (angle > 225 && angle < 315)
+		// {
+		// if (colliderVelocityVector.y > 0)
+		// {
+		// repulsionVector.y = -colliderVelocityVector.y;
+		// }
+		// }
+		// // collider coming from the top
+		// else if ((angle > 45 && angle < 135))
+		// {
+		// if (colliderVelocityVector.y < 0)
+		// {
+		// repulsionVector.y = -colliderVelocityVector.y;
+		// }
+		// }
 		float repulsionValue = colliderVelocityVector.len() * 1.25f;
 
 		repulsionVector.set(collisionVector);
 
 		repulsionVector.setLength(repulsionValue);
 
-//		debug.setColor(Color.CYAN);
-//		debug.line(collidedPosition2D, collidedPosition2D.cpy().add(repulsionVector));
-//
-//		debug.circle(collidedPosition2D.x + repulsionVector.x, collidedPosition2D.y + repulsionVector.y,
-//				repulsionVector.len() / 10);
+		// debug.setColor(Color.CYAN);
+		// debug.line(collidedPosition2D,
+		// collidedPosition2D.cpy().add(repulsionVector));
+		//
+		// debug.circle(collidedPosition2D.x + repulsionVector.x, collidedPosition2D.y +
+		// repulsionVector.y,
+		// repulsionVector.len() / 10);
 
-//		debug.setColor(Color.BLUE);
-//		debug.line(collidedPosition2D, collidedPosition2D.cpy().add(collisionVector));
-//
-//		debug.circle(collidedPosition2D.x + collisionVector.x, collidedPosition2D.y + collisionVector.y,
-//				collisionVector.len() / 10);
+		// debug.setColor(Color.BLUE);
+		// debug.line(collidedPosition2D,
+		// collidedPosition2D.cpy().add(collisionVector));
+		//
+		// debug.circle(collidedPosition2D.x + collisionVector.x, collidedPosition2D.y +
+		// collisionVector.y,
+		// collisionVector.len() / 10);
 
 		return repulsionVector;
 	}

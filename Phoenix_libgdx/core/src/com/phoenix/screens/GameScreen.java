@@ -26,12 +26,13 @@ import com.phoenix.io.JsonUtility;
 import com.phoenix.io.MapLoader;
 import com.phoenix.player.Player;
 import com.phoenix.systems.BlueprintValidationIndicatorRenderSystem;
+import com.phoenix.systems.CursorDisplaySystem;
 import com.phoenix.systems.SelectionBoxRenderSystem;
 import com.phoenix.systems.entitySystems.AnimationSystem;
 import com.phoenix.systems.entitySystems.BlueprintCollectionSystem;
 import com.phoenix.systems.entitySystems.CollisionSystem;
+import com.phoenix.systems.entitySystems.EntityActionSystem;
 import com.phoenix.systems.entitySystems.EntityBuildingSystem;
-import com.phoenix.systems.entitySystems.MoveCommandSystem;
 import com.phoenix.systems.entitySystems.VelocitySystem;
 import com.phoenix.trigger.TriggerCondition;
 import com.phoenix.trigger.UnitAtPositionCondition;
@@ -90,13 +91,13 @@ public class GameScreen extends ScreenAdapter
 		engine = new Engine();
 
 		// add the systems that manages entities
-		engine.addSystem(new AnimationSystem());
+		// engine.addSystem(new AnimationSystem());
 
 		engine.addSystem(new TextureRenderSystem(this));
 		engine.addSystem(new SelectedEntityCircleRenderSystem(this));
 		engine.addSystem(new VelocitySystem(shapeRendererLine));
-		engine.addSystem(new MoveCommandSystem(shapeRendererLine));
 		engine.addSystem(new CollisionSystem(shapeRendererLine));
+		engine.addSystem(new EntityActionSystem());
 		engine.addSystem(new BlueprintCollectionSystem(this));
 		engine.addSystem(new EntityBuildingSystem());
 		engine.addSystem(new ResourceEntitySystem());
@@ -105,6 +106,13 @@ public class GameScreen extends ScreenAdapter
 		// add the systems that does not manage entities
 		engine.addSystem(new BlueprintValidationIndicatorRenderSystem(this));
 		engine.addSystem(new SelectionBoxRenderSystem(this));
+		engine.addSystem(new CursorDisplaySystem(this));
+		
+		
+		for(EntitySystem s : engine.getSystems())
+		{
+			System.out.println(s.toString() + " priority: " + s.priority);
+		}
 	}
 
 	private void loadBlueprintData()

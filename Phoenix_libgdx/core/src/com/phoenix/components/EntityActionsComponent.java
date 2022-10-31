@@ -1,6 +1,6 @@
 package com.phoenix.components;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Json;
@@ -10,7 +10,7 @@ import com.phoenix.entityAction.EntityAction;
 
 public class EntityActionsComponent implements Component, Serializable
 {
-	public ArrayList<EntityAction> actions = new ArrayList<EntityAction>();
+	public HashMap<String, EntityAction> actions = new HashMap<String, EntityAction>();
 	
 	@Override
 	public void write(Json json)
@@ -24,8 +24,9 @@ public class EntityActionsComponent implements Component, Serializable
 		
 		for (JsonValue entry = list.child; entry != null; entry = entry.next)
 		{
-			EntityAction act = json.readValue(null, entry);
-			actions.add(act);
+			String key = entry.get("action_name").asString();
+			EntityAction act = json.readValue(null, entry.get("action_obj"));
+			actions.put(key, act);
 		}
 	}
 }

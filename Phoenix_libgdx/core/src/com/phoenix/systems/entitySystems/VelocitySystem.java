@@ -18,6 +18,8 @@ public class VelocitySystem extends IteratingSystem
 	private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
 
 	private ShapeRenderer debug;
+	
+	
 	public VelocitySystem(ShapeRenderer debug)
 	{
 		super(Family.all(PositionComponent.class, VelocityComponent.class).get(), 2);
@@ -37,9 +39,9 @@ public class VelocitySystem extends IteratingSystem
 		//the position is modified by the velocity
 		position.pos2D.add(resultingMovement);
 		
-//		debug.setColor(Color.BLACK);
-//		debug.line(position.pos2D, position.pos2D.cpy().add(movement.velocity));
-//		debug.circle(position.pos2D.x + movement.velocity.x, position.pos2D.y + movement.velocity.y, movement.velocity.len() / 10);
+		debug.setColor(Color.BLACK);
+		debug.line(position.pos2D, position.pos2D.cpy().add(movement.velocity));
+		debug.circle(position.pos2D.x + movement.velocity.x, position.pos2D.y + movement.velocity.y, movement.velocity.len() / 10);
 		
 		movement.velocity.setZero();
 		

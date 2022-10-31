@@ -7,11 +7,13 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.CollisionHitboxComponent;
+import com.phoenix.components.NameComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.VelocityComponent;
 import com.phoenix.physics.CollisionDetector;
@@ -32,7 +34,7 @@ public class CollisionSystem extends IteratingSystem
 	
 	public CollisionSystem(ShapeRenderer debug)
 	{
-		super(Family.all(PositionComponent.class, CollisionHitboxComponent.class).get());
+		super(Family.all(PositionComponent.class, CollisionHitboxComponent.class).get(), 1);
 		this.debug = debug;
 	}
 
@@ -43,17 +45,17 @@ public class CollisionSystem extends IteratingSystem
 		CollisionHitboxComponent collision = cm.get(entity);
 		
 		// this is for debug purposes
-//		debug.setColor(Color.ORANGE);
-//
-//		if (collision.hitboxShape.equals("Rectangle"))
-//		{
-//			debug.rect(position.pos2D.x - collision.size / 2, position.pos2D.y - collision.size / 2, collision.size,
-//					collision.size);
-//		}
-//		else if (collision.hitboxShape.equals("Circle"))
-//		{
-//			debug.circle(position.pos2D.x, position.pos2D.y, collision.size);
-//		}
+		debug.setColor(Color.ORANGE);
+
+		if (collision.hitboxShape.equals("Rectangle"))
+		{
+			debug.rect(position.pos2D.x - collision.size / 2, position.pos2D.y - collision.size / 2, collision.size,
+					collision.size);
+		}
+		else if (collision.hitboxShape.equals("Circle"))
+		{
+			debug.circle(position.pos2D.x, position.pos2D.y, collision.size);
+		}
 		
 		Vector2 entityPosition = new Vector2(position.pos2D);
 		
@@ -85,8 +87,12 @@ public class CollisionSystem extends IteratingSystem
 				{
 					Vector2 repulsionForce = CollisionEngine.getCollisionRepulsionVector(entity, e, debug);
 					
-//					System.out.println(entity.getComponent(NameComponent.class).name + " is pushing " 
-//							+ e.getComponent(NameComponent.class).name + " who has velocity " + proxyEntityVC.velocity);
+//					System.out.println("---------start---------");
+//					
+//					System.out.println(entity.toString() + "(" + entity.getComponent(NameComponent.class).name + ") with velocity " + entityVC.velocity + " is pushing:\n " 
+//							+ e.toString() + "(" + e.getComponent(NameComponent.class).name + ")");
+//					
+//					System.out.println("---------end---------");
 					
 					entityVC.velocity.add(repulsionForce);
 					

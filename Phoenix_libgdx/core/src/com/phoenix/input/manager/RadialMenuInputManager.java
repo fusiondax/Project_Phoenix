@@ -3,11 +3,9 @@ package com.phoenix.input.manager;
 import java.util.ArrayList;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,16 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.payne.games.piemenu.PieMenu;
 import com.phoenix.assets.PhoenixAssetManager;
-import com.phoenix.components.CollisionHitboxComponent;
-import com.phoenix.components.EntityActionsComponent;
 import com.phoenix.components.RadialMenuComponent;
-import com.phoenix.entityAction.EntityAction;
-import com.phoenix.entityAction.MoveEntityAction;
 import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.ui.InGameUI;
 import com.phoenix.ui.radialMenu.RadialMenuButton;
-import com.phoenix.utility.GameWorldUtility;
 
 public class RadialMenuInputManager implements InputProcessor
 {
