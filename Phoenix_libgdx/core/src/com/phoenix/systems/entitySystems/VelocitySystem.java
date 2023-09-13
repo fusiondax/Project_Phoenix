@@ -10,6 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.VelocityComponent;
 
+/**
+ * has a priority of 2 (instead of 0) so it happens after most systems and after the collision system (priority 1)
+ * @author David Janelle
+ *
+ */
 public class VelocitySystem extends IteratingSystem
 {
 	public static final float MAX_SPEED = 1000;

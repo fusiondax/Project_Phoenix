@@ -10,9 +10,6 @@
 			"texture": "terrain_grass"
 		},
 		{
-			"component_type": "Position"
-		},
-		{
 			"component_type": "Terrain",
 			"type": "solid"
 		},

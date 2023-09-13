@@ -10,16 +10,13 @@
 			"texture": "terrain_rocky_grass"
 		},
 		{
-			"component_type": "Position"
-		},
-		{
 			"component_type": "Terrain",
 			"type": "solid_rocky"
 		},
 		{
 			"component_type": "CollisionHitbox",
-			"shape": "Rectangle",
-			"size": 64.0
+			"shape": "Polygon",
+			"size": 0.0
 		}
 	]
 }

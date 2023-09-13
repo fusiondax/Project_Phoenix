@@ -15,7 +15,6 @@ public class TitleScreen extends ScreenAdapter
 	public TitleMenu menuStage;
 	public OrthographicCamera camera;
 	public InputMultiplexer inputs;
-
 	
 	public TitleScreen(Phoenix game)
 	{

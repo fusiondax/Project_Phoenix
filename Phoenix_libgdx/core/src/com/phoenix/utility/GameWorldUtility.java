@@ -8,6 +8,8 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.phoenix.components.PositionComponent;
@@ -52,34 +54,34 @@ public class GameWorldUtility
 
 		return mapDimension;
 	}
-	
+
 	public static Vector2 getWorldPositionFromScreenLocation(int screenX, int screenY, OrthographicCamera cam)
 	{
 		Vector2 worldPos = new Vector2();
-		
+
 		Vector2 adjustedScreenPos = getCenterScreenOriginScreenPos(screenX, screenY);
-		
+
 		worldPos.x = cam.position.x + ((cam.viewportWidth / 2) * adjustedScreenPos.x);
 		worldPos.y = cam.position.y + ((cam.viewportHeight / 2) * adjustedScreenPos.y);
-		
+
 		return worldPos;
 	}
-	
+
 	public static Vector2 getCenterScreenOriginScreenPos(int screenX, int screenY)
 	{
 		Vector2 adjustedScreenPos = new Vector2();
-		
+
 		adjustedScreenPos.x = screenX - (Gdx.graphics.getWidth() / 2);
 		adjustedScreenPos.y = (screenY - Gdx.graphics.getHeight() / 2) * -1.0f;
-		
+
 		adjustedScreenPos.x /= (float) (Gdx.graphics.getWidth() / 2);
 		adjustedScreenPos.y /= (float) (Gdx.graphics.getHeight() / 2);
-		
+
 		return adjustedScreenPos;
 	}
 
 	/**
-	 * retrieves entities that are within the given range of the given position
+	 * retrieves entities that are within the given range of the given position, does not includes Terrain since they do not have a position component
 	 * 
 	 * @param location
 	 * @return a list of entities
@@ -116,16 +118,47 @@ public class GameWorldUtility
 		return proxyEntities;
 	}
 
+	/**
+	 * Returns an entity with a TerrainComponent that exists within the given
+	 * position. If multiple terrains exists within the given position, the highest
+	 * terrain will be returned.
+	 * 
+	 * @param engine
+	 * @param location
+	 * @return
+	 */
+	public static Entity getTopTerrainEntityAtLocation(Engine engine, Vector2 position)
+	{
+		ImmutableArray<Entity> allTerrainEntities = new ImmutableArray<Entity>(new Array<Entity>());
+		allTerrainEntities = engine.getEntitiesFor(Family.all(TerrainComponent.class).get());
+		
+		ArrayList<Entity> containedEntities = new ArrayList<Entity>();
+		
+		for(Entity e : allTerrainEntities)
+		{
+			TerrainComponent terrain = e.getComponent(TerrainComponent.class);
+			
+			Polygon terrainPolygon = EntityUtility.getPolygonFromTerrain(e);
+			
+			if(terrainPolygon.contains(position))
+			{
+				containedEntities.add(e);
+			}
+		}
+		// TODO 2 does not get the highest terrain, merely returns the first one in the list
+		return containedEntities.get(0);
+	}
+
 	public static Entity getEntityAtLocation(Engine engine, Vector2 location)
 	{
 		return getEntityAtLocation(engine, location, -1.0f, null);
 	}
-	
+
 	public static Entity getEntityAtLocation(Engine engine, Vector2 location, float maxDistance)
 	{
 		return getEntityAtLocation(engine, location, maxDistance, null);
 	}
-	
+
 	public static Entity getEntityAtLocation(Engine engine, Vector2 location, Family whitelist)
 	{
 		return getEntityAtLocation(engine, location, -1.0f, whitelist);
@@ -155,7 +188,7 @@ public class GameWorldUtility
 
 		Entity closestEntity = null;
 		float closestDistance = Float.MAX_VALUE;
-		
+
 		for (Entity e : allEntities)
 		{
 			PositionComponent entityPos = e.getComponent(PositionComponent.class);
@@ -163,7 +196,7 @@ public class GameWorldUtility
 			{
 				Vector2 entityPos2d = new Vector2(entityPos.pos2D);
 				float distance = entityPos2d.dst(location);
-				
+
 				if (distance < closestDistance)
 				{
 					closestEntity = e;
@@ -171,15 +204,15 @@ public class GameWorldUtility
 				}
 			}
 		}
-		
-		if(maxDistance >= 0)
+
+		if (maxDistance >= 0)
 		{
-			if(closestDistance > maxDistance)
+			if (closestDistance > maxDistance)
 			{
 				closestEntity = null;
 			}
 		}
-		
+
 		return closestEntity;
 	}
 }

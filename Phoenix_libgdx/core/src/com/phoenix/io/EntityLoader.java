@@ -11,6 +11,7 @@ import com.phoenix.components.CollectibleBlueprintComponent;
 import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.NameComponent;
 import com.phoenix.components.OwnershipComponent;
+import com.phoenix.components.ParticleComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.RadialMenuComponent;
 import com.phoenix.components.ResourceComponent;
@@ -194,6 +195,16 @@ public class EntityLoader
 					comp = json.readValue(EntityActionsComponent.class, componentsJson);
 					break;
 				}
+				
+				case "Particle":
+				{
+					comp = new ParticleComponent();
+					if (componentsJson.get("particle_name") != null)
+					{
+						((ParticleComponent) comp).particleName = componentsJson.get("particle_name").asString();
+					}
+					break;
+				}
 			}
 			
 			
@@ -229,6 +240,14 @@ public class EntityLoader
 				{
 					PositionComponent entityPos = initialEntity.getComponent(PositionComponent.class);
 					entityPos.pos2D.set(((PositionComponent) comp).pos2D);
+					break;
+				}
+				
+				case "TerrainComponent":
+				{
+					TerrainComponent entityTerrain = initialEntity.getComponent(TerrainComponent.class);
+					entityTerrain.vertices = ((TerrainComponent)comp).vertices;
+					entityTerrain.heightPriority = ((TerrainComponent)comp).heightPriority;
 					break;
 				}
 

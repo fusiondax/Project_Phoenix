@@ -94,30 +94,33 @@ public class Blueprint
 	private boolean isTerrainValid(Engine engine, Vector2 worldPos, Entity entity)
 	{
 		boolean validTerrain = false;
-
-		TerrainComponent terrainComp = GameWorldUtility.getEntityAtLocation(engine, worldPos, Family.all(TerrainComponent.class).get())
-				.getComponent(TerrainComponent.class);
-
-		if (terrainComp != null)
+		
+		Entity entityAtCursor = GameWorldUtility.getEntityAtLocation(engine, worldPos, Family.all(TerrainComponent.class).get());
+		
+		if(entityAtCursor != null)
 		{
-			ValidTerrainTypesComponent vttc = entity.getComponent(ValidTerrainTypesComponent.class);
-
-			if (vttc != null)
+			TerrainComponent terrainComp = entityAtCursor.getComponent(TerrainComponent.class);
+			if (terrainComp != null)
 			{
-				String terrainType = terrainComp.type;
-				for (String type : vttc.types)
+				ValidTerrainTypesComponent vttc = entity.getComponent(ValidTerrainTypesComponent.class);
+
+				if (vttc != null)
 				{
-					if (type.equals(terrainType))
+					String terrainType = terrainComp.type;
+					for (String type : vttc.types)
 					{
-						validTerrain = true;
-						break;
+						if (type.equals(terrainType))
+						{
+							validTerrain = true;
+							break;
+						}
 					}
 				}
-			}
-			else // if the unit doesn't have a validTerrainTypeComponent, we consider that the
-					// unit has no restrictions
-			{
-				validTerrain = true;
+				else // if the unit doesn't have a validTerrainTypeComponent, we consider that the
+						// unit has no restrictions
+				{
+					validTerrain = true;
+				}
 			}
 		}
 		// if no terrain were found at that location, we assume it is in the "void",

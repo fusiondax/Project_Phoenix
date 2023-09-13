@@ -24,6 +24,10 @@
 		{
 			"component_type": "Resource",
 			"type_name": "screw"
+		},
+		{
+			"component_type": "Particle",
+			"particle_name": "test_particle"
 		}
 	]
 }

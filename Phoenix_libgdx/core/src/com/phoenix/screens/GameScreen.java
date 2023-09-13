@@ -12,6 +12,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -33,11 +34,13 @@ import com.phoenix.systems.entitySystems.BlueprintCollectionSystem;
 import com.phoenix.systems.entitySystems.CollisionSystem;
 import com.phoenix.systems.entitySystems.EntityActionSystem;
 import com.phoenix.systems.entitySystems.EntityBuildingSystem;
+import com.phoenix.systems.entitySystems.ParticleRenderSystem;
 import com.phoenix.systems.entitySystems.VelocitySystem;
 import com.phoenix.trigger.TriggerCondition;
 import com.phoenix.trigger.UnitAtPositionCondition;
 import com.phoenix.systems.entitySystems.ResourceEntitySystem;
 import com.phoenix.systems.entitySystems.SelectedEntityCircleRenderSystem;
+import com.phoenix.systems.entitySystems.TerrainRenderSystem;
 import com.phoenix.systems.entitySystems.TextureRenderSystem;
 import com.phoenix.systems.entitySystems.TriggerSystem;
 import com.phoenix.ui.InGameUI;
@@ -87,13 +90,16 @@ public class GameScreen extends ScreenAdapter
 				new GameWorldInputManager(this));
 
 		Gdx.input.setInputProcessor(inputs);
-
+		
 		engine = new Engine();
 
 		// add the systems that manages entities
 		// engine.addSystem(new AnimationSystem());
 
 		engine.addSystem(new TextureRenderSystem(this));
+		engine.addSystem(new TerrainRenderSystem(this));
+		engine.addSystem(new ParticleRenderSystem(this));
+
 		engine.addSystem(new SelectedEntityCircleRenderSystem(this));
 		engine.addSystem(new VelocitySystem(shapeRendererLine));
 		engine.addSystem(new CollisionSystem(shapeRendererLine));
@@ -107,14 +113,8 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new BlueprintValidationIndicatorRenderSystem(this));
 		engine.addSystem(new SelectionBoxRenderSystem(this));
 		engine.addSystem(new CursorDisplaySystem(this));
-		
-		
-		for(EntitySystem s : engine.getSystems())
-		{
-			System.out.println(s.toString() + " priority: " + s.priority);
-		}
 	}
-
+	
 	private void loadBlueprintData()
 	{
 		BlueprintDataLoader.loadAllBlueprintData(blueprintData);
@@ -141,7 +141,6 @@ public class GameScreen extends ScreenAdapter
 		{
 			this.timeDilation = MathUtility.roundFloat(timeDilation);
 		}
-
 	}
 
 	public void toggleSystems()
@@ -197,9 +196,13 @@ public class GameScreen extends ScreenAdapter
 		camera.update();
 
 		game.gameBatcher.setProjectionMatrix(camera.combined);
-		
+
+		// TODO 4 is there a better way to do this? Because they technically get called
+		// again (but skip most of their work intensive code, as they check if the
+		// batcher is active or not before updating
 		game.gameBatcher.begin();
 		engine.getSystem(TextureRenderSystem.class).update(delta);
+		engine.getSystem(ParticleRenderSystem.class).update(delta);
 		game.gameBatcher.end();
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -211,7 +214,7 @@ public class GameScreen extends ScreenAdapter
 		shapeRendererLine.begin(ShapeType.Line);
 		shapeRendererFilled.begin(ShapeType.Filled);
 
-		// TODO 3 debugging code, remove ASAP
+		// TODO 3 debugging code for triggers, pls remove at some point.
 		shapeRendererLine.setColor(Color.GOLD);
 
 		for (Entity e : engine.getEntitiesFor(Family.all(TriggerComponent.class).get()))

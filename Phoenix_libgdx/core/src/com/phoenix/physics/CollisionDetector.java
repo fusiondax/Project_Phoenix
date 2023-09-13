@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
@@ -21,25 +22,25 @@ public class CollisionDetector
 			{
 				intersected = Intersector.overlaps((Circle)shape1, (Circle)shape2);
 			}
-			else if(shape2 instanceof Rectangle)
+			else if(shape2 instanceof Polygon)
 			{
-				intersected = Intersector.overlaps((Circle)shape1, (Rectangle)shape2);
+				intersected = CollisionDetector.isCircleCollisionPolygon((Polygon)shape2, (Circle)shape1);
 			}
 		}
-		else if (shape1 instanceof Rectangle)
+		else if (shape1 instanceof Polygon)
 		{
 			if(shape2 instanceof Circle)
 			{
-				intersected = Intersector.overlaps((Circle)shape2, (Rectangle)shape1);
+				intersected = CollisionDetector.isCircleCollisionPolygon((Polygon)shape2, (Circle)shape1);
 			}
-			else if(shape2 instanceof Rectangle)
+			else if(shape2 instanceof Polygon)
 			{
-				intersected = Intersector.overlaps((Rectangle)shape1, (Rectangle)shape2);
+				intersected = Intersector.overlapConvexPolygons((Polygon)shape1, (Polygon)shape2);
 			}
 		}
 		return intersected;
 	}
-	
+
 	public static boolean isCircleCollisionRectangles(Circle entityHitbox, ArrayList<Rectangle> rects)
 	{
 		boolean isCollision = false;
@@ -69,8 +70,9 @@ public class CollisionDetector
 		}
 		return isCollision;
 	}
-	
-	public static boolean isSegmentCollisionRectangles(Vector2 segmentStart, Vector2 segmentEnd, ArrayList<Rectangle> rects)
+
+	public static boolean isSegmentCollisionRectangles(Vector2 segmentStart, Vector2 segmentEnd,
+			ArrayList<Rectangle> rects)
 	{
 		boolean isCollision = false;
 
@@ -83,5 +85,31 @@ public class CollisionDetector
 			}
 		}
 		return isCollision;
+	}
+
+	
+	// TODO 4 took this one off the internet
+	public static boolean isCircleCollisionPolygon(Polygon p, Circle c)
+	{
+		float[] vertices = p.getTransformedVertices();
+		Vector2 center = new Vector2(c.x, c.y);
+		float squareRadius = c.radius * c.radius;
+		for (int i = 0; i < vertices.length; i += 2)
+		{
+			if (i == 0)
+			{
+				if (Intersector.intersectSegmentCircle(
+						new Vector2(vertices[vertices.length - 2], vertices[vertices.length - 1]),
+						new Vector2(vertices[i], vertices[i + 1]), center, squareRadius))
+					return true;
+			}
+			else
+			{
+				if (Intersector.intersectSegmentCircle(new Vector2(vertices[i - 2], vertices[i - 1]),
+						new Vector2(vertices[i], vertices[i + 1]), center, squareRadius))
+					return true;
+			}
+		}
+		return false;
 	}
 }

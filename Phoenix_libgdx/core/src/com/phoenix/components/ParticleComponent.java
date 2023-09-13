@@ -5,9 +5,13 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class TextureComponent implements Component, Serializable
+public class ParticleComponent implements Component, Serializable
 {
-	public String textureName = "";
+	public String particleName = "";
+	
+	public ParticleComponent()
+	{
+	}
 
 	@Override
 	public void write(Json json)
@@ -15,10 +19,9 @@ public class TextureComponent implements Component, Serializable
 		
 	}
 
-	// TODO 1 make the texture be able to read itself from json
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		//this.textureName = jsonData.get("texture").asString();
+		
 	}
 }

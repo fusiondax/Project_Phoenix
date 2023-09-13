@@ -6,7 +6,10 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Shape2D;
+import com.badlogic.gdx.math.Vector2;
 import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.PositionComponent;
 import com.phoenix.components.TerrainComponent;
@@ -59,5 +62,35 @@ public class EntityUtility
 			}
 		}
 		return rectangles;
+	}
+	
+	/**
+	 * 
+	 * @param e
+	 * @return null if entity does not have a terrain Component
+	 */
+	public static Polygon getPolygonFromTerrain(Entity e)
+	{
+		Polygon polygon = null;
+		
+		TerrainComponent terrain = e.getComponent(TerrainComponent.class);
+		
+		if(terrain != null)
+		{
+			float[] vertices = new float[terrain.vertices.size() * 2];
+		
+			for(Vector2 vertex : terrain.vertices)
+			{
+				vertices[(terrain.vertices.indexOf(vertex) * 2)] = vertex.x;
+				vertices[(terrain.vertices.indexOf(vertex) * 2) + 1] = vertex.y;
+			}
+			
+			polygon = new Polygon(vertices);
+		}
+		else
+		{
+			System.out.println("Error: entity parameter does not have a terrain component");
+		}
+		return polygon;
 	}
 }
