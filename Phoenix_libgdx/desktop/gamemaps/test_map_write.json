@@ -1936,89 +1936,44 @@
 			"name": "duck"
 		},
 		{
-			"class": "com.phoenix.components.TextureComponent"
-		},
-		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 512
 		},
 		{
-			"class": "com.phoenix.components.VelocityComponent"
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
-		},
-		{
 			"class": "com.phoenix.components.OwnershipComponent",
 			"owner": "Player1"
-		},
-		{
-			"class": "com.phoenix.components.SelectionComponent"
-		},
-		{
-			"class": "com.phoenix.components.MoveCommandComponent"
-		},
-		{
-			"class": "com.phoenix.components.ValidTerrainTypesComponent"
 		},
 		{
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
-		},
-		{
-			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "duck"
-		},
-		{
-			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 512
-		},
-		{
-			"class": "com.phoenix.components.VelocityComponent"
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
-		},
+		}
 		{
 			"class": "com.phoenix.components.OwnershipComponent",
 			"owner": "Player1"
 		},
 		{
-			"class": "com.phoenix.components.SelectionComponent"
-		},
-		{
-			"class": "com.phoenix.components.MoveCommandComponent"
-		},
-		{
-			"class": "com.phoenix.components.ValidTerrainTypesComponent"
-		},
-		{
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
-		},
-		{
-			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "duck"
-		},
-		{
-			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
@@ -2026,40 +1981,19 @@
 			"position_y": 512
 		},
 		{
-			"class": "com.phoenix.components.VelocityComponent"
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
-		},
-		{
 			"class": "com.phoenix.components.OwnershipComponent",
 			"owner": "Player1"
-		},
-		{
-			"class": "com.phoenix.components.SelectionComponent"
-		},
-		{
-			"class": "com.phoenix.components.MoveCommandComponent"
-		},
-		{
-			"class": "com.phoenix.components.ValidTerrainTypesComponent"
 		},
 		{
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
-		},
-		{
-			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "duck"
-		},
-		{
-			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
@@ -2067,40 +2001,19 @@
 			"position_y": 512
 		},
 		{
-			"class": "com.phoenix.components.VelocityComponent"
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
-		},
-		{
 			"class": "com.phoenix.components.OwnershipComponent",
 			"owner": "Player1"
-		},
-		{
-			"class": "com.phoenix.components.SelectionComponent"
-		},
-		{
-			"class": "com.phoenix.components.MoveCommandComponent"
-		},
-		{
-			"class": "com.phoenix.components.ValidTerrainTypesComponent"
 		},
 		{
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
-		},
-		{
-			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "duck"
-		},
-		{
-			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
@@ -2108,40 +2021,19 @@
 			"position_y": 512
 		},
 		{
-			"class": "com.phoenix.components.VelocityComponent"
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
-		},
-		{
 			"class": "com.phoenix.components.OwnershipComponent",
 			"owner": "Player1"
-		},
-		{
-			"class": "com.phoenix.components.SelectionComponent"
-		},
-		{
-			"class": "com.phoenix.components.MoveCommandComponent"
-		},
-		{
-			"class": "com.phoenix.components.ValidTerrainTypesComponent"
 		},
 		{
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
-		},
-		{
-			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "duck"
-		},
-		{
-			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
@@ -2149,40 +2041,19 @@
 			"position_y": 512
 		},
 		{
-			"class": "com.phoenix.components.VelocityComponent"
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
-		},
-		{
 			"class": "com.phoenix.components.OwnershipComponent",
 			"owner": "Player1"
-		},
-		{
-			"class": "com.phoenix.components.SelectionComponent"
-		},
-		{
-			"class": "com.phoenix.components.MoveCommandComponent"
-		},
-		{
-			"class": "com.phoenix.components.ValidTerrainTypesComponent"
 		},
 		{
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
-		},
-		{
-			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "duck"
-		},
-		{
-			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
@@ -2190,31 +2061,13 @@
 			"position_y": 512
 		},
 		{
-			"class": "com.phoenix.components.VelocityComponent"
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
-		},
-		{
 			"class": "com.phoenix.components.OwnershipComponent",
 			"owner": "Player1"
-		},
-		{
-			"class": "com.phoenix.components.SelectionComponent"
-		},
-		{
-			"class": "com.phoenix.components.MoveCommandComponent"
-		},
-		{
-			"class": "com.phoenix.components.ValidTerrainTypesComponent"
 		},
 		{
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
-		},
-		{
-			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
@@ -2223,39 +2076,18 @@
 			"name": "duck"
 		},
 		{
-			"class": "com.phoenix.components.TextureComponent"
-		},
-		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 512
-		},
-		{
-			"class": "com.phoenix.components.VelocityComponent"
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
 		},
 		{
 			"class": "com.phoenix.components.OwnershipComponent",
 			"owner": "Player1"
 		},
 		{
-			"class": "com.phoenix.components.SelectionComponent"
-		},
-		{
-			"class": "com.phoenix.components.MoveCommandComponent"
-		},
-		{
-			"class": "com.phoenix.components.ValidTerrainTypesComponent"
-		},
-		{
 			"class": "com.phoenix.components.BuildableComponent",
 			"build_progress": 1,
 			"build_rate": 0
-		},
-		{
-			"class": "com.phoenix.components.RadialMenuComponent"
 		}
 	],
 	[
@@ -2264,15 +2096,9 @@
 			"name": "blueprint"
 		},
 		{
-			"class": "com.phoenix.components.TextureComponent"
-		},
-		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 479.395,
 			"position_y": 220.901
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
 		},
 		{
 			"class": "com.phoenix.components.CollectibleBlueprintComponent",
@@ -2286,15 +2112,9 @@
 			"name": "blueprint"
 		},
 		{
-			"class": "com.phoenix.components.TextureComponent"
-		},
-		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 96.0279,
 			"position_y": 223.13501
-		},
-		{
-			"class": "com.phoenix.components.CollisionHitboxComponent"
 		},
 		{
 			"class": "com.phoenix.components.CollectibleBlueprintComponent",
