@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.phoenix.systems.entitySystems.ParticleRenderSystem;
+import com.phoenix.systems.entitySystems.ResourceAmountCounterRenderSystem;
 import com.phoenix.blueprint.BlueprintData;
 import com.phoenix.components.TriggerComponent;
 import com.phoenix.game.Phoenix;
@@ -103,8 +104,10 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new BlueprintCollectionSystem(this));
 		engine.addSystem(new EntityBuildingSystem());
 		engine.addSystem(new ResourceEntitySystem());
+		engine.addSystem(new ResourceAmountCounterRenderSystem(this));
 		engine.addSystem(new TriggerSystem(this));
 		engine.addSystem(new ParticleRenderSystem(this));
+		
 
 		// add the systems that does not manage entities
 		engine.addSystem(new BlueprintValidationIndicatorRenderSystem(this));
@@ -208,6 +211,7 @@ public class GameScreen extends ScreenAdapter
 		game.gameBatcher.begin();
 		engine.getSystem(TextureRenderSystem.class).update(delta);
 		engine.getSystem(ParticleRenderSystem.class).update(delta);
+		engine.getSystem(ResourceAmountCounterRenderSystem.class).update(delta);
 		game.gameBatcher.end();
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
