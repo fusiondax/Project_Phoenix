@@ -21,6 +21,7 @@ import com.phoenix.components.TriggerComponent;
 import com.phoenix.components.EntityActionsComponent;
 import com.phoenix.components.ValidTerrainTypesComponent;
 import com.phoenix.components.VelocityComponent;
+import com.phoenix.components.ParticleComponent;
 import com.phoenix.resource.Resource;
 import com.phoenix.ui.radialMenu.RadialMenuButton;
 
@@ -158,6 +159,16 @@ public class EntityLoader
 					break;
 				}
 
+				case "Particle":
+				{
+					comp = new ParticleComponent();
+					if (componentsJson.get("particle_name") != null)
+					{
+						((ParticleComponent) comp).particleName = componentsJson.get("particle_name").asString();
+					}
+					break;
+				}
+				
 				case "Resource":
 				{
 					comp = new ResourceComponent();
