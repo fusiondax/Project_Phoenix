@@ -11,6 +11,8 @@ import com.phoenix.components.PositionComponent;
 import com.phoenix.components.ValidTerrainTypesComponent;
 import com.phoenix.components.VelocityComponent;
 import com.phoenix.entityAction.EntityAction;
+import com.phoenix.entityAction.EntityAction.EntityActionGenericReturnCodes;
+import com.phoenix.entityAction.EntityActionReturnCode;
 import com.phoenix.player.Player;
 import com.phoenix.screens.GameScreen;
 
@@ -33,7 +35,7 @@ public class EntityActionSystem extends IteratingSystem
 			if(ea.getCommandParameters() != null)
 			{
 				// attempts to execute the action
-				int errCode = ea.attemptExecute(getEngine(), entity, deltaTime);
+				EntityActionGenericReturnCodes errCode = ea.attemptExecute(getEngine(), entity, deltaTime);
 				
 				// determine if there was an error and display it
 				if(!ea.isErrorCodeExecuteSafe(errCode))
@@ -43,8 +45,9 @@ public class EntityActionSystem extends IteratingSystem
 					System.out.println("commanding player: " + "[insert player name here]");
 					System.out.println("commanded entity: " + entity.toString());
 					System.out.println("command type: " + ea.toString());
-					System.out.println("command error code: " + errCode);
-					System.out.println("command parameters: " + ea.getCommandParameters().toString());
+					System.out.println("command error code: " + errCode.getMessage());
+					// the game crashes when issuing this syso because in most cases, the stop command makes this null
+					//System.out.println("command parameters: " + ea.getCommandParameters().toString());
 				}
 			}
 		}

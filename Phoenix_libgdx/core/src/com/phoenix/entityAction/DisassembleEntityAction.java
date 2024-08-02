@@ -29,28 +29,29 @@ public class DisassembleEntityAction extends EntityAction
 	}
 	
 	@Override
-	public int validate()
+	public EntityActionGenericReturnCodes validate(Engine engine, Entity entity)
 	{
-		return 0;
+		return EntityActionGenericReturnCodes.DefaultCode;
 	}
 
 	@Override
-	public boolean isErrorCodeExecuteSafe(int errCode)
+	public boolean isErrorCodeExecuteSafe(EntityActionGenericReturnCodes errCode)
 	{
 		boolean safe = false;
 		switch(errCode)
 		{
-			case 0:
-			{
-				safe = true;
+			case DefaultCode:
 				break;
-			}
+			case GoalReached:
+				break;
+			default:
+				break;
 		}
 		return safe;
 	}
 
 	@Override
-	protected void execute(Engine engine, Entity entity, float deltaTime)
+	protected void execute(Engine engine, Entity entity, EntityActionGenericReturnCodes errCode, float deltaTime)
 	{
 		// TODO Auto-generated method stub
 		

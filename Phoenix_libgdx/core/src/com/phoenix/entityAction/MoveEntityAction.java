@@ -57,24 +57,23 @@ public class MoveEntityAction extends EntityAction
 		}
 	}
 
-	// TODO 1 implement proper validation. Make sure it is not impossible to reach
-	// the destination
-	public int validate()
+	@Override
+	public EntityActionGenericReturnCodes validate(Engine engine, Entity entity) 
 	{
-		return 0;
+		return EntityActionGenericReturnCodes.DefaultCode;
 	}
 
 	@Override
-	public boolean isErrorCodeExecuteSafe(int errCode)
+	public boolean isErrorCodeExecuteSafe(EntityActionGenericReturnCodes errCode)
 	{
 		boolean safe = false;
 		switch (errCode)
 		{
-			case 0:
-			{
+			case DefaultCode:
 				safe = true;
 				break;
-			}
+			default:
+				break;
 		}
 		return safe;
 	}
@@ -83,7 +82,7 @@ public class MoveEntityAction extends EntityAction
 	// future, each unit will have their own pathfinding algorithm. (some units may
 	// share the same algorithm, depending on the design of the unit)
 
-	protected void execute(Engine engine, Entity entity, float deltaTime)
+	protected void execute(Engine engine, Entity entity, EntityActionGenericReturnCodes errCode, float deltaTime)
 	{
 		PositionComponent entityPosition = pm.get(entity); // entity.getComponent(PositionComponent.class);
 		VelocityComponent entityMovement = vm.get(entity); // entity.getComponent(VelocityComponent.class);

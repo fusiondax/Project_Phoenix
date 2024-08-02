@@ -2,7 +2,7 @@ package com.phoenix.entityAction;
 
 public enum EntityActionKnownType
 {
-	Move("move"), Carry("carry"), Disassemble("disassemble");
+	MoveSelf("move"), CarryResources("carry"), DisassembleSelf("disassemble");
 	
 	private String actionName;
 	

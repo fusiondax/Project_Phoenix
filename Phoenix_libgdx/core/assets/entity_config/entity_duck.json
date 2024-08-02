@@ -45,7 +45,8 @@
 				"action_obj":
 				{
 					"class": "com.phoenix.entityAction.CarryResourceEntityAction",
-					"max_capacity": 50
+					"max_capacity": 20,
+					"max_pickup_range": 100.0
 				}
 			},
 			{

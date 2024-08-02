@@ -23,9 +23,7 @@ public class EntityBuildingSystem extends IteratingSystem
 
 		// TODO 3 add mechanisms that prevents non-fully built entities to not update
 		// their AI components and Command components
-		// TODO 3 think about how the health of an entity
-
-		// if the entity is being built or being salvaged
+		// TODO 3 think about how the health of an entity if the entity is being built or being salvaged
 		if (bc.getBuildRate() != 0.0f)
 		{
 			NameComponent nameComp = entity.getComponent(NameComponent.class);

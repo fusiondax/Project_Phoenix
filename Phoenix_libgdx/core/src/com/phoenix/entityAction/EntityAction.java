@@ -57,7 +57,7 @@ public abstract class EntityAction implements Serializable
 	 * @return an error code based on the cause of the action's impossibility. See
 	 *         standard return codes above.
 	 */
-	public abstract int validate();
+	public abstract EntityActionGenericReturnCodes validate(Engine engine, Entity entity);
 
 	/**
 	 * calls the {@link validate()} method to check if the {@link execute()} method
@@ -65,17 +65,25 @@ public abstract class EntityAction implements Serializable
 	 * 
 	 * @return the error code that {@link validate()} returned
 	 */
-	public int attemptExecute(Engine engine, Entity entity, float deltaTime)
+	public EntityActionGenericReturnCodes attemptExecute(Engine engine, Entity entity, float deltaTime)
 	{
-		int errCode = validate();
+		EntityActionGenericReturnCodes errCode = EntityActionGenericReturnCodes.DefaultCode;
 		
-		if (!isErrorCodeExecuteSafe(errCode) || isGoalReached())
+		if (isGoalReached())
 		{
 			stopAction(entity);
-		}
-		else
+		}else
 		{
-			execute(engine, entity, deltaTime);
+			errCode = validate(engine, entity);
+		
+			if (!isErrorCodeExecuteSafe(errCode))
+			{
+				stopAction(entity);
+			}
+			else
+			{
+				execute(engine, entity, errCode, deltaTime);
+			}
 		}
 		
 		return errCode;
@@ -87,7 +95,7 @@ public abstract class EntityAction implements Serializable
 	 * Every actions must implement this method internally due to the varying nature
 	 * of actions
 	 */
-	protected abstract void execute(Engine engine, Entity entity, float deltaTime);
+	protected abstract void execute(Engine engine, Entity entity, EntityActionGenericReturnCodes errorCode, float deltaTime);
 
 	/**
 	 * @return true if the goal has been reached and the action should be stopped,
@@ -107,14 +115,14 @@ public abstract class EntityAction implements Serializable
 	/**
 	 * Determines whether or not the error code returned by {@link validate()}
 	 * indicates that the command given to the entity is safe to execute. An
-	 * execution safe state is a state that will not, for eaxmple, result in an
-	 * infinite loop where the entity will never able to complete its task.
+	 * execution safe state is a state that will not, for example, result in an
+	 * infinite loop where the entity will never be able to complete its task.
 	 *
 	 * @param errCode
 	 *            the error code returned by {@link validate()}
 	 * @return true if the error code is considered 'execution safe'
 	 */
-	public abstract boolean isErrorCodeExecuteSafe(int errCode);
+	public abstract boolean isErrorCodeExecuteSafe(EntityActionGenericReturnCodes errCode);
 
 	/**
 	 * 
@@ -166,5 +174,26 @@ public abstract class EntityAction implements Serializable
 	 *         by the Entity Action
 	 */
 	protected abstract Class getCommandParametersClass();
+	
+	public enum EntityActionGenericReturnCodes
+	{
+		DefaultCode("this is the default code"),GoalReached("the goal has been reached"),
+		PickUp("unit will pick up resource bundle"), DropOffNew("unit will drop off a new resource bundle"),
+		DropOffExisting("unit will drop off resource into an existing resouce bundle"),
+		ErrResNotFound("Error: resource was not found at location"),
+		ErrResOutRange("Error: resource is out of unit's range"),
+		ErrLocationOutRange("error: location is out of unit's range");;
+		
+		private String message;
 
+		private EntityActionGenericReturnCodes(String message)
+		{
+			this.message = message;
+		}
+
+		public String getMessage()
+		{
+			return this.message;
+		}
+	}
 }

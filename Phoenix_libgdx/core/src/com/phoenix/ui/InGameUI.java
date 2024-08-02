@@ -99,20 +99,15 @@ public class InGameUI extends Stage
 			{
 				// this requires a new UI elements that prompts the player to 'select' a
 				// destination for the unit to move to.
-				
-				// TODO 1 need a label that follows the cursor around
-				
-				p.setCursorMode(CursorMode.CoordinateSelection);
+				p.setCursorMode(CursorMode.MoveCoordinateSelection);
 				p.setCursorDisplay(PhoenixCursor.Target, Player.CURSOR_MODE_PRIORITY_NAME);
-				
-				// System.out.println("A Behavior has not yet been implemented for this button type");
 				break;
 			}
 			case "stop":
 			{
 				for(Entity e : p.selectedEntities)
 				{
-					EntityAction ea = e.getComponent(EntityActionsComponent.class).actions.get(EntityActionKnownType.Move.getName());
+					EntityAction ea = e.getComponent(EntityActionsComponent.class).actions.get(EntityActionKnownType.MoveSelf.getName());
 					if(ea instanceof MoveEntityAction)
 					{
 						ea.setCommandParameters(null);
@@ -123,7 +118,10 @@ public class InGameUI extends Stage
 
 			case "carry":
 			{
-				System.out.println("A Behavior has not yet been implemented for this button type");
+				p.setCursorMode(CursorMode.CarryResourceSelection);
+				p.setCursorDisplay(PhoenixCursor.Target, Player.CURSOR_MODE_PRIORITY_NAME);
+				
+				// System.out.println("A Behavior has not yet been implemented for this button type");
 				break;
 			}
 
