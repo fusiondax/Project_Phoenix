@@ -2,11 +2,17 @@
 	"components":
 	[
 		{
-			"component_type": "Name",
+			"class": "com.phoenix.components.NameComponent",
 			"name": "trigger"
 		},
 		{
-			"component_type": "Trigger"
+			"class": "com.phoenix.components.TriggerComponent",
+			"conditions": 
+			[],
+			"actions":
+			[],
+			"persistant": "false",
+			"all_conditions_met": "true",
 		}
 		
 	]

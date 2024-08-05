@@ -2,22 +2,24 @@
 	"components":
 	[
 		{
-			"component_type": "Name",
+			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
 		{
-			"component_type": "Texture",
+			"class": "com.phoenix.components.TextureComponent",
 			"texture": "terrain_rocky_grass"
 		},
 		{
-			"component_type": "Position"
+			"class": "com.phoenix.components.PositionComponent",
+			"position_x": 0,
+			"position_y": 0,
 		},
 		{
-			"component_type": "Terrain",
+			"class": "com.phoenix.components.TerrainComponent",
 			"type": "solid_rocky"
 		},
 		{
-			"component_type": "CollisionHitbox",
+			"class": "com.phoenix.components.CollisionHitboxComponent",
 			"shape": "Rectangle",
 			"size": 64.0
 		}

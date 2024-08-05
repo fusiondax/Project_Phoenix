@@ -20,7 +20,13 @@ public class ValidTerrainTypesComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
+		this.types = new ArrayList<String>();
 		
+		JsonValue list = jsonData.get("types");
+		
+		for (JsonValue entry = list.child; entry != null; entry = entry.next)
+		{
+			this.types.add(entry.asString());
+		}
 	}
-
 }

@@ -22,6 +22,6 @@ public class ParticleComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		
+		this.particleName = jsonData.get("particle_name").asString();
 	}
 }

@@ -2,19 +2,11 @@ package com.phoenix.systems.entitySystems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.phoenix.components.CollisionHitboxComponent;
 import com.phoenix.components.EntityActionsComponent;
-import com.phoenix.components.PositionComponent;
-import com.phoenix.components.ValidTerrainTypesComponent;
-import com.phoenix.components.VelocityComponent;
 import com.phoenix.entityAction.EntityAction;
 import com.phoenix.entityAction.EntityAction.EntityActionGenericReturnCodes;
-import com.phoenix.entityAction.EntityActionReturnCode;
-import com.phoenix.player.Player;
-import com.phoenix.screens.GameScreen;
 
 public class EntityActionSystem extends IteratingSystem
 {

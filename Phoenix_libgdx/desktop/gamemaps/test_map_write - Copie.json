@@ -6,938 +6,1311 @@
 			"name": "rocky_grass"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 576
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
 		}
-		
-		
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 576
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
 		}
-		
-		
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 576
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
 		}
-		
-		
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 576
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 576
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 576
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 576
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 576
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 576
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 576
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 512
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 448
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 384
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 320
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 256
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 192
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 128
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 64
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 576,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 0
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 64
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 128
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 192
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 256
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 320
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 384
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 512
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 0,
 			"position_y": 448
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 128
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 256
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 256
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "rocky_grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 256
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 448
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 512
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 448
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 512
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 512
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 512
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 512
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 512
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 512
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 384
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 384
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 320
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 256
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 256
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 192
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 256
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 192
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 192
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 192
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 256
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 128
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 64
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 64
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 64
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 64
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 64
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 64
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 64
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 128
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
@@ -946,9 +1319,15 @@
 			"name": "grass"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 128
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
@@ -957,20 +1336,35 @@
 			"name": "rocky_grass"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 192
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 128
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
@@ -979,64 +1373,100 @@
 			"name": "grass"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 256
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 512
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 448
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 448
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 448
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 448
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
@@ -1045,33 +1475,50 @@
 			"name": "grass"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 448
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 448
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 384
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
-
 	],
 	[
 		{
@@ -1079,112 +1526,168 @@
 			"name": "grass"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 320
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
-
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 320
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
-
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
-	
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 320
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
-
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
-		}
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 384
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 384
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 320
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 320
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 192,
 			"position_y": 384
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 384
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 320
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
@@ -1193,22 +1696,33 @@
 			"name": "grass"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 320
+		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
 		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 64,
 			"position_y": 384
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
@@ -1216,12 +1730,19 @@
 			"name": "rocky_grass"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 192
 		},
-		
-		
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
@@ -1229,70 +1750,104 @@
 			"name": "rocky_grass"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 128
 		},
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 128
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 384,
 			"position_y": 128
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 448,
 			"position_y": 192
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 192
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
 			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
+		},
+		{
+			"class": "com.phoenix.components.TextureComponent"
 		},
 		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 512,
 			"position_y": 64
 		},
-
+		{
+			"class": "com.phoenix.components.TerrainComponent"
+		}
 	],
 	[
 		{
@@ -1300,9 +1855,18 @@
 			"name": "cog"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256,
 			"position_y": 320
+		},
+		{
+			"class": "com.phoenix.components.VelocityComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
 		},
 		{
 			"class": "com.phoenix.components.ResourceComponent",
@@ -1318,9 +1882,18 @@
 			"name": "screw"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 320,
 			"position_y": 320
+		},
+		{
+			"class": "com.phoenix.components.VelocityComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
 		},
 		{
 			"class": "com.phoenix.components.ResourceComponent",
@@ -1336,9 +1909,18 @@
 			"name": "cog"
 		},
 		{
+			"class": "com.phoenix.components.TextureComponent"
+		},
+		{
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 256.819,
 			"position_y": 358.616
+		},
+		{
+			"class": "com.phoenix.components.VelocityComponent"
+		},
+		{
+			"class": "com.phoenix.components.CollisionHitboxComponent"
 		},
 		{
 			"class": "com.phoenix.components.ResourceComponent",
@@ -1377,7 +1959,7 @@
 			"class": "com.phoenix.components.PositionComponent",
 			"position_x": 128,
 			"position_y": 512
-		},
+		}
 		{
 			"class": "com.phoenix.components.OwnershipComponent",
 			"owner": "Player1"

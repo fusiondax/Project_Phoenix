@@ -24,6 +24,7 @@ import com.phoenix.entityAction.MoveEntityAction;
 import com.phoenix.entityAction.MoveEntityActionParameters;
 import com.phoenix.player.CursorMode;
 import com.phoenix.player.Player;
+import com.phoenix.player.action.PlayerAction;
 import com.phoenix.resource.Resource;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.ui.cursor.PhoenixCursor;
@@ -44,9 +45,18 @@ public class GameWorldInputManager implements InputProcessor
 	@Override
 	public boolean keyDown(int keycode)
 	{
-//		System.out.println(Input.Keys.toString(keycode));
+		System.out.println(Input.Keys.toString(keycode));
 
 		boolean handled = false;
+		
+		PlayerAction action = this.player.getPlayerActionFromKey(Input.Keys.toString(keycode));
+		
+		if(action != null)
+		{
+			action.execute(gameScreen, player);
+		}
+		
+		/*
 		switch (keycode)
 		{
 			case Input.Keys.P:
@@ -73,13 +83,14 @@ public class GameWorldInputManager implements InputProcessor
 				break;
 			}
 		}
-
+		 */
 		return handled;
 	}
 
 	@Override
 	public boolean keyUp(int keycode)
 	{
+		
 		switch (keycode)
 		{
 			// player's selected entities's stop movement command
@@ -247,9 +258,9 @@ public class GameWorldInputManager implements InputProcessor
 
 						player.selectionBox = MathUtility.readjustRectangle(player.selectionBox);
 
-//						System.out.println("selectionBox: " + gameScreen.selectionBox.toString());
+						// System.out.println("selectionBox: " + gameScreen.selectionBox.toString());
 
-						// clear the selected entities list when trying to select new selctables
+						// clear the selected entities list when trying to select new selectables
 						gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities.clear();
 
 						// find "selectable" entities that are included in the rectangle
@@ -289,6 +300,7 @@ public class GameWorldInputManager implements InputProcessor
 
 					case Input.Buttons.RIGHT:
 					{
+						// shortcut for issuing move commands without using the radial menu
 						// if there are selectable entities in the player selected entities list
 						for (Entity e : gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME).selectedEntities)
 						{
@@ -298,8 +310,6 @@ public class GameWorldInputManager implements InputProcessor
 						}
 						break;
 					}
-
-					// middle mouse for dragging the screen
 					case Input.Buttons.MIDDLE:
 					{
 						break;

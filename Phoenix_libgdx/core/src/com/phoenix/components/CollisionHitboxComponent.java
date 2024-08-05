@@ -19,6 +19,7 @@ public class CollisionHitboxComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		
+		this.hitboxShape = jsonData.get("shape").asString();
+		this.size = jsonData.get("size").asFloat();
 	}
 }

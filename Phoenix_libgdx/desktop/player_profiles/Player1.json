@@ -1,0 +1,60 @@
+{
+	"player_profile":
+	{
+		"profile_name": "Player1",
+		"profile_settings": 
+		{
+			"video": 
+			{
+				
+			},
+			"audio":
+			{
+				
+			},
+			"gameplay": 
+			{
+				
+			},
+			"language":
+			{
+				
+			},
+			"controls":
+			[
+				{
+					"action": 
+					{
+						"class": "com.phoenix.player.action.PlayerActionTimeDilation",
+						"arguments": ["pause_resume"]
+					},
+					"key": "P"
+				},
+				{
+					"action": 
+					{
+						"class": "com.phoenix.player.action.PlayerActionTimeDilation",
+						"arguments": ["speed_up"]
+					},
+					"key": "+"
+				},
+				{
+					"action": 
+					{
+						"class": "com.phoenix.player.action.PlayerActionTimeDilation",
+						"arguments": ["slow_down"]
+					},
+					"key": "-"
+				},
+				{
+					"action": 
+					{
+						"class": "com.phoenix.player.action.PlayerActionTimeDilation",
+						"arguments": ["reset_time"]
+					},
+					"key": "L"
+				}
+			]
+		}
+	}
+}

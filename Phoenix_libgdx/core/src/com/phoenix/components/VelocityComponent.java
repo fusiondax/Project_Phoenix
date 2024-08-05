@@ -22,6 +22,6 @@ public class VelocityComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		
+		this.friction = jsonData.get("friction").asFloat();
 	}
 }

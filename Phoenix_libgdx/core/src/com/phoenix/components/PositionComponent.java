@@ -31,8 +31,7 @@ public class PositionComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		pos2D.set(new Vector2(jsonData.get("position_x").asFloat(),
-				jsonData.get("position_y").asFloat()));
+		pos2D.set(new Vector2(jsonData.getFloat("position_x"), jsonData.getFloat("position_y")));
 		
 		//TODO 3 eventually, set scale and rotation attributes
 		//zDepth = jsonData.get("z_depth").asInt();

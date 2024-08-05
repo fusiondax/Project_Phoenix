@@ -20,6 +20,6 @@ public class TerrainComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		
+		this.type = jsonData.get("type").asString();
 	}
 }

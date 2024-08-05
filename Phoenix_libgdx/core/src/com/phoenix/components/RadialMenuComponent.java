@@ -27,17 +27,16 @@ public class RadialMenuComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		/*
 		JsonValue list = jsonData.get("buttons");
 		
 		if(list != null)
 		{
 			for (JsonValue entry = list.child; entry != null; entry = entry.next)
 			{
-				RadialMenuButton rmb = json.readValue(null, entry);
+				RadialMenuButton rmb = json.readValue(RadialMenuButton.class, entry);
 				buttons.add(rmb);
 			}
 		}
-		*/
+		
 	}
 }

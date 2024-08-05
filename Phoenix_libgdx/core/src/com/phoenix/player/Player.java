@@ -10,14 +10,29 @@ import com.badlogic.gdx.utils.ObjectMap.Entries;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.phoenix.blueprint.Blueprint;
-import com.phoenix.entityAction.EntityAction;
-import com.phoenix.entityAction.EntityActionParameters;
+import com.phoenix.io.JsonUtility;
+import com.phoenix.player.action.PlayerAction;
 import com.phoenix.ui.cursor.PhoenixCursor;
 
+/**
+ * 
+ * This class represents any being that can give commands to entities under
+ * their control as well as using blueprints to create new entities.
+ * 
+ * see the todo statement as the top of the class statement for more info
+ * 
+ * @author David Janelle
+ *
+ */
 public class Player
 {
-	public String name = "";
+	// TODO 2 as of right now, this class has elements that are specific to a human
+	// player (like camera and keybinding) that are irrelevent to a
+	// computer-controlled player. make the player class abstract and have two child
+	// class specific to human player and computer players
 
+	public String name = "";
+	
 	// TODO 2 set the player's vision/fog of war
 
 	private ArrayList<Blueprint> blueprintLibrary;
@@ -36,6 +51,7 @@ public class Player
 
 	public static final String WINDOW_RESIZE_PRIORITY_NAME = "window_resize";
 	public static final String CURSOR_MODE_PRIORITY_NAME = "cursor_mode";
+	public static final String PLAYER_PROFILES_FILE_PATH = "player_profiles/";
 	/**
 	 * The rule with this is that every priority is set in advance in the player's
 	 * constructor, so 'outside' code can only define what cursor type is for a
@@ -45,6 +61,7 @@ public class Player
 	 * priority.
 	 */
 	private OrderedMap<String, PhoenixCursor> cursorDisplayPriorityList;
+	private OrderedMap<String, PlayerAction> playerKeybinding;
 
 	public Player(String name)
 	{
@@ -55,6 +72,8 @@ public class Player
 		this.cursorDisplayPriorityList = new OrderedMap<String, PhoenixCursor>();
 		this.cursorDisplayPriorityList.put(WINDOW_RESIZE_PRIORITY_NAME, null);
 		this.cursorDisplayPriorityList.put(CURSOR_MODE_PRIORITY_NAME, PhoenixCursor.Arrow);
+		
+		this.playerKeybinding = JsonUtility.getPlayerKeybinds(this.name);
 
 		this.selectedBlueprint = null;
 
@@ -62,7 +81,7 @@ public class Player
 		this.selectionBox = new Rectangle();
 		this.setCursorMode(CursorMode.Normal);
 	}
-
+	
 	public int getCursorDisplayPriorityListSize()
 	{
 		return this.cursorDisplayPriorityList.size;
@@ -75,8 +94,8 @@ public class Player
 
 	/**
 	 * 
-	 * @param priorityValue
-	 *            the index of the wanted priority, 0 being the top priority
+	 * @param priorityValue the index of the wanted priority, 0 being the top
+	 *                      priority
 	 * @return may return null if the selected priority is 'dormant'
 	 */
 	public PhoenixCursor getCursorDisplay(int priorityValue)
@@ -118,6 +137,22 @@ public class Player
 			}
 		}
 	}
+	
+	public PlayerAction getPlayerActionFromKey(String key)
+	{
+		return this.playerKeybinding.get(key);
+	}
+	
+	
+	/**
+	 * 
+	 * @param keyPressed the key that was caught by the input listener
+	 */
+	public void executeActionFromKey(String keyPressed)
+	{
+		//this.playerKeybinding.get(keyPressed).execute(null, this, );
+		
+	}
 
 	public void addBlueprintToCollection(Blueprint blueprint)
 	{
@@ -135,8 +170,7 @@ public class Player
 		if (existingBlueprint != null)
 		{
 			existingBlueprint.addAmount(blueprint.getAmount());
-		}
-		else
+		} else
 		{
 			blueprintLibrary.add(blueprint);
 		}
@@ -169,8 +203,7 @@ public class Player
 				blueprintLibrary.remove(existingBlueprint);
 				selectedBlueprint = null;
 			}
-		}
-		else
+		} else
 		{
 			System.out.println("no such blueprint exists in this library");
 		}

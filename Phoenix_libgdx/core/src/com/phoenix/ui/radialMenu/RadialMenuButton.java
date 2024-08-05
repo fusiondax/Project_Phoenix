@@ -14,6 +14,11 @@ public class RadialMenuButton implements Serializable
 	public String iconName = "";
 	public String type = "";
 	
+	public RadialMenuButton()
+	{
+		
+	}
+	
 	public RadialMenuButton(String typeName)
 	{
 		this(typeName, "");

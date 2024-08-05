@@ -2,31 +2,37 @@
 	"components":
 	[
 		{
-			"component_type": "Name",
+			"class": "com.phoenix.components.NameComponent",
 			"name": "screw"
 		},
 		{
-			"component_type": "Texture",
+			"class": "com.phoenix.components.TextureComponent",
 			"texture": "resource_screw"
 		},
 		{
-			"component_type": "Position"
+			"class": "com.phoenix.components.PositionComponent",
+			"position_x": 0,
+			"position_y": 0,
 		},
 		{
-			"component_type": "Velocity",
+			"class": "com.phoenix.components.VelocityComponent",
 			"friction": 0.9
 		},
 		{
-			"component_type": "CollisionHitbox",
+			"class": "com.phoenix.components.CollisionHitboxComponent",
 			"shape": "Circle",
 			"size": 10.0
 		},
 		{
-			"component_type": "Particle",
+			"class": "com.phoenix.components.ParticleComponent",
 			"particle_name": "test_particle"
 		},
 		{
-			"component_type": "Resource",
+			"class": "com.phoenix.components.ResourceComponent",
+			"resource": {
+				"type": "screw",
+				"amount": 1
+			}
 			"type_name": "screw"
 		}
 	]

@@ -2,34 +2,38 @@
 	"components":
 	[
 		{
-			"component_type": "Name",
+			"class": "com.phoenix.components.NameComponent",
 			"name": "duck"
 		},
 		{
-			"component_type": "Texture",
+			"class": "com.phoenix.components.TextureComponent",
 			"texture": "unit_duck"
 		},
 		{
-			"component_type": "Position"
+			"class": "com.phoenix.components.PositionComponent",
+			"position_x": 0,
+			"position_y": 0,
 		},
 		{
-			"component_type": "Velocity",
+			"class": "com.phoenix.components.VelocityComponent",
 			"friction": 0.1
 		},
 		{
-			"component_type": "CollisionHitbox",
+			"class": "com.phoenix.components.CollisionHitboxComponent",
 			"shape": "Circle",
 			"size": 20.0
 		},
 		{
-			"component_type": "Ownership"
+			"class": "com.phoenix.components.OwnershipComponent",
+			"owner": "none",
+			
 		},
 		{
-			"component_type": "Selection",
+			"class": "com.phoenix.components.SelectionComponent",
 			"mode": "any"
 		},
 		{
-			"component_type": "EntityActions",
+			"class": "com.phoenix.components.EntityActionsComponent",
 			"actions":
 			[
 			{
@@ -60,14 +64,16 @@
 			]
 		},
 		{
-			"component_type": "ValidTerrainTypes",
+			"class": "com.phoenix.components.ValidTerrainTypesComponent",
 			"types": ["solid", "liquid"]
 		},
 		{
-			"component_type": "Buildable"
+			"class": "com.phoenix.components.BuildableComponent",
+			"build_progress": 100.0,
+			"build_rate": 1.0,
 		},
 		{
-			"component_type": "RadialMenu",
+			"class": "com.phoenix.components.RadialMenuComponent",
 			"buttons":
 			[
 				{

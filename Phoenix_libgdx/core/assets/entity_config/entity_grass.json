@@ -2,19 +2,22 @@
 	"components":
 	[
 		{
-			"component_type": "Name",
+			"class": "com.phoenix.components.NameComponent",
 			"name": "grass"
 		},
 		{
-			"component_type": "Texture",
+			"class": "com.phoenix.components.TextureComponent",
 			"texture": "terrain_grass"
 		},
 		{
-			"component_type": "Position"
+			"class": "com.phoenix.components.PositionComponent",
+			"position_x": 0,
+			"position_y": 0,	
 		},
 		{
-			"component_type": "Terrain",
+			"class": "com.phoenix.components.TerrainComponent",
 			"type": "solid"
 		},
 	]
 }
+

@@ -18,6 +18,6 @@ public class TextureComponent implements Component, Serializable
 	@Override
 	public void read(Json json, JsonValue jsonData)
 	{
-		
+		this.textureName = jsonData.get("texture").asString();
 	}
 }
