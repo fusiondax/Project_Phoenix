@@ -37,6 +37,13 @@ public class WindowOpenerBar extends Table
 		Image miscInfoButton = new Image(getSkin(), "ui_open_misc_info_button");
 		miscInfoButton.addListener(new WindowOpenerButtonInputListener("misc_info"));
 		add(miscInfoButton).pad(WINDOW_OPENER_PAD);
+		
+		// open keybind manager
+		// TODO 1 get a new image icon for the keybind manager
+		Image keybindManButton = new Image(getSkin(), "ui_open_misc_info_button");
+		keybindManButton.addListener(new WindowOpenerButtonInputListener("keybind_manager"));
+		add(keybindManButton).pad(WINDOW_OPENER_PAD);
+		
 		// open game menu button
 	}
 	

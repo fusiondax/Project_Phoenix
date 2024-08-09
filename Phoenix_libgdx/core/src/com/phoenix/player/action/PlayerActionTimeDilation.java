@@ -46,4 +46,34 @@ public class PlayerActionTimeDilation extends PlayerAction
 	{
 		this.args = jsonData.get("arguments").asStringArray();
 	}
+
+	@Override
+	public String getActionName()
+	{
+		String name = "";
+		switch (this.args[0])
+		{
+			case "pause_resume":
+			{
+				name = "Pause/Resume Game";
+				break;
+			}
+			case "speed_up":
+			{
+				name = "Speed Up Game Speed";
+				break;
+			}
+			case "slow_down":
+			{
+				name = "Slow Down Game Speed";
+				break;
+			}
+			case "reset_time":
+			{
+				name = "Reset Game Speed";
+				break;
+			}
+		}
+		return name;
+	}
 }

@@ -17,4 +17,6 @@ public abstract class PlayerAction implements Serializable
 	protected String[] args;
 	
 	public abstract void execute(GameScreen gameScreen, Player player);
+	
+	public abstract String getActionName();
 }

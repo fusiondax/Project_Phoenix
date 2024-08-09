@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap.Entries;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
+import com.badlogic.gdx.utils.ObjectMap.Values;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.phoenix.blueprint.Blueprint;
 import com.phoenix.io.JsonUtility;
@@ -143,6 +144,23 @@ public class Player
 		return this.playerKeybinding.get(key);
 	}
 	
+	public ArrayList<Entry<String, PlayerAction>> getAllPlayerKeybinds()
+	{
+		ArrayList<Entry<String, PlayerAction>> keybindList = new ArrayList<Entry<String, PlayerAction>>();
+		
+		Entries<String, PlayerAction> entries = this.playerKeybinding.entries();
+		
+		while(entries.hasNext())
+		{
+			Entry<String, PlayerAction> nextEntry = entries.next();
+			Entry<String, PlayerAction> entry = new Entry<String, PlayerAction>();
+			entry.key = nextEntry.key;
+			entry.value = nextEntry.value;
+			keybindList.add(entry);
+		}
+		
+		return keybindList;
+	}
 	
 	/**
 	 * 

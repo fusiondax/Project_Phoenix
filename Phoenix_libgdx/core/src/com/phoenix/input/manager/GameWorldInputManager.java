@@ -55,35 +55,6 @@ public class GameWorldInputManager implements InputProcessor
 		{
 			action.execute(gameScreen, player);
 		}
-		
-		/*
-		switch (keycode)
-		{
-			case Input.Keys.P:
-			{
-				gameScreen.toggleSystems();
-				break;
-			}
-
-			case Input.Keys.PLUS:
-			{
-				gameScreen.setTimeDilation(gameScreen.getTimeDilation() + 0.1f);
-				break;
-			}
-
-			case Input.Keys.MINUS:
-			{
-				gameScreen.setTimeDilation(gameScreen.getTimeDilation() - 0.1f);
-				break;
-			}
-
-			case Input.Keys.L:
-			{
-				gameScreen.setTimeDilation(1);
-				break;
-			}
-		}
-		 */
 		return handled;
 	}
 

@@ -3,9 +3,11 @@ package com.phoenix.ui.window;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.phoenix.player.action.PlayerAction;
 import com.phoenix.screens.GameScreen;
 import com.phoenix.ui.BlueprintBar;
 import com.phoenix.ui.FramerateCounterLabel;
+import com.phoenix.ui.KeybindTable;
 import com.phoenix.ui.TimeDilationLabel;
 
 public class PhoenixWindowBuilder
@@ -49,6 +51,12 @@ public class PhoenixWindowBuilder
 				break;
 			}
 			
+			case "keybind_manager":
+			{
+				window = buildKeybindManager();
+				break;
+			}
+			
 			default:
 			{
 				System.out.println("the given window name wasn't found");
@@ -59,6 +67,21 @@ public class PhoenixWindowBuilder
 		return window;
 	}
 	
+	private PhoenixWindow buildKeybindManager()
+	{
+		KeybindTable table = new KeybindTable(skin, gameScreen.playerList.get(GameScreen.ACTIVE_PLAYER_NAME));
+		
+		Rectangle keybindManagerWindowDisposition = new Rectangle(Gdx.graphics.getWidth() - 200,
+				Gdx.graphics.getHeight() / 2, 500, 400);
+		
+		PhoenixWindow keybindManagerWindow = new PhoenixWindow("keybind_man", "Keybind Manager", keybindManagerWindowDisposition, skin,
+				windowStyleName, gameScreen);
+		
+		keybindManagerWindow.add(table);
+		
+		return keybindManagerWindow;
+	}
+
 	private PhoenixWindow buildMiscInfoWindow()
 	{
 		FramerateCounterLabel framerateCounter = new FramerateCounterLabel(skin, labelStyleName);
